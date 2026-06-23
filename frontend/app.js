@@ -1021,10 +1021,10 @@ function toggleEditMode() {
         appendConsoleLine('system', '✏️ Direct Edit Mode enabled on Live Marketing Canvas. You can now modify text directly.');
         
         // Hook into interactive tour!
-        if (window.isTourActive && window.tourStep === 3) {
-            window.tourStep = 3.5;
+        if (window.isTourActive && window.tourStep === 5) {
+            window.tourStep = 6;
             setTimeout(() => {
-                    activeTour.drive(4);
+                    activeTour.drive(6);
             }, 300);
         }
     } else {
@@ -1151,10 +1151,10 @@ async function saveAndValidateEdits() {
         editBtn.className = "btn btn-primary btn-small";
         
         // Hook into interactive tour!
-        if (window.isTourActive && window.tourStep === 3.5) {
-            window.tourStep = 4;
+        if (window.isTourActive && window.tourStep === 6) {
+            window.tourStep = 7;
             setTimeout(() => {
-                    activeTour.drive(5);
+                    activeTour.drive(7);
             }, 1000); // 1s delay to let the green glow transition finish!
         }
     }
@@ -3405,6 +3405,16 @@ window.openImagenModal = function() {
             document.getElementById('imagen-brand-select').value = currentData.drug.toLowerCase().replace(' + product_a', '');
         }
         modal.classList.add('active');
+        
+        // Hook into interactive tour!
+        if (window.isTourActive && window.tourStep === 3) {
+            window.tourStep = 4;
+            setTimeout(() => {
+                if (activeTour) {
+                    activeTour.drive(4); // Highlight Step 4: Imagen 3 modal Generate button!
+                }
+            }, 500);
+        }
     }
 };
 
@@ -3526,6 +3536,15 @@ window.generateImagenAsset = function() {
         closeImagenModal();
         
         if (data.success && data.image_url) {
+            // Hook into interactive tour!
+            if (window.isTourActive && window.tourStep === 4) {
+                window.tourStep = 5;
+                setTimeout(() => {
+                    if (activeTour) {
+                        activeTour.drive(5); // Highlight Step 5: The newly generated image card on the canvas!
+                    }
+                }, 800);
+            }
             // Save the newly generated image directly into the state database!
             if (variantDatabase[targetVariant]) {
                 variantDatabase[targetVariant].image = data.image_url;
@@ -4495,13 +4514,12 @@ window.switchPhase = function(phaseNum) {
         if (phaseNum === 2 && window.tourStep === 2) {
             window.tourStep = 3;
             setTimeout(() => {
-                    activeTour.drive(3);
+                    activeTour.drive(3); // Highlights Step 3: The image placeholder container!
             }, 800);
-        } else if (phaseNum === 3 && window.tourStep === 4) {
-            window.tourStep = 5;
+        } else if (phaseNum === 3 && window.tourStep === 7) {
+            window.tourStep = 8;
             setTimeout(() => {
-                    activeTour.drive(6);
-                    // Mark as completed
+                    activeTour.drive(8); // Highlights Step 8: The final cryptographic seal ledger view!
                     window.isTourActive = false;
                     window.tourStep = 0;
             }, 800);
@@ -5186,20 +5204,40 @@ window.startInteractiveTour = function() {
                 }
             },
             {
-                element: '#btn-edit-copy',
+                element: '.composer-hero-container', // The image graphic placeholder container!
                 popover: {
-                    title: 'Step 3: Trigger Brand Guardrails 🎨',
-                    description: 'We have generated a marketing email. Let\'s test the compliance guardrails! **Click the "Edit Copy" button** to enter Direct Edit Mode.',
+                    title: 'Step 3: Open Google Imagen 3 Creator 🎨',
+                    description: 'Our agentic backplane has generated a draft email, including a placeholder medical visual. **Click directly on the image card** to open the Google Imagen 3 Asset Creator!',
                     side: 'bottom',
-                    align: 'end',
-                    showButtons: ['close'] // Hide next button to force click!
+                    align: 'center',
+                    showButtons: ['close'] // Force click!
+                }
+            },
+            {
+                element: '#btn-imagen-generate-run', // The "Generate High-Fidelity Clinical Imagery" button inside the modal!
+                popover: {
+                    title: 'Step 4: Configure & Generate Imagery ⚡',
+                    description: 'This is the Imagen 3 console. You can write any prompt or use our pre-loaded style presets. For this tour, simply **click the "Generate High-Fidelity Clinical Imagery" button** to run the generation!',
+                    side: 'top',
+                    align: 'center',
+                    showButtons: ['close'] // Force click!
+                }
+            },
+            {
+                element: '.composer-hero-container', // The newly updated image container!
+                popover: {
+                    title: 'Step 5: Cryptographic SynthID™ Sealed! 🔒',
+                    description: 'Success! Google Imagen 3 generated a gorgeous, high-fidelity visual and automatically injected an imperceptible, secure **Google SynthID™ cryptographic watermark**! Now, **click the "Edit Copy" button** to test text compliance.',
+                    side: 'bottom',
+                    align: 'center',
+                    showButtons: ['close'] // Force click!
                 }
             },
             {
                 element: '#btn-edit-copy', // Now "Save & Validate" button!
                 popover: {
-                    title: 'Step 3.5: Simulate Violation & Validate 🛡️',
-                    description: 'Try editing the copy directly in the canvas, or simply **click the "Save & Validate" button** to submit. The agentic backplane will scan the copy and run an automated self-healing cycle to fix any issues!',
+                    title: 'Step 6: Simulate Violation & Validate 🛡️',
+                    description: 'Let\'s test the compliance guardrails! **Click the "Edit Copy" button** to enter Direct Edit Mode, or simply **click the "Save & Validate" button** to run the automated self-healing cycle!',
                     side: 'bottom',
                     align: 'end',
                     showButtons: ['close']
@@ -5208,7 +5246,7 @@ window.startInteractiveTour = function() {
             {
                 element: '#global-nav-btn-3', // Governance Ledger button
                 popover: {
-                    title: 'Step 4: Self-Healed & Secured! 🛡️',
+                    title: 'Step 7: Self-Healed & Secured! 🛡️',
                     description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the header to lock in our security seal.',
                     side: 'bottom',
                     align: 'center',
@@ -5218,7 +5256,7 @@ window.startInteractiveTour = function() {
             {
                 element: '#phase-3-view',
                 popover: {
-                    title: 'Step 5: Cryptographic Digital Seal 🔒',
+                    title: 'Step 8: Cryptographic Digital Seal 🔒',
                     description: 'The campaign is 100% compliant and sealed with a secure SHA-256 digital wax seal. You can now securely export to Veeva or print the Form FDA 2253! Guided tour complete!',
                     side: 'bottom',
                     align: 'center',
