@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <!-- Chart.js CDN for premium executive analytics and brand sentiment dashboards -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.2.6">
+    <link rel="stylesheet" href="style.css?v=1.2.7">
     <!-- Driver.js CDN for interactive onboarding tour -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
@@ -91,10 +91,12 @@
                 <button class="btn btn-secondary btn-small btn-analytics-trigger" onclick="toggleDiagnosticsModal()" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; outline: none; transition: var(--transition-smooth); background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: var(--color-text-main);">
                     <span>📊</span> Analytics
                 </button>
-                <span class="badge badge-header-status" id="header-compliance-badge">
+                <span class="compliance-badge" id="header-compliance-badge">
                     <span class="pulse-icon-green"></span> FDA & VEEVA PROMC-LOCKED
                 </span>
-                <span class="user-profile" id="btn-role-selector">nitinagga-ge-2</span>
+                <span class="user-profile" id="btn-role-selector">
+                    <span style="font-size: 0.65rem;">👤</span> nitinagga-ge-2
+                </span>
                 <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
                     <span class="theme-icon" id="theme-icon">☀️</span>
                 </button>
@@ -1577,7 +1579,7 @@
         </div>
     </div>
     <!-- CORE JS SCRIPTS -->
-    <script src="app.js?v=1.2.6"></script>
+    <script src="app.js?v=1.2.7"></script>
 
 </body>
 </html>
