@@ -3543,3 +3543,70 @@ select option {
     border: 1px solid rgba(13, 148, 136, 0.35) !important;
     box-shadow: 0 0 10px rgba(13, 148, 136, 0.22) !important;
 }
+
+/* ==========================================
+ * RESPONSIVE DYNAMIC HEADER LAYOUT TUNER
+ * ========================================== */
+@media (max-width: 1480px) {
+    .app-header {
+        padding: 0.75rem 1rem !important;
+        gap: 0.5rem !important;
+    }
+    
+    .header-left {
+        gap: 0.4rem !important;
+    }
+    
+    .brand-info h1 {
+        font-size: 0.85rem !important;
+    }
+    
+    .brand-info p {
+        display: none !important; /* Hide subtitle to free up massive horizontal space! */
+    }
+    
+    .header-workflow-nav {
+        gap: 0.4rem !important;
+        padding: 0.15rem !important;
+    }
+    
+    .global-nav-btn {
+        padding: 0.4rem 0.75rem !important;
+        font-size: 0.72rem !important;
+        letter-spacing: 0.4px !important;
+    }
+    
+    .header-right {
+        gap: 0.45rem !important;
+    }
+    
+    .compliance-badge {
+        padding: 0.3rem 0.55rem !important;
+        font-size: 0.65rem !important;
+        gap: 0.3rem !important;
+    }
+    
+    .compliance-badge span:not(.pulse-icon-green) {
+        display: none !important; /* Hide "FDA & VEEVA PROMC-LOCKED" text, keeping only the pulsing dot capsule! */
+    }
+    
+    .user-profile {
+        padding: 0.3rem 0.55rem !important;
+        font-size: 0.65rem !important;
+    }
+}
+
+@media (max-width: 1220px) {
+    .brand-info {
+        display: none !important; /* Hide brand text entirely on smaller laptops, keeping only the "M" icon! */
+    }
+    
+    .header-workflow-nav {
+        gap: 0.25rem !important;
+    }
+    
+    .global-nav-btn {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.68rem !important;
+    }
+}
