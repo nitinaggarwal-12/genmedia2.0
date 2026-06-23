@@ -129,6 +129,116 @@ body.light-theme .btn-secondary {
     background: #FFFFFF;
 }
 
+/* --- PREMIUM LIGHT THEME AESTHETIC HARMONY OVERRIDES --- */
+body.light-theme .cdo-metric-card,
+body.light-theme .gauge-card,
+body.light-theme .cdo-metric-card div[style*="background: rgba(0,0,0"],
+body.light-theme .cdo-metric-card div[style*="background:rgba(0,0,0"],
+body.light-theme div[style*="background: rgba(0,0,0,0.15)"],
+body.light-theme div[style*="background: rgba(0,0,0,0.25)"],
+body.light-theme div[style*="background: rgba(0,0,0,0.12)"],
+body.light-theme div[style*="background: rgba(0,0,0,0.1)"],
+body.light-theme div[style*="background: rgba(0, 0, 0, 0.15)"],
+body.light-theme div[style*="background: rgba(0, 0, 0, 0.25)"] {
+    background: #FFFFFF !important; /* Pure card white */
+    color: #18181B !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* speedometer nested cards inside metric cards */
+body.light-theme .gauge-card {
+    background: #F8FAFC !important; /* Soft, clean zinc-50 for nested gauge cards */
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* charts background card */
+body.light-theme div[style*="background: rgba(0,0,0,0.15)"] {
+    background: #F8FAFC !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* SVG gauge strokes adjustment for light theme */
+body.light-theme svg path[stroke="rgba(255,255,255,0.05)"] {
+    stroke: rgba(0, 0, 0, 0.06) !important;
+}
+body.light-theme svg line[stroke="#ffffff"] {
+    stroke: #71717A !important;
+}
+body.light-theme svg circle[fill="#ffffff"] {
+    fill: #71717A !important;
+}
+
+/* dynamic workflow navigation */
+body.light-theme .header-workflow-nav {
+    background: #F4F4F5 !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.02) !important;
+}
+
+body.light-theme .global-nav-btn {
+    color: #71717A !important;
+}
+
+body.light-theme .global-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.03) !important;
+    color: #18181B !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .global-nav-btn.active {
+    color: var(--color-primary) !important;
+    background: rgba(13, 148, 136, 0.08) !important;
+    border: 1px solid rgba(13, 148, 136, 0.2) !important;
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1) !important;
+}
+
+/* input fields in composer and editor */
+body.light-theme input[type="text"],
+body.light-theme textarea,
+body.light-theme select,
+body.light-theme input[style*="background: rgba(0,0,0"],
+body.light-theme textarea[style*="background: rgba(0,0,0"] {
+    background: #FFFFFF !important;
+    color: #18181B !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+body.light-theme input[type="text"]:focus,
+body.light-theme textarea:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 2px var(--color-primary-glow) !important;
+}
+
+/* heatmap badges */
+body.light-theme .heatmap-badge.zero-teal,
+body.light-theme .heatmap-badge.zero-blue,
+body.light-theme .heatmap-badge.zero-purple {
+    background: #F1F5F9 !important;
+    color: #64748B !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-theme .heatmap-table th {
+    color: #71717A !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .heatmap-table tr:hover {
+    background: rgba(13, 148, 136, 0.03) !important;
+}
+
+body.light-theme .phase-connector-card,
+body.light-theme .phase-connector-card-left {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+
+/* ==========================================
+ * THEME TOGGLE BUTTON STYLING
+ * ========================================== */
+
 /* ==========================================
  * THEME TOGGLE BUTTON STYLING
  * ========================================== */
