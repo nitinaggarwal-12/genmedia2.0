@@ -1024,21 +1024,7 @@ function toggleEditMode() {
         if (window.isTourActive && window.tourStep === 3) {
             window.tourStep = 3.5;
             setTimeout(() => {
-                if (activeTour) {
-                    activeTour.setSteps([
-                        {
-                            element: '#btn-edit-copy', // Now "Save & Validate" button!
-                            popover: {
-                                title: 'Step 3.5: Simulate Violation & Validate',
-                                description: 'Try editing the copy, or simply **click the "Save & Validate" button** to submit. The agentic backplane will scan the copy and run an automated self-healing cycle to fix any issues!',
-                                side: 'bottom',
-                                align: 'end',
-                                showButtons: ['close']
-                            }
-                        }
-                    ]);
-                    activeTour.drive();
-                }
+                    activeTour.drive(4);
             }, 300);
         }
     } else {
@@ -1168,21 +1154,7 @@ async function saveAndValidateEdits() {
         if (window.isTourActive && window.tourStep === 3.5) {
             window.tourStep = 4;
             setTimeout(() => {
-                if (activeTour) {
-                    activeTour.setSteps([
-                        {
-                            element: '#global-nav-btn-3', // Governance Ledger button
-                            popover: {
-                                title: 'Step 4: Self-Healed & Secured! 🛡️',
-                                description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the header to lock in our security seal.',
-                                side: 'bottom',
-                                align: 'center',
-                                showButtons: ['close']
-                            }
-                        }
-                    ]);
-                    activeTour.drive();
-                }
+                    activeTour.drive(5);
             }, 1000); // 1s delay to let the green glow transition finish!
         }
     }
@@ -4523,43 +4495,15 @@ window.switchPhase = function(phaseNum) {
         if (phaseNum === 2 && window.tourStep === 2) {
             window.tourStep = 3;
             setTimeout(() => {
-                if (activeTour) {
-                    activeTour.setSteps([
-                        {
-                            element: '#btn-edit-copy',
-                            popover: {
-                                title: 'Step 3: Trigger Brand Guardrails 🎨',
-                                description: 'We have generated a marketing email. Let\'s test the compliance guardrails! **Click the "Edit Copy" button** to enter Direct Edit Mode.',
-                                side: 'bottom',
-                                align: 'end',
-                                showButtons: ['close']
-                            }
-                        }
-                    ]);
-                    activeTour.drive();
-                }
+                    activeTour.drive(3);
             }, 800);
         } else if (phaseNum === 3 && window.tourStep === 4) {
             window.tourStep = 5;
             setTimeout(() => {
-                if (activeTour) {
-                    activeTour.setSteps([
-                        {
-                            element: '#phase-3-view',
-                            popover: {
-                                title: 'Step 5: Cryptographic Digital Seal 🔒',
-                                description: 'The campaign is 100% compliant and sealed with a secure SHA-256 digital wax seal. You can now securely export to Veeva or print the Form FDA 2253! Guided tour complete!',
-                                side: 'bottom',
-                                align: 'center',
-                                showButtons: ['done']
-                            }
-                        }
-                    ]);
-                    activeTour.drive();
+                    activeTour.drive(6);
                     // Mark as completed
                     window.isTourActive = false;
                     window.tourStep = 0;
-                }
             }, 800);
         }
     }
@@ -5040,21 +4984,7 @@ window.triggerStrategicIngest = function(indication, labelPath) {
     if (window.isTourActive && window.tourStep === 1) {
         window.tourStep = 2;
         setTimeout(() => {
-            if (activeTour) {
-                activeTour.setSteps([
-                    {
-                        element: '#phase-1-view',
-                        popover: {
-                            title: 'Step 2: Harvesting & Grounding 📥',
-                            description: 'Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the top header to view the draft campaign assets!',
-                            side: 'bottom',
-                            align: 'center',
-                            showButtons: ['close']
-                        }
-                    }
-                ]);
-                activeTour.drive();
-            }
+                activeTour.drive(2);
         }, 800);
     }
 };
@@ -5216,7 +5146,7 @@ window.startInteractiveTour = function() {
         switchPhase(-1);
     }
     
-    // 3. Initialize Driver.js for Step 1
+    // 3. Initialize Driver.js with all steps upfront to avoid setSteps errors!
     const { driver } = window.driver.js;
     
     activeTour = driver({
@@ -5228,47 +5158,83 @@ window.startInteractiveTour = function() {
             {
                 element: '.brand-info',
                 popover: {
-                    title: 'Welcome to GenMedia! 🚀',
+                    title: 'GenMedia Guided Tour 🚀',
                     description: 'This interactive tour will guide you step-by-step through our end-to-end clinical compliance loop. Click **Next** to begin.',
                     side: 'bottom',
-                    align: 'start'
+                    align: 'start',
+                    showButtons: ['next', 'close']
+                }
+            },
+            {
+                element: '.heatmap-table tbody tr:first-child', // NSCLC Row
+                popover: {
+                    title: 'Step 1: Ingest Clinical Trial Brief 📊',
+                    description: 'This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Keytruda clinical trial briefings!',
+                    side: 'right',
+                    align: 'center',
+                    showButtons: ['close'] // Hide next button to force click!
+                }
+            },
+            {
+                element: '#phase-1-view',
+                popover: {
+                    title: 'Step 2: Harvesting & Grounding 📥',
+                    description: 'Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the top header to view the draft campaign assets!',
+                    side: 'bottom',
+                    align: 'center',
+                    showButtons: ['close'] // Hide next button to force click!
+                }
+            },
+            {
+                element: '#btn-edit-copy',
+                popover: {
+                    title: 'Step 3: Trigger Brand Guardrails 🎨',
+                    description: 'We have generated a marketing email. Let\'s test the compliance guardrails! **Click the "Edit Copy" button** to enter Direct Edit Mode.',
+                    side: 'bottom',
+                    align: 'end',
+                    showButtons: ['close'] // Hide next button to force click!
+                }
+            },
+            {
+                element: '#btn-edit-copy', // Now "Save & Validate" button!
+                popover: {
+                    title: 'Step 3.5: Simulate Violation & Validate 🛡️',
+                    description: 'Try editing the copy directly in the canvas, or simply **click the "Save & Validate" button** to submit. The agentic backplane will scan the copy and run an automated self-healing cycle to fix any issues!',
+                    side: 'bottom',
+                    align: 'end',
+                    showButtons: ['close']
+                }
+            },
+            {
+                element: '#global-nav-btn-3', // Governance Ledger button
+                popover: {
+                    title: 'Step 4: Self-Healed & Secured! 🛡️',
+                    description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the header to lock in our security seal.',
+                    side: 'bottom',
+                    align: 'center',
+                    showButtons: ['close']
+                }
+            },
+            {
+                element: '#phase-3-view',
+                popover: {
+                    title: 'Step 5: Cryptographic Digital Seal 🔒',
+                    description: 'The campaign is 100% compliant and sealed with a secure SHA-256 digital wax seal. You can now securely export to Veeva or print the Form FDA 2253! Guided tour complete!',
+                    side: 'bottom',
+                    align: 'center',
+                    showButtons: ['done']
                 }
             }
         ],
         onDestroyed: () => {
-            if (window.tourStep < 5) {
-                // Reset tour state if closed prematurely
-                window.isTourActive = false;
-                window.tourStep = 0;
-                appendConsoleLine('system', 'ℹ️ Guided Tour ended by user.');
-            }
+            // Reset tour state if closed
+            window.isTourActive = false;
+            window.tourStep = 0;
+            appendConsoleLine('system', 'ℹ️ Guided Tour ended by user.');
         }
     });
     
-    // Set steps with customized buttons to guide the user's actions
-    activeTour.setSteps([
-        {
-            element: '.brand-info',
-            popover: {
-                title: 'GenMedia Guided Tour 🚀',
-                description: 'This interactive tour will guide you step-by-step through generating a campaign and auto-healing a layout. Let\'s start by selecting an oncology indication.',
-                side: 'bottom',
-                align: 'start',
-                showButtons: ['next', 'close'] // Show next button to move to the heatmap
-            }
-        },
-        {
-            element: '.heatmap-table tbody tr:first-child', // NSCLC Row
-            popover: {
-                title: 'Step 1: Ingest Clinical Trial Brief 📊',
-                description: 'This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Keytruda clinical trial briefings!',
-                side: 'right',
-                align: 'center',
-                showButtons: ['close'] // Hide next button so they MUST click the row!
-            }
-        }
-    ]);
-    
-    activeTour.drive();
+    // Start at Step 0 (Welcome)
+    activeTour.drive(0);
 };
 
