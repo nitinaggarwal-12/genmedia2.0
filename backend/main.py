@@ -1701,6 +1701,11 @@ Your job is to answer the user's question about the brand's compliance, cost, an
 2. Refer to the statistics above with absolute mathematical accuracy. Do not make up or extrapolate numbers.
 3. If the user asks a question that cannot be answered using the provided telemetry (e.g. "Who is the CEO?"), politely state that you only have access to compliance and system telemetry data.
 4. Output in clean Markdown format with no markdown block fences (do not wrap in ```markdown). Keep it under 3 paragraphs.
+5. **CRITICAL:** At the very end of your response, you MUST generate exactly 3 highly relevant, dynamic follow-up questions that the user might want to ask next based on your answer and the data.
+   - These questions must be short, punchy, and directly related to the conversation.
+   - Format them as a JSON array of strings, wrapped in `[FOLLOW_UP_QUESTIONS]` and `[/FOLLOW_UP_QUESTIONS]` tags.
+   - Example:
+     [FOLLOW_UP_QUESTIONS]["Why did Product-B save the most?", "Show the monthly trend of Product-B savings", "What violations did Product-B have?"][/FOLLOW_UP_QUESTIONS]
 """
         
         response = client.models.generate_content(
@@ -1710,19 +1715,49 @@ Your job is to answer the user's question about the brand's compliance, cost, an
         
         reply = response.text
         
+        # Extract follow-up questions
+        follow_ups = []
+        import re
+        match = re.search(r'\[FOLLOW_UP_QUESTIONS\](.*?)\[/FOLLOW_UP_QUESTIONS\]', reply, re.DOTALL)
+        if match:
+            try:
+                follow_ups = json.loads(match.group(1).strip())
+                # Remove the follow-up block from the reply text
+                reply = reply.replace(match.group(0), "").strip()
+            except Exception as pe:
+                print(f"⚠️ Failed to parse follow-up questions JSON: {pe}")
+                follow_ups = []
+                
+        # Default follow-ups if extraction fails
+        if not follow_ups:
+            follow_ups = [
+                "What is our total cost savings and net ROI across all brands?",
+                "Which brand has the highest layout violation rate?",
+                "Show me a summary of the 3 most recent blocked campaigns."
+            ]
+            
         return {
             "success": True,
-            "reply": reply
+            "reply": reply,
+            "follow_ups": follow_ups
         }
         
     except Exception as e:
         import traceback
         print("❌ AI Chat error:")
         print(traceback.format_exc())
+        
+        default_follow_ups = [
+            "What is our total cost savings and net ROI across all brands?",
+            "Which brand has the highest layout violation rate?",
+            "Show me a summary of the 3 most recent blocked campaigns."
+        ]
+        
         # Return a high-quality fallback reply if the API call fails or is unconfigured
         return {
             "success": True,
-            "reply": f"⚠️ **AI Copilot Offline:** I was unable to connect to the Gemini API. However, according to the local database, there are **{total} total campaigns** audited, with **{healed} auto-healed runs** yielding **${total_savings:.2f} in cost savings** against **${total_cost:.4f} in API costs**. Net ROI remains positive at **${(total_savings - total_cost):.2f}**."
+            "reply": f"⚠️ **AI Copilot Offline:** I was unable to connect to the Gemini API. However, according to the local database, there are **{total} total campaigns** audited, with **{healed} auto-healed runs** yielding **${total_savings:.2f} in cost savings** against **${total_cost:.4f} in API costs**. Net ROI remains positive at **${(total_savings - total_cost):.2f}**.",
+            "follow_ups": default_follow_ups
         }
 
 

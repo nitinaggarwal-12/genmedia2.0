@@ -5915,6 +5915,25 @@ async function executeCopilotQuery(userMessage) {
                 </div>
             `;
             chatHistory.appendChild(replyMsgDiv);
+            
+            // Render the new dynamic follow-up questions!
+            const suggestedContainer = document.getElementById('copilot-suggested-questions');
+            if (suggestedContainer && data.follow_ups && Array.isArray(data.follow_ups)) {
+                suggestedContainer.innerHTML = '';
+                const icons = ['💰', '⚠️', '🚫', '📉', '⚖️', '🧠'];
+                data.follow_ups.slice(0, 3).forEach((q, idx) => {
+                    const pill = document.createElement('span');
+                    pill.className = 'chat-suggested-pill';
+                    const icon = icons[idx % icons.length];
+                    
+                    const displayQ = q.length > 60 ? q.substring(0, 57) + '...' : q;
+                    pill.innerText = `${icon} ${displayQ}`;
+                    
+                    const escapedQ = q.replace(/'/g, "\\'");
+                    pill.onclick = () => sendSuggestedQuestion(escapedQ);
+                    suggestedContainer.appendChild(pill);
+                });
+            }
         } else {
             throw new Error(data.warning || "No reply received");
         }
