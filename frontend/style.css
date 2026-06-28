@@ -3610,3 +3610,438 @@ select option {
         font-size: 0.68rem !important;
     }
 }
+
+/* =====================================================================
+ * PREMIUM GENMEDIA 3.0 GLASSMORPHIC LIGHT SIDEBAR LAYOUT OVERRIDES
+ * ===================================================================== */
+body.light-theme {
+    --bg-main: #f8fafc !important; /* Extremely soft slate-50 background */
+    --bg-surface: rgba(255, 255, 255, 0.75) !important;
+    --bg-surface-solid: #ffffff !important;
+    --border-color: rgba(0, 0, 0, 0.05) !important;
+    --border-glow: rgba(37, 99, 235, 0.15) !important;
+    --color-primary: #2563eb !important; /* Vibrant Royal Blue */
+    --color-primary-glow: rgba(37, 99, 235, 0.08) !important;
+    --color-secondary: #7c3aed !important; /* Vibrant Violet */
+    --color-text-main: #0f172a !important; /* Deep slate-900 */
+    --color-text-muted: #64748b !important; /* Muted slate-500 */
+    
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* 1. Transform Top Header into Fixed Left Sidebar */
+body.light-theme .app-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 260px !important;
+    height: 100vh !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 2rem 1.5rem !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-bottom: none !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.015) !important;
+    z-index: 1000 !important;
+    gap: 2.5rem !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Vertically Stack Logo and Brand Info */
+body.light-theme .header-left {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+body.light-theme .logo-container {
+    background: #2563eb !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    font-size: 1.2rem !important;
+}
+
+body.light-theme .brand-info h1 {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 850 !important;
+    color: #0f172a !important;
+    font-size: 1.1rem !important;
+    letter-spacing: -0.02em !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+}
+
+body.light-theme .header-badge-contentstudio {
+    background: rgba(37, 99, 235, 0.08) !important;
+    color: #2563eb !important;
+    border: 1px solid rgba(37, 99, 235, 0.15) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.62rem !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 6px !important;
+}
+
+body.light-theme .brand-info p {
+    font-size: 0.65rem !important;
+    color: #64748b !important;
+    margin-top: 0.15rem !important;
+}
+
+/* 3. Transform Workflow Navigation into Vertical Sidebar Menu */
+body.light-theme .header-workflow-nav {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Hide the horizontal arrows (➔) in the vertical sidebar */
+body.light-theme .header-workflow-nav span {
+    display: none !important;
+}
+
+body.light-theme .global-nav-btn {
+    width: 100% !important;
+    text-align: left !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
+    color: #64748b !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    font-size: 0.78rem !important;
+    transition: var(--transition-smooth) !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+body.light-theme .global-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.03) !important;
+    color: #0f172a !important;
+}
+
+body.light-theme .global-nav-btn.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #2563eb !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* 4. Position Action Buttons & Profile at the Bottom of Sidebar */
+body.light-theme .header-right {
+    margin-top: auto !important; /* Pushes to the bottom! */
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+/* Make all action buttons full-width in the sidebar */
+body.light-theme .header-right .btn,
+body.light-theme .header-right a {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    padding: 0.6rem !important;
+    font-size: 0.72rem !important;
+    border-radius: 10px !important;
+}
+
+body.light-theme .btn-primary {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+}
+
+body.light-theme .btn-primary:hover {
+    background: #1d4ed8 !important;
+}
+
+body.light-theme .btn-secondary {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    color: #334155 !important;
+}
+
+body.light-theme .btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Stack and style compliance badge & user profile */
+body.light-theme .compliance-badge {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.55rem !important;
+    font-size: 0.65rem !important;
+    border-radius: 10px !important;
+    margin: 0 !important;
+}
+
+body.light-theme .user-profile {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    padding: 0.55rem !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-radius: 10px !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+body.light-theme .theme-toggle-btn {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    margin: 0 !important;
+}
+
+/* 5. Shift Main Content to the Right of the Sidebar */
+body.light-theme .main-content {
+    margin-left: 260px !important;
+    width: calc(100% - 260px) !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    padding-bottom: 2rem !important;
+}
+
+/* 6. Gorgeous Floating Pastel Gradient Banner */
+body.light-theme .phase-title-strip {
+    background: linear-gradient(135deg, #dbeafe 0%, #f3e8ff 50%, #fce7f3 100%) !important;
+    padding: 2.25rem 2.5rem !important;
+    margin: 2rem 2rem 0 2rem !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+body.light-theme .phase-title-strip::before {
+    content: "" !important;
+    position: absolute !important;
+    top: -50% !important;
+    right: -20% !important;
+    width: 300px !important;
+    height: 300px !important;
+    background: radial-gradient(circle, rgba(236,72,153,0.12) 0%, transparent 70%) !important;
+    filter: blur(30px) !important;
+    pointer-events: none !important;
+}
+
+body.light-theme .phase-title-strip::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -50% !important;
+    left: -10% !important;
+    width: 250px !important;
+    height: 250px !important;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%) !important;
+    filter: blur(30px) !important;
+    pointer-events: none !important;
+}
+
+body.light-theme .phase-title-strip h2 {
+    color: #1e1b4b !important; /* Deep indigo */
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body.light-theme .phase-title-strip p {
+    color: #4f46e5 !important; /* Indigo */
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    margin-top: 0.3rem !important;
+    opacity: 0.85 !important;
+}
+
+/* 7. Premium Glassmorphic Cards & Panels */
+body.light-theme .cdo-metric-card,
+body.light-theme .workspace-panel,
+body.light-theme .canvas-render-block {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.005) !important;
+    transition: var(--transition-smooth) !important;
+}
+
+body.light-theme .cdo-metric-card:hover,
+body.light-theme .workspace-panel:hover {
+    border-color: rgba(37, 99, 235, 0.25) !important;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.04) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Panel Header styling */
+body.light-theme .panel-header-compact {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+    padding-bottom: 0.75rem !important;
+    margin-bottom: 1.25rem !important;
+}
+
+body.light-theme .panel-header-compact h3 {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 850 !important;
+    color: #0f172a !important;
+    font-size: 0.95rem !important;
+}
+
+/* 8. Sleek Sub-cards & Gauges */
+body.light-theme .gauge-card {
+    background: rgba(248, 250, 252, 0.65) !important;
+    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 1rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.005) !important;
+}
+
+body.light-theme .gauge-card span {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* 9. Clean Table & Badges */
+body.light-theme .heatmap-table th {
+    color: #64748b !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    padding: 0.75rem 0.5rem !important;
+}
+
+body.light-theme .heatmap-table td {
+    padding: 0.95rem 0.5rem !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+body.light-theme .heatmap-table tr:hover {
+    background: rgba(37, 99, 235, 0.02) !important;
+}
+
+body.light-theme .heatmap-badge {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    padding: 0.25rem 0.55rem !important;
+    font-size: 0.68rem !important;
+    display: inline-block !important;
+}
+
+body.light-theme .heatmap-badge.zero-teal {
+    background: rgba(13, 148, 136, 0.06) !important;
+    color: #0d9488 !important;
+    border: 1px solid rgba(13, 148, 136, 0.12) !important;
+}
+
+body.light-theme .heatmap-badge.zero-blue {
+    background: rgba(37, 99, 235, 0.06) !important;
+    color: #2563eb !important;
+    border: 1px solid rgba(37, 99, 235, 0.12) !important;
+}
+
+body.light-theme .heatmap-badge.zero-purple {
+    background: rgba(124, 58, 237, 0.06) !important;
+    color: #7c3aed !important;
+    border: 1px solid rgba(124, 58, 237, 0.12) !important;
+}
+
+body.light-theme .heatmap-badge.gold-g {
+    background: rgba(217, 119, 6, 0.06) !important;
+    color: #d97706 !important;
+    border: 1px solid rgba(217, 119, 6, 0.12) !important;
+}
+
+body.light-theme .heatmap-badge.red-delta {
+    background: rgba(220, 38, 38, 0.06) !important;
+    color: #dc2626 !important;
+    border: 1px solid rgba(220, 38, 38, 0.12) !important;
+}
+
+body.light-theme .heatmap-badge.orange-o {
+    background: rgba(234, 88, 12, 0.06) !important;
+    color: #ea580c !important;
+    border: 1px solid rgba(234, 88, 12, 0.12) !important;
+}
+
+/* 10. Premium Chat Widget & Console */
+body.light-theme .chat-console {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.02) !important;
+    overflow: hidden !important;
+}
+
+body.light-theme .console-header {
+    background: rgba(241, 245, 249, 0.8) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+body.light-theme .chat-messages {
+    background: rgba(248, 250, 252, 0.4) !important;
+    padding: 1.25rem !important;
+}
+
+body.light-theme .chat-bubble.assistant {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+    border-radius: 16px 16px 16px 4px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.005) !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #334155 !important;
+    line-height: 1.5 !important;
+}
+
+body.light-theme .chat-bubble.user {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 16px 16px 4px 16px !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15) !important;
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.5 !important;
+}

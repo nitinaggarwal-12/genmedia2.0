@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Theme Management (Light / Dark Mode Toggle)
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'light';
     const themeIcon = document.getElementById('theme-icon');
     
     if (savedTheme === 'light') {
