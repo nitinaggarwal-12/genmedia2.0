@@ -63,6 +63,24 @@ def init_db():
         last_updated TEXT NOT NULL
     )
     """)
+    
+    # 4. Create Campaign Analytics Ledger Table (For Executive Analytics Platform)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS campaign_analytics_ledger (
+        campaign_id TEXT PRIMARY KEY,
+        project_name TEXT NOT NULL,
+        brand TEXT NOT NULL,
+        indication TEXT NOT NULL,
+        status TEXT NOT NULL,
+        latency_ms INTEGER NOT NULL,
+        violations_count INTEGER NOT NULL,
+        violation_details TEXT NOT NULL,
+        tokens_used INTEGER NOT NULL,
+        cost_usd REAL NOT NULL,
+        savings_usd REAL NOT NULL,
+        timestamp TEXT NOT NULL
+    )
+    """)
     conn.commit()
     
     # Check approved_claims count and seed if empty
@@ -83,7 +101,121 @@ def init_db():
     else:
         print(f"🛢️ Standards version registry online. Active rule versions: {standards_count}")
         
+    # Check campaign_analytics_ledger count and seed if empty
+    cursor.execute("SELECT COUNT(*) FROM campaign_analytics_ledger")
+    analytics_count = cursor.fetchone()[0]
+    if analytics_count == 0:
+        print("🛢️ Campaign analytics ledger is empty. Commencing auto-seeding of 120 historical runs...")
+        seed_analytics_data(conn)
+    else:
+        print(f"🛢️ Campaign analytics ledger online. Active historical runs: {analytics_count}")
+        
     conn.close()
+
+def seed_analytics_data(conn):
+    """Seeds the database with 120 highly realistic, historical campaign runs over the last 30 days."""
+    import json
+    from datetime import datetime, timezone, timedelta
+    cursor = conn.cursor()
+    
+    # Define our products and indications
+    products = [
+        ("Product-A", "Pembrolizumab", "NSCLC"),
+        ("Product-B", "Lenvatinib", "RCC"),
+        ("Product-C", "Belzutifan", "Advanced RCC"),
+        ("Product-D", "Sotatercept", "PAH"),
+        ("Product-E", "Olaparib", "Ovarian Cancer")
+    ]
+    
+    statuses = ["COMPLIANT", "AUTO_HEALED", "BLOCKED"]
+    status_weights = [0.75, 0.18, 0.07]
+    
+    possible_violations = [
+        "Rule 1.1: Missing SmPC Prescribing Citation",
+        "Rule 1.2: Outdated Indication Label Version",
+        "Rule 2.1: Missing Black Box Warning Prominence",
+        "Rule 3.1: Font Size Ratio Violation (HCP vs Safety)",
+        "Rule 3.2: Layout Grid Overlap Detected (CSS Healer Target)",
+        "Rule 4.1: Target Audience Mismatch (Consumer vs HCP)",
+        "Rule 4.2: Missing FDA Form 2253 Cryptographic Manifest"
+    ]
+    
+    brand_projects = {
+        "Product-A": ["Merck Gemini Enterprise", "Keynote Global Launch", "Keynote-189 Efficacy Ad", "TNBC Awareness Campaign"],
+        "Product-B": ["Eisai Lenvima Launch", "Clear Trial HCP Portal", "RCC Dual Therapy Grid"],
+        "Product-C": ["Litespark Advanced RCC Ad", "Welireg Patient Portal"],
+        "Product-D": ["Sotatercept PAH Efficacy", "Winrevair Global Launch"],
+        "Product-E": ["Lynparza Ovarian Ad", "Lynparza Prostate Portal"]
+    }
+    
+    now = datetime.now(timezone.utc)
+    
+    rows = []
+    for i in range(120):
+        day_offset = i // 4
+        hour_offset = (i % 4) * 6 + random.randint(0, 4)
+        minute_offset = random.randint(0, 59)
+        run_time = now - timedelta(days=day_offset, hours=hour_offset, minutes=minute_offset)
+        timestamp_str = run_time.strftime("%Y-%m-%d %H:%M:%S")
+        
+        prod_key, prod_name, indication = random.choice(products)
+        project_name = random.choice(brand_projects[prod_key])
+        
+        status = random.choices(statuses, weights=status_weights, k=1)[0]
+        
+        if status == "COMPLIANT":
+            violations_count = 0
+            violation_details = "[]"
+            latency_ms = random.randint(220, 850)
+            tokens_used = random.randint(12000, 25000)
+            cost_usd = round(tokens_used * 0.000015, 4)
+            savings_usd = 0.0
+        elif status == "AUTO_HEALED":
+            violations_count = random.randint(1, 2)
+            viols = [random.choice(possible_violations[3:5])]
+            if violations_count == 2:
+                viols.append(random.choice(possible_violations[:3] + possible_violations[5:]))
+            violation_details = json.dumps(viols)
+            latency_ms = random.randint(1100, 2800)
+            tokens_used = random.randint(45000, 85000)
+            cost_usd = round(tokens_used * 0.000015, 4)
+            savings_usd = round(violations_count * 45.0, 2)
+        else: # BLOCKED
+            violations_count = random.randint(1, 3)
+            viols = random.sample(possible_violations[:3] + [possible_violations[5]], violations_count)
+            violation_details = json.dumps(viols)
+            latency_ms = random.randint(450, 1200)
+            tokens_used = random.randint(20000, 40000)
+            cost_usd = round(tokens_used * 0.000015, 4)
+            savings_usd = 0.0
+            
+        campaign_id = f"CAMP-{prod_key[:3].upper()}-{100 + i}"
+        
+        rows.append((
+            campaign_id,
+            project_name,
+            prod_key,
+            indication,
+            status,
+            latency_ms,
+            violations_count,
+            violation_details,
+            tokens_used,
+            cost_usd,
+            savings_usd,
+            timestamp_str
+        ))
+        
+    cursor.executemany("""
+    INSERT INTO campaign_analytics_ledger (
+        campaign_id, project_name, brand, indication, status,
+        latency_ms, violations_count, violation_details, tokens_used,
+        cost_usd, savings_usd, timestamp
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, rows)
+    conn.commit()
+    print(f"🛢️ Seeding completed! Inserted {len(rows)} historical campaign analytics records.")
+
 
 def generate_hash(text_to_hash: str) -> str:
     """Helper to generate a secure SHA-256 seal for claim integrity."""

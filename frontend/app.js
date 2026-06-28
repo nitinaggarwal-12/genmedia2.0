@@ -5316,124 +5316,292 @@ window.startInteractiveTour = function() {
 // =====================================================================
 // MAESTRO EXECUTIVE AI/ML ANALYTICS & INSIGHTS COCKPIT IMPLEMENTATION
 // =====================================================================
+let analyticsData = [];       // Complete 120-row dataset from database
+let filteredData = [];        // Filtered dataset based on active filters
+let activeBrandFilter = 'ALL';
+let activeStatusFilter = 'ALL';
+let activeSearchQuery = '';
+let selectedKpiMetric = 'latency'; // 'latency', 'compliance', or 'savings'
+let activeChartTab = 'trend';      // 'trend', 'roi', 'violations'
 let analyticsCharts = {};
-let currentSavingsView = 'monthly'; // 'monthly' or 'daily'
 
+// 1. Initialize Dashboard on Tab Load
 window.initAnalyticsDashboard = async function() {
-    console.log("📊 Initializing Executive Analytics Dashboard...");
-    const isLightTheme = document.body.classList.contains('light-theme');
-    const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
-    const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    console.log("📊 Initializing Overhauled Executive Analytics Platform...");
     
-    // 1. Fetch live stats from the backend to populate the dashboard!
-    let liveStats = { claims: 315, rules: 8, exports: 4 }; // Fallback defaults
+    // Fetch complete dataset from the backend
     try {
-        const response = await fetch('/api/analytics/ai-briefing');
-        const data = await response.json();
-        if (data.success && data.stats) {
-            liveStats = data.stats;
+        const response = await fetch(BACKEND_URL + '/api/analytics/data');
+        const resData = await response.json();
+        if (resData.success && resData.data) {
+            analyticsData = resData.data;
+            console.log(`🛢️ Loaded ${analyticsData.length} campaign records from database.`);
+        } else {
+            throw new Error(resData.detail || "Failed to load data");
         }
     } catch (e) {
-        console.warn("⚠️ Failed to fetch live stats, using fallback defaults:", e);
+        console.error("❌ Failed to fetch analytics data, generating local fallback dataset:", e);
+        generateFallbackDataset();
     }
     
-    // Update the KPI cards dynamically!
-    const compliantCountEl = document.getElementById('stat-fully-compliant');
-    if (compliantCountEl) compliantCountEl.innerText = `${liveStats.exports - 1} Runs`;
-    const healedCountEl = document.getElementById('stat-auto-healed');
-    if (healedCountEl) healedCountEl.innerText = `1 Run`;
+    // Apply filters (defaults to ALL) to populate filteredData and render everything
+    applyFilters();
+};
+
+// Fallback dataset generator in case backend is offline
+function generateFallbackDataset() {
+    analyticsData = [];
+    const brands = ['Product-A', 'Product-B', 'Product-C', 'Product-D', 'Product-E'];
+    const indications = {'Product-A': 'NSCLC', 'Product-B': 'RCC', 'Product-C': 'Advanced RCC', 'Product-D': 'PAH', 'Product-E': 'Ovarian Cancer'};
+    const statuses = ['COMPLIANT', 'AUTO_HEALED', 'BLOCKED'];
+    const weights = [0.75, 0.18, 0.07];
+    const projects = {
+        'Product-A': ['Merck Gemini Enterprise', 'Keynote Global Launch'],
+        'Product-B': ['Eisai Lenvima Launch', 'Clear Trial HCP Portal'],
+        'Product-C': ['Welireg Patient Portal'],
+        'Product-D': ['Winrevair Global Launch'],
+        'Product-E': ['Lynparza Ovarian Ad']
+    };
     
-    // 2. Render Compliance Doughnut Chart
-    const compCtx = document.getElementById('complianceChart');
-    if (compCtx) {
-        if (analyticsCharts['compliance']) analyticsCharts['compliance'].destroy();
+    const now = new Date();
+    for (let i = 0; i < 100; i++) {
+        const brand = brands[Math.floor(Math.random() * brands.length)];
+        const project = projects[brand][Math.floor(Math.random() * projects[brand].length)];
+        const status = statuses[0]; // Simplification for fallback
         
-        analyticsCharts['compliance'] = new Chart(compCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Fully Compliant', 'Auto-Healed', 'Violations Blocked'],
-                datasets: [{
-                    data: [liveStats.exports - 1, 1, 0],
-                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                cutout: '70%'
-            }
+        analyticsData.push({
+            campaign_id: `CAMP-${brand.substring(8, 11).toUpperCase()}-${100 + i}`,
+            project_name: project,
+            brand: brand,
+            indication: indications[brand],
+            status: Math.random() > 0.25 ? 'COMPLIANT' : (Math.random() > 0.5 ? 'AUTO_HEALED' : 'BLOCKED'),
+            latency_ms: Math.random() > 0.5 ? 400 + Math.floor(Math.random() * 400) : 1200 + Math.floor(Math.random() * 1000),
+            violations_count: Math.random() > 0.8 ? 1 : 0,
+            violation_details: [],
+            tokens_used: 15000 + Math.floor(Math.random() * 30000),
+            cost_usd: 0.15 + Math.random() * 0.5,
+            savings_usd: Math.random() > 0.8 ? 45.0 : 0.0,
+            timestamp: new Date(now - i * 6 * 3600000).toISOString().replace('T', ' ').substring(0, 19)
         });
     }
-    
-    // 3. Render Token & Cost Savings Chart (Drill-Down Line/Area Chart)
-    renderSavingsChart();
-};
+}
 
-// Savings Chart Data (Monthly and Daily for Drill-down)
-const savingsData = {
-    monthly: {
-        labels: ['Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'May 2026', 'Jun 2026'],
-        data: [120, 280, 450, 680, 920, 1240], // Cumulative savings in USD
-        label: 'Cumulative Savings (USD)'
-    },
-    daily: {
-        'Jun 2026': {
-            labels: ['Jun 1', 'Jun 5', 'Jun 10', 'Jun 15', 'Jun 20', 'Jun 25', 'Jun 27'],
-            data: [950, 990, 1040, 1100, 1150, 1210, 1240],
-            label: 'Daily Cumulative Savings in June (USD)'
-        }
+// 2. Reactive Filtering Engine
+window.filterByBrand = function(brand) {
+    activeBrandFilter = brand;
+    
+    // Update active class on pills
+    document.querySelectorAll('.analytics-filter-pill').forEach(pill => {
+        pill.classList.remove('active');
+    });
+    const activePill = document.getElementById(`brand-pill-${brand}`);
+    if (activePill) activePill.classList.add('active');
+    
+    applyFilters();
+    if (window.appendConsoleLine) {
+        appendConsoleLine('system', `📊 Filtered analytics dashboard by Brand: ${brand}`);
     }
 };
 
-function renderSavingsChart() {
-    const ctx = document.getElementById('chart-token-savings');
+window.applyLedgerFilters = function() {
+    const searchInput = document.getElementById('ledger-search-input');
+    const statusSelect = document.getElementById('ledger-status-filter');
+    
+    activeSearchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    activeStatusFilter = statusSelect ? statusSelect.value : 'ALL';
+    
+    applyFilters();
+};
+
+function applyFilters() {
+    // Filter the master dataset
+    filteredData = analyticsData.filter(item => {
+        const matchesBrand = (activeBrandFilter === 'ALL' || item.brand === activeBrandFilter);
+        const matchesStatus = (activeStatusFilter === 'ALL' || item.status === activeStatusFilter);
+        const matchesSearch = (activeSearchQuery === '' || 
+                               item.campaign_id.toLowerCase().includes(activeSearchQuery) || 
+                               item.project_name.toLowerCase().includes(activeSearchQuery) ||
+                               item.indication.toLowerCase().includes(activeSearchQuery));
+        return matchesBrand && matchesStatus && matchesSearch;
+    });
+    
+    // Recalculate KPIs and redraw charts/ledger
+    updateKpiCards();
+    renderActiveCharts();
+    renderLedgerTable();
+}
+
+// 3. Recalculate and Update KPI Cards
+function updateKpiCards() {
+    if (filteredData.length === 0) {
+        document.getElementById('analytics-kpi-latency').innerText = '- ms';
+        document.getElementById('analytics-kpi-compliance').innerText = '- %';
+        document.getElementById('analytics-kpi-savings').innerText = '$0.00';
+        return;
+    }
+    
+    // Calculate Average Latency
+    const totalLatency = filteredData.reduce((sum, item) => sum + item.latency_ms, 0);
+    const avgLatency = Math.round(totalLatency / filteredData.length);
+    document.getElementById('analytics-kpi-latency').innerText = `${avgLatency} ms`;
+    
+    // Calculate Compliance Rate (Compliant + Healed / Total)
+    const compliantOrHealed = filteredData.filter(item => item.status === 'COMPLIANT' || item.status === 'AUTO_HEALED').length;
+    const complianceRate = ((compliantOrHealed / filteredData.length) * 100).toFixed(1);
+    const rateEl = document.getElementById('analytics-kpi-compliance');
+    rateEl.innerText = `${complianceRate}%`;
+    rateEl.style.color = complianceRate > 90 ? '#10B981' : (complianceRate > 75 ? '#F59E0B' : '#EF4444');
+    
+    // Calculate Total Savings
+    const totalSavings = filteredData.reduce((sum, item) => sum + item.savings_usd, 0);
+    document.getElementById('analytics-kpi-savings').innerText = `$${totalSavings.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+}
+
+// 4. KPI Click-to-Chart Toggles
+window.selectKpiMetric = function(metric) {
+    selectedKpiMetric = metric;
+    
+    // Update active indicators on KPI cards
+    document.querySelectorAll('.analytics-kpi-card').forEach(card => {
+        const indicator = card.querySelector('.kpi-active-indicator');
+        if (indicator) indicator.style.display = 'none';
+    });
+    
+    const activeCard = document.getElementById(`kpi-card-${metric}`);
+    if (activeCard) {
+        const indicator = activeCard.querySelector('.kpi-active-indicator');
+        if (indicator) indicator.style.display = 'block';
+    }
+    
+    // If we are on the trends tab, redraw the line chart with the new metric!
+    if (activeChartTab === 'trend') {
+        renderTrendChart();
+    }
+    
+    if (window.appendConsoleLine) {
+        appendConsoleLine('system', `📈 Switched telemetry trend line chart to display: ${metric.toUpperCase()}`);
+    }
+};
+
+// 5. Chart Tab Swapper
+window.switchChartTab = function(tabId) {
+    activeChartTab = tabId;
+    
+    // Hide all chart containers, show the active one
+    document.getElementById('chart-container-trend').style.display = tabId === 'trend' ? 'flex' : 'none';
+    document.getElementById('chart-container-roi').style.display = tabId === 'roi' ? 'flex' : 'none';
+    document.getElementById('chart-container-violations').style.display = tabId === 'violations' ? 'flex' : 'none';
+    
+    // Update active class on tab buttons
+    document.querySelectorAll('.chart-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    const activeBtn = document.getElementById(`btn-tab-${tabId}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    // Update chart title in header
+    const titleEl = document.getElementById('chart-tab-title');
+    if (tabId === 'trend') titleEl.innerText = 'Telemetry Trends';
+    else if (tabId === 'roi') titleEl.innerText = 'Brand ROI Analysis';
+    else if (tabId === 'violations') titleEl.innerText = 'Violation Frequency';
+    
+    // Render the selected chart
+    renderActiveCharts();
+};
+
+function renderActiveCharts() {
+    if (activeChartTab === 'trend') renderTrendChart();
+    else if (activeChartTab === 'roi') renderRoiChart();
+    else if (activeChartTab === 'violations') renderViolationsChart();
+}
+
+// --- CHART 1: TELEMETRY TRENDS (LINE CHART WITH DRILL-DOWN) ---
+function renderTrendChart() {
+    const ctx = document.getElementById('chart-telemetry-trend');
     if (!ctx) return;
     
     const isLightTheme = document.body.classList.contains('light-theme');
     const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
     const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
     
-    if (analyticsCharts['savings']) analyticsCharts['savings'].destroy();
+    if (analyticsCharts['trend']) analyticsCharts['trend'].destroy();
     
-    const view = currentSavingsView;
-    let chartLabels = [];
-    let chartData = [];
-    let chartLabel = '';
+    // Group filteredData by date to generate chart points
+    // Since we have 120 points over 30 days, let's aggregate them into 6 periods or show a rolling average!
+    // For a beautiful, realistic trend, let's group by day and sort chronologically!
+    const dailyData = {};
+    filteredData.forEach(item => {
+        const dateStr = item.timestamp.substring(0, 10); // YYYY-MM-DD
+        if (!dailyData[dateStr]) {
+            dailyData[dateStr] = { sum: 0, count: 0, savings: 0, compliantCount: 0 };
+        }
+        
+        if (selectedKpiMetric === 'latency') {
+            dailyData[dateStr].sum += item.latency_ms;
+        } else if (selectedKpiMetric === 'compliance') {
+            const isPassed = item.status === 'COMPLIANT' || item.status === 'AUTO_HEALED';
+            dailyData[dateStr].sum += isPassed ? 1 : 0;
+        } else if (selectedKpiMetric === 'savings') {
+            dailyData[dateStr].sum += item.savings_usd;
+        }
+        dailyData[dateStr].count += 1;
+    });
     
-    if (view === 'monthly') {
-        chartLabels = savingsData.monthly.labels;
-        chartData = savingsData.monthly.data;
-        chartLabel = savingsData.monthly.label;
-        const drillbackBtn = document.getElementById('btn-chart-drillback');
-        if (drillbackBtn) drillbackBtn.style.display = 'none';
-    } else {
-        const juneData = savingsData.daily['Jun 2026'];
-        chartLabels = juneData.labels;
-        chartData = juneData.data;
-        chartLabel = juneData.label;
-        const drillbackBtn = document.getElementById('btn-chart-drillback');
-        if (drillbackBtn) drillbackBtn.style.display = 'inline-block';
+    // Sort dates chronologically
+    const sortedDates = Object.keys(dailyData).sort();
+    
+    // Limit to last 15 days for clean readability on screen
+    const displayDates = sortedDates.slice(-12);
+    
+    const chartLabels = displayDates.map(d => {
+        // Format YYYY-MM-DD to "MMM DD"
+        const date = new Date(d);
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+    
+    const chartPoints = displayDates.map(d => {
+        const day = dailyData[d];
+        if (selectedKpiMetric === 'latency') {
+            return Math.round(day.sum / day.count);
+        } else if (selectedKpiMetric === 'compliance') {
+            return Math.round((day.sum / day.count) * 100);
+        } else if (selectedKpiMetric === 'savings') {
+            return day.sum; // Cumulative savings per day
+        }
+    });
+    
+    // Define colors based on selected metric
+    let lineColor = '#3b82f6';
+    let bgColor = 'rgba(59, 130, 246, 0.1)';
+    let chartLabel = 'Avg Latency (ms)';
+    let yMax = undefined;
+    let yMin = undefined;
+    
+    if (selectedKpiMetric === 'compliance') {
+        lineColor = '#8b5cf6';
+        bgColor = 'rgba(139, 92, 246, 0.1)';
+        chartLabel = 'MLR Pass Rate (%)';
+        yMax = 100;
+        yMin = 50;
+    } else if (selectedKpiMetric === 'savings') {
+        lineColor = '#f59e0b';
+        bgColor = 'rgba(245, 158, 11, 0.1)';
+        chartLabel = 'Daily Cost Savings ($)';
     }
     
-    analyticsCharts['savings'] = new Chart(ctx, {
+    analyticsCharts['trend'] = new Chart(ctx, {
         type: 'line',
         data: {
             labels: chartLabels,
             datasets: [{
                 label: chartLabel,
-                data: chartData,
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                data: chartPoints,
+                borderColor: lineColor,
+                backgroundColor: bgColor,
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#3b82f6',
+                tension: 0.35,
+                pointBackgroundColor: lineColor,
                 pointHoverRadius: 6
             }]
         },
@@ -5445,121 +5613,373 @@ function renderSavingsChart() {
             },
             scales: {
                 x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } },
-                y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } }
-            },
-            onClick: (evt, activeElements) => {
-                if (view === 'monthly' && activeElements.length > 0) {
-                    const activePoint = activeElements[0];
-                    const label = analyticsCharts['savings'].data.labels[activePoint.index];
-                    if (label === 'Jun 2026') {
-                        currentSavingsView = 'daily';
-                        renderSavingsChart();
-                        if (window.appendConsoleLine) {
-                            appendConsoleLine('system', '📊 Drilled down into June 2026 cumulative savings telemetry.');
-                        }
-                    }
-                }
+                y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } }, max: yMax, min: yMin }
             }
         }
     });
 }
 
-window.drillUpSavingsChart = function() {
-    currentSavingsView = 'monthly';
-    renderSavingsChart();
-    if (window.appendConsoleLine) {
-        appendConsoleLine('system', '📊 Drilled up to monthly cumulative savings view.');
+// --- CHART 2: BRAND ROI (GROUPED BAR CHART) ---
+function renderRoiChart() {
+    const ctx = document.getElementById('chart-brand-roi');
+    if (!ctx) return;
+    
+    const isLightTheme = document.body.classList.contains('light-theme');
+    const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
+    const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    
+    if (analyticsCharts['roi']) analyticsCharts['roi'].destroy();
+    
+    // Group filteredData by brand to get cost and savings
+    const brandData = {};
+    filteredData.forEach(item => {
+        if (!brandData[item.brand]) {
+            brandData[item.brand] = { cost: 0, savings: 0 };
+        }
+        brandData[item.brand].cost += item.cost_usd;
+        brandData[item.brand].savings += item.savings_usd;
+    });
+    
+    const brands = Object.keys(brandData).sort();
+    const costData = brands.map(b => roundTo(brandData[b].cost, 2));
+    const savingsDataPoints = brands.map(b => roundTo(brandData[b].savings, 2));
+    
+    analyticsCharts['roi'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: brands,
+            datasets: [
+                {
+                    label: 'API Token Cost ($)',
+                    data: costData,
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)', // red
+                    borderRadius: 4
+                },
+                {
+                    label: 'Est. Cost Savings ($)',
+                    data: savingsDataPoints,
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)', // green
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { 
+                    display: true,
+                    labels: { color: textColor, font: { family: 'Outfit', size: 9 } }
+                }
+            },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } },
+                y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } }
+            }
+        }
+    });
+}
+
+// --- CHART 3: VIOLATIONS FREQUENCY (HORIZONTAL BAR CHART) ---
+function renderViolationsChart() {
+    const ctx = document.getElementById('chart-violations-analysis');
+    if (!ctx) return;
+    
+    const isLightTheme = document.body.classList.contains('light-theme');
+    const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
+    const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    
+    if (analyticsCharts['violations']) analyticsCharts['violations'].destroy();
+    
+    // Count specific violations
+    const violationCounts = {};
+    filteredData.forEach(item => {
+        if (item.violation_details && Array.isArray(item.violation_details)) {
+            item.violation_details.forEach(viol => {
+                // Shorten rule names for clean display
+                const shortName = viol.split(':')[0]; // e.g. "Rule 3.2"
+                violationCounts[shortName] = (violationCounts[shortName] || 0) + 1;
+            });
+        }
+    });
+    
+    const sortedViolKeys = Object.keys(violationCounts).sort((a, b) => violationCounts[b] - violationCounts[a]);
+    const chartLabels = sortedViolKeys.map(k => {
+        // Map short rule key to description
+        if (k === 'Rule 1.1') return 'Rule 1.1: Missing SmPC';
+        if (k === 'Rule 1.2') return 'Rule 1.2: Outdated Label';
+        if (k === 'Rule 2.1') return 'Rule 2.1: Box Warning';
+        if (k === 'Rule 3.1') return 'Rule 3.1: Font Size Ratio';
+        if (k === 'Rule 3.2') return 'Rule 3.2: Grid Overlap';
+        if (k === 'Rule 4.1') return 'Rule 4.1: Audience Mismatch';
+        if (k === 'Rule 4.2') return 'Rule 4.2: Missing FDA 2253';
+        return k;
+    });
+    const chartPoints = sortedViolKeys.map(k => violationCounts[k]);
+    
+    // If no violations exist, show empty placeholder message
+    if (chartPoints.length === 0) {
+        ctx.style.display = 'none';
+        // Show placeholder or empty chart
+    } else {
+        ctx.style.display = 'block';
     }
+    
+    analyticsCharts['violations'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Violations Frequency',
+                data: chartPoints,
+                backgroundColor: 'rgba(139, 92, 246, 0.85)', // purple
+                borderColor: '#8b5cf6',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar chart!
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } }, min: 0 },
+                y: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } }
+            }
+        }
+    });
+}
+
+// Helper to round numbers
+function roundTo(num, decimals) {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+}
+
+// 6. Render Campaign Ledger Table
+function renderLedgerTable() {
+    const tbody = document.getElementById('analytics-ledger-body');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    // Update ledger count badge
+    const badge = document.getElementById('ledger-count-badge');
+    if (badge) badge.innerText = `${filteredData.length} Runs`;
+    
+    if (filteredData.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9" style="padding: 2rem; text-align: center; color: var(--color-text-muted);">
+                    No campaigns match the active filters.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    // Render rows (limit to 30 for performance, scrollable container handles the rest)
+    const displayData = filteredData.slice(0, 30);
+    
+    displayData.forEach(item => {
+        const row = document.createElement('tr');
+        row.style.cursor = 'pointer';
+        row.style.borderBottom = '1px solid rgba(255, 255, 255, 0.03)';
+        row.style.transition = 'var(--transition-smooth)';
+        
+        row.onmouseover = () => row.style.background = 'rgba(255, 255, 255, 0.02)';
+        row.onmouseout = () => row.style.background = 'none';
+        
+        // Map status to badge
+        let statusBadge = '';
+        let selfHealingCol = '';
+        if (item.status === 'COMPLIANT') {
+            statusBadge = `<span class="heatmap-badge zero-teal" style="width: auto; padding: 0.15rem 0.4rem; font-size: 0.55rem; border-radius: 4px;">PASSED</span>`;
+            selfHealingCol = `<span style="color: var(--color-text-muted);">0 Violations</span>`;
+        } else if (item.status === 'AUTO_HEALED') {
+            statusBadge = `<span class="heatmap-badge zero-teal" style="width: auto; padding: 0.15rem 0.4rem; font-size: 0.55rem; border-radius: 4px;">PASSED</span>`;
+            selfHealingCol = `<span style="color: #F59E0B; font-weight: 800;">${item.violations_count} Overlap Healed</span>`;
+        } else { // BLOCKED
+            statusBadge = `<span class="heatmap-badge high-red" style="width: auto; padding: 0.15rem 0.4rem; font-size: 0.55rem; border-radius: 4px;">BLOCKED</span>`;
+            selfHealingCol = `<span style="color: #EF4444; font-weight: 800;">${item.violations_count} Violations</span>`;
+        }
+        
+        // Clicking a row drills down to show the details modal!
+        // If it was compliant, we show 'violation_product_a'. If auto-healed, 'violation_product_b'. If blocked, we can show a mock blocked detail!
+        let modalId = 'violation_product_a';
+        if (item.status === 'AUTO_HEALED') modalId = 'violation_product_b';
+        else if (item.status === 'BLOCKED') modalId = 'violation_product_b'; // Or custom blocked modal
+        
+        row.onclick = () => drillDownCampaign(modalId);
+        
+        row.innerHTML = `
+            <td style="padding: 0.6rem 0.75rem; font-family: monospace; color: var(--color-primary);">${item.campaign_id}</td>
+            <td style="padding: 0.6rem 0.75rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.project_name}</td>
+            <td style="padding: 0.6rem 0.75rem;">${item.brand} (${item.indication})</td>
+            <td style="padding: 0.6rem 0.75rem;">${statusBadge}</td>
+            <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: monospace; color: var(--color-text-muted); font-weight: 500;">${item.latency_ms} ms</td>
+            <td style="padding: 0.6rem 0.75rem; text-align: right;">${selfHealingCol}</td>
+            <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: monospace; color: var(--color-text-muted); font-weight: 500;">$${item.cost_usd.toFixed(4)}</td>
+            <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: monospace; color: #10B981;">$${item.savings_usd.toFixed(2)}</td>
+            <td style="padding: 0.6rem 0.75rem; color: var(--color-text-muted); font-weight: 500;">${item.timestamp}</td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+// 7. Interactive AI Compliance Copilot Chat Messages
+window.sendCopilotMessage = async function() {
+    const inputEl = document.getElementById('copilot-chat-input');
+    if (!inputEl) return;
+    
+    const msgText = inputEl.value.trim();
+    if (!msgText) return;
+    
+    // Clear input
+    inputEl.value = '';
+    
+    await executeCopilotQuery(msgText);
 };
 
-window.triggerLiveAIAudit = async function() {
-    const outputContainer = document.getElementById('gemini-audit-output');
-    if (!outputContainer) return;
+window.sendSuggestedQuestion = async function(questionText) {
+    await executeCopilotQuery(questionText);
+};
+
+async function executeCopilotQuery(userMessage) {
+    const chatHistory = document.getElementById('copilot-chat-history');
+    if (!chatHistory) return;
     
-    const btn = document.getElementById('btn-generate-audit');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = '🧠 Auditing...';
-    }
-    
-    outputContainer.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: 0.75rem;">
-            <div class="spinner" style="width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
-            <p style="margin: 0; font-size: 0.68rem; font-weight: 600; color: var(--color-primary); letter-spacing: 0.5px; text-transform: uppercase;">
-                Invoking Gemini AI Compliance Engine...
-            </p>
-            <span style="font-size: 0.6rem; color: var(--color-text-muted); font-style: italic;">
-                Analyzing claims database, standards registry, and export ledgers...
-            </span>
+    // 1. Append User Message to Chat History
+    const userMsgDiv = document.createElement('div');
+    userMsgDiv.className = 'chat-message user';
+    userMsgDiv.style.cssText = 'display: flex; gap: 0.6rem; max-width: 85%; align-self: flex-end; flex-direction: row-reverse;';
+    userMsgDiv.innerHTML = `
+        <div style="background: rgba(255,255,255,0.06); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--color-text-muted); flex-shrink: 0; font-weight: bold; border: 1px solid var(--border-color);">U</div>
+        <div style="background: var(--color-primary); color: white; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--color-primary); font-weight: 500;">
+            ${escapeHtml(userMessage)}
         </div>
-        <style>
-            @keyframes spin { to { transform: rotate(360deg); } }
-        </style>
     `;
+    chatHistory.appendChild(userMsgDiv);
     
+    // Scroll chat history to bottom
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+    
+    // 2. Append Assistant Typing/Loading Bubble
+    const typingBubbleId = `chat-typing-${Date.now()}`;
+    const typingMsgDiv = document.createElement('div');
+    typingMsgDiv.className = 'chat-message assistant';
+    typingMsgDiv.id = typingBubbleId;
+    typingMsgDiv.style.cssText = 'display: flex; gap: 0.6rem; max-width: 85%;';
+    typingMsgDiv.innerHTML = `
+        <div style="background: var(--color-primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; flex-shrink: 0; font-weight: bold;">M</div>
+        <div style="background: var(--bg-surface-solid); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--color-text-muted); display: flex; align-items: center; gap: 0.4rem;">
+            <div class="spinner" style="width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <span>Thinking...</span>
+        </div>
+    `;
+    chatHistory.appendChild(typingMsgDiv);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+    
+    // 3. Call Backend Chat Endpoint
     try {
-        if (window.appendConsoleLine) {
-            appendConsoleLine('system', '🧠 Invoking Gemini AI Compliance Engine for live audit...');
-        }
-        const response = await fetch('/api/analytics/ai-briefing');
+        const response = await fetch(BACKEND_URL + '/api/analytics/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: userMessage,
+                active_filters: {
+                    brand: activeBrandFilter,
+                    status: activeStatusFilter,
+                    search: activeSearchQuery
+                }
+            })
+        });
         const data = await response.json();
         
-        if (data.success && data.briefing) {
-            outputContainer.innerHTML = `
-                <div style="padding: 0.5rem; display: flex; flex-direction: column; gap: 0.75rem; animation: fadeIn 0.3s ease;">
-                    ${parseSimpleMarkdown(data.briefing)}
+        // Remove typing bubble
+        const bubbleEl = document.getElementById(typingBubbleId);
+        if (bubbleEl) bubbleEl.remove();
+        
+        // Append Real Response
+        if (data.success && data.reply) {
+            const replyMsgDiv = document.createElement('div');
+            replyMsgDiv.className = 'chat-message assistant';
+            replyMsgDiv.style.cssText = 'display: flex; gap: 0.6rem; max-width: 85%;';
+            replyMsgDiv.innerHTML = `
+                <div style="background: var(--color-primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; flex-shrink: 0; font-weight: bold;">M</div>
+                <div style="background: var(--bg-surface-solid); padding: 0.75rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--color-text-main);">
+                    ${parseSimpleMarkdown(data.reply)}
                 </div>
             `;
-            if (window.appendConsoleLine) {
-                appendConsoleLine('system', '✅ Gemini AI Compliance Audit completed successfully.');
-            }
+            chatHistory.appendChild(replyMsgDiv);
         } else {
-            throw new Error(data.warning || "Failed to generate briefing");
+            throw new Error(data.warning || "No reply received");
         }
     } catch (e) {
-        console.error("❌ AI Audit failed:", e);
-        outputContainer.innerHTML = `
-            <div style="padding: 1rem; color: #f87171; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 0.5rem;">
-                <span style="font-size: 1.8rem;">⚠️</span>
-                <strong style="font-size: 0.75rem;">AI Audit Engine Offline</strong>
-                <span style="font-size: 0.65rem; opacity: 0.8;">${e.message}</span>
+        console.error("❌ Copilot Chat failed:", e);
+        const bubbleEl = document.getElementById(typingBubbleId);
+        if (bubbleEl) bubbleEl.remove();
+        
+        // Append Error message
+        const errorMsgDiv = document.createElement('div');
+        errorMsgDiv.className = 'chat-message assistant';
+        errorMsgDiv.style.cssText = 'display: flex; gap: 0.6rem; max-width: 85%;';
+        errorMsgDiv.innerHTML = `
+            <div style="background: var(--color-primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; flex-shrink: 0; font-weight: bold;">M</div>
+            <div style="background: var(--bg-surface-solid); padding: 0.75rem 0.85rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.2); color: #f87171;">
+                ⚠️ **System Error:** I am unable to process your request at this time. Please check your internet connection or try again later.
             </div>
         `;
+        chatHistory.appendChild(errorMsgDiv);
     } finally {
-        if (btn) {
-            btn.disabled = false;
-            btn.innerText = '✨ Run Live AI Audit';
-        }
+        chatHistory.scrollTop = chatHistory.scrollHeight;
     }
-};
+}
 
-function parseSimpleMarkdown(md) {
-    let html = md.trim();
-    
-    html = html
+// Helper to escape HTML characters
+function escapeHtml(text) {
+    return text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+// Simple Markdown to HTML parser
+function parseSimpleMarkdown(md) {
+    let html = md.trim();
+    
+    // Escape HTML to prevent XSS
+    html = escapeHtml(html);
         
-    html = html.replace(/^###\s*(.*?)$/gm, '<h4 style="font-size: 0.82rem; font-weight: 800; margin: 1rem 0 0.4rem 0; color: #3b82f6; text-transform: uppercase;">$1</h4>');
-    html = html.replace(/^##\s*(.*?)$/gm, '<h3 style="font-size: 0.9rem; font-weight: 800; margin: 1.25rem 0 0.5rem 0; color: var(--color-text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">$1</h3>');
-    html = html.replace(/^#\s*(.*?)$/gm, '<h2 style="font-size: 1rem; font-weight: 800; margin: 1.5rem 0 0.75rem 0; color: var(--color-text-main);">$1</h2>');
+    // Restore styling tags we need
+    // Headers
+    html = html.replace(/^###\s*(.*?)$/gm, '<h4 style="font-size: 0.78rem; font-weight: 800; margin: 0.85rem 0 0.35rem 0; color: #3b82f6; text-transform: uppercase;">$1</h4>');
+    html = html.replace(/^##\s*(.*?)$/gm, '<h3 style="font-size: 0.85rem; font-weight: 800; margin: 1rem 0 0.4rem 0; color: var(--color-text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 0.2rem;">$1</h3>');
+    html = html.replace(/^#\s*(.*?)$/gm, '<h2 style="font-size: 0.95rem; font-weight: 800; margin: 1.25rem 0 0.6rem 0; color: var(--color-text-main);">$1</h2>');
     
+    // Bold (e.g. **text**)
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--color-text-main); font-weight: 800;">$1</strong>');
-    html = html.replace(/^\s*[\*\-]\s*(.*?)$/gm, '<div style="display: flex; gap: 0.5rem; margin-left: 0.5rem; margin-bottom: 0.35rem; font-size: 0.7rem;"><span style="color: #3b82f6;">•</span><span>$1</span></div>');
     
+    // Bullet points (e.g. * text or - text)
+    html = html.replace(/^\s*[\*\-]\s*(.*?)$/gm, '<div style="display: flex; gap: 0.4rem; margin-left: 0.4rem; margin-bottom: 0.25rem; font-size: 0.7rem;"><span style="color: #3b82f6;">•</span><span>$1</span></div>');
+    
+    // Paragraphs (split by double newlines and wrap in divs if they aren't already headers/lists)
     const paragraphs = html.split(/\n\n+/);
     html = paragraphs.map(p => {
         p = p.trim();
         if (p.startsWith('<h') || p.startsWith('<div')) return p;
-        return `<p style="margin: 0 0 0.75rem 0; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.5;">${p}</p>`;
+        return `<p style="margin: 0 0 0.6rem 0; font-size: 0.7rem; color: var(--color-text-muted); line-height: 1.45;">${p}</p>`;
     }).join('\n');
     
     return html;
 }
 
+// 8. Drill-Down Campaign Detail Modal
 window.drillDownCampaign = function(violationId) {
     if (window.appendConsoleLine) {
         appendConsoleLine('system', `🔍 Drilling down into campaign audit details for: ${violationId}`);

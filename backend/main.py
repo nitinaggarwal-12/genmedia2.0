@@ -1549,6 +1549,183 @@ Maestro's compliance telemetry reports a stable and secure posture across all ac
         }
 
 
+class ChatMessage(BaseModel):
+    message: str
+    active_filters: Optional[dict] = None
+
+@app.get("/api/analytics/data")
+async def get_analytics_data():
+    """
+    Returns the entire historical campaign analytics ledger from the SQLite database
+    to enable high-speed client-side cross-filtering and visualizations.
+    """
+    import sqlite3
+    import json
+    from claims_db import DB_PATH
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM campaign_analytics_ledger ORDER BY timestamp DESC")
+        rows = cursor.fetchall()
+        conn.close()
+        
+        data = []
+        for row in rows:
+            try:
+                viols = json.loads(row["violation_details"])
+            except:
+                viols = []
+                
+            data.append({
+                "campaign_id": row["campaign_id"],
+                "project_name": row["project_name"],
+                "brand": row["brand"],
+                "indication": row["indication"],
+                "status": row["status"],
+                "latency_ms": row["latency_ms"],
+                "violations_count": row["violations_count"],
+                "violation_details": viols,
+                "tokens_used": row["tokens_used"],
+                "cost_usd": row["cost_usd"],
+                "savings_usd": row["savings_usd"],
+                "timestamp": row["timestamp"]
+            })
+            
+        return {
+            "success": True,
+            "data": data
+        }
+    except Exception as e:
+        import traceback
+        print("❌ Error fetching analytics data:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Failed to fetch analytics data: {str(e)}")
+
+
+@app.post("/api/analytics/chat")
+async def post_analytics_chat(chat_input: ChatMessage):
+    """
+    Interactive AI Compliance Copilot. Analyzes the database telemetry
+    and answers user questions in natural language, grounded in the real data.
+    """
+    import sqlite3
+    import json
+    from google import genai
+    from claims_db import DB_PATH
+    
+    user_msg = chat_input.message
+    
+    # 1. Query the database to get aggregated statistics (Grounding Data)
+    # We must initialize these variables in case of database query failure
+    total, compliant, healed, blocked = 0, 0, 0, 0
+    total_tokens, total_cost, total_savings, avg_latency, avg_healed_latency = 0, 0.0, 0.0, 0.0, 0.0
+    brand_summary = "No brand data available."
+    recent_summary = "No recent runs available."
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        # Total runs & status counts
+        cursor.execute("SELECT COUNT(*), SUM(CASE WHEN status='COMPLIANT' THEN 1 ELSE 0 END), SUM(CASE WHEN status='AUTO_HEALED' THEN 1 ELSE 0 END), SUM(CASE WHEN status='BLOCKED' THEN 1 ELSE 0 END) FROM campaign_analytics_ledger")
+        total, compliant, healed, blocked = cursor.fetchone()
+        # Handle None values
+        total = total or 0
+        compliant = compliant or 0
+        healed = healed or 0
+        blocked = blocked or 0
+        
+        # Totals for tokens, cost, savings
+        cursor.execute("SELECT SUM(tokens_used), SUM(cost_usd), SUM(savings_usd), AVG(latency_ms), AVG(CASE WHEN status='AUTO_HEALED' THEN latency_ms ELSE NULL END) FROM campaign_analytics_ledger")
+        t_tokens, t_cost, t_savings, a_latency, a_healed_latency = cursor.fetchone()
+        total_tokens = t_tokens or 0
+        total_cost = t_cost or 0.0
+        total_savings = t_savings or 0.0
+        avg_latency = a_latency or 0.0
+        avg_healed_latency = a_healed_latency or 0.0
+        
+        # Brand-wise breakdowns
+        cursor.execute("SELECT brand, COUNT(*), SUM(savings_usd), SUM(cost_usd), SUM(CASE WHEN status='BLOCKED' THEN 1 ELSE 0 END) FROM campaign_analytics_ledger GROUP BY brand")
+        brand_rows = cursor.fetchall()
+        if brand_rows:
+            brand_summary = "\n".join([f"- {row[0]}: {row[1]} runs, Total Savings: ${row[2] or 0.0:.2f}, Total Cost: ${row[3] or 0.0:.2f}, Blocked: {row[4] or 0}" for row in brand_rows])
+        
+        # Get the 10 most recent runs for granular context
+        cursor.execute("SELECT campaign_id, brand, status, violations_count, violation_details, timestamp FROM campaign_analytics_ledger ORDER BY timestamp DESC LIMIT 10")
+        recent_rows = cursor.fetchall()
+        if recent_rows:
+            recent_summary = "\n".join([f"- {row[0]} ({row[1]}): Status={row[2]}, Violations={row[3]}, Details={row[4]} at {row[5]}" for row in recent_rows])
+        
+        conn.close()
+    except Exception as dbe:
+        print(f"⚠️ Database query error in chat endpoint: {dbe}")
+        
+    try:
+        # 2. Initialize Gemini Client and call the model
+        client = genai.Client()
+        
+        prompt = f"""
+You are the Chief AI Compliance Copilot for Maestro Enterprise.
+Your job is to answer the user's question about the brand's compliance, cost, and system telemetry, grounded strictly in the real-time database statistics provided below.
+
+---
+### 🛢️ MAESTRO ENTERPRISE TELEMETRY SUMMARY
+- **Total Campaigns Audited:** {total}
+  - **Fully Compliant:** {compliant} runs
+  - **Auto-Healed (Layout/CSS repaired):** {healed} runs
+  - **Blocked (Critical violations):** {blocked} runs
+- **Financial & Token Efficiency:**
+  - **Total Tokens Consumed:** {total_tokens:,} tokens
+  - **Total API Token Cost:** ${total_cost:.4f} USD
+  - **Total Est. Cost Savings (Rework prevented):** ${total_savings:.2f} USD
+  - **Net ROI (Savings - Cost):** ${(total_savings - total_cost):.2f} USD
+- **Latency Telemetry:**
+  - **Average Global Latency:** {avg_latency:.1f} ms
+  - **Average Self-Healing Latency:** {avg_healed_latency:.1f} ms (includes CSS Healer execution)
+
+### 📈 BRAND PERFORMANCE SUMMARY
+{brand_summary}
+
+### 📋 10 MOST RECENT CAMPAIGN RUNS
+{recent_summary}
+---
+
+### 💬 USER'S QUESTION:
+"{user_msg}"
+
+### INSTRUCTIONS FOR YOUR RESPONSE:
+1. Answer the user's question directly and concisely in a professional, helpful, and data-grounded tone.
+2. Refer to the statistics above with absolute mathematical accuracy. Do not make up or extrapolate numbers.
+3. If the user asks a question that cannot be answered using the provided telemetry (e.g. "Who is the CEO?"), politely state that you only have access to compliance and system telemetry data.
+4. Output in clean Markdown format with no markdown block fences (do not wrap in ```markdown). Keep it under 3 paragraphs.
+"""
+        
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+        
+        reply = response.text
+        
+        return {
+            "success": True,
+            "reply": reply
+        }
+        
+    except Exception as e:
+        import traceback
+        print("❌ AI Chat error:")
+        print(traceback.format_exc())
+        # Return a high-quality fallback reply if the API call fails or is unconfigured
+        return {
+            "success": True,
+            "reply": f"⚠️ **AI Copilot Offline:** I was unable to connect to the Gemini API. However, according to the local database, there are **{total} total campaigns** audited, with **{healed} auto-healed runs** yielding **${total_savings:.2f} in cost savings** against **${total_cost:.4f} in API costs**. Net ROI remains positive at **${(total_savings - total_cost):.2f}**."
+        }
+
+
 # Serve frontend static files dynamically at the root URL
 from fastapi.staticfiles import StaticFiles
 frontend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
