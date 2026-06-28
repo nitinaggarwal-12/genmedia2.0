@@ -1412,7 +1412,7 @@
                         </div>
                         
                         <!-- Suggested Questions Pills -->
-                        <div id="copilot-suggested-questions" style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; flex-shrink: 0;">
+                        <div id="copilot-suggested-questions" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 0.4rem; margin-bottom: 0.85rem; flex-shrink: 0; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;">
                             <span class="chat-suggested-pill" onclick="sendSuggestedQuestion('What is our total cost savings and net ROI across all brands?')">💰 Total Cost Savings & ROI</span>
                             <span class="chat-suggested-pill" onclick="sendSuggestedQuestion('Which brand has the highest layout violation rate?')">⚠️ Highest Layout Violations</span>
                             <span class="chat-suggested-pill" onclick="sendSuggestedQuestion('Show me a summary of the 3 most recent blocked campaigns.')">🚫 Recent Blocked Runs</span>
@@ -1578,6 +1578,11 @@
                         color: var(--color-text-muted);
                         cursor: pointer;
                         transition: var(--transition-smooth);
+                        white-space: nowrap;
+                        flex-shrink: 0;
+                    }
+                    #copilot-suggested-questions::-webkit-scrollbar {
+                        display: none;
                     }
                     .chat-suggested-pill:hover {
                         color: var(--color-text-main);
