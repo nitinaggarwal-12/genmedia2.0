@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Theme Management (Light / Dark Mode Toggle)
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('genmedia_theme') || 'light';
     const themeIcon = document.getElementById('theme-icon');
     
     if (savedTheme === 'light') {
@@ -62,11 +62,11 @@ function toggleTheme() {
     
     if (isLight) {
         if (themeIcon) themeIcon.innerText = '☀️';
-        localStorage.setItem('theme', 'light');
+        localStorage.setItem('genmedia_theme', 'light');
         appendConsoleLine('system', '🌓 Theme toggled to Executive Light Mode.');
     } else {
         if (themeIcon) themeIcon.innerText = '🌙';
-        localStorage.setItem('theme', 'dark');
+        localStorage.setItem('genmedia_theme', 'dark');
         appendConsoleLine('system', '🌓 Theme toggled to Premium Dark Mode.');
     }
     
