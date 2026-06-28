@@ -44,64 +44,246 @@
             }
         }
     </style>
+
+    <style type="text/css">
+        /* MODERN DARK THEME OVERRIDES (Based on Mockup) */
+        :root {
+            --bg-main: #0f1219;
+            --bg-sidebar: #181d29;
+            --bg-surface: #1e2433;
+            --bg-surface-solid: #272e40;
+            --bg-surface-hover: #333b52;
+            --color-text-main: #f8fafc;
+            --color-text-muted: #94a3b8;
+            --border-color: #2d3748;
+            --color-primary: #3b82f6;
+            --color-primary-glow: rgba(59, 130, 246, 0.2);
+            --color-secondary: #8b5cf6;
+            --transition-smooth: all 0.2s ease;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main) !important; 
+            color: var(--color-text-main) !important; 
+            overflow: hidden; 
+        }
+
+        /* Force horizontal row layout for sidebar + content */
+        .app-container { 
+            display: flex !important; 
+            flex-direction: row !important; 
+            height: 100vh !important; 
+            width: 100vw !important; 
+            background-color: var(--bg-main);
+        }
+
+        /* LEFT PANE SIDEBAR */
+        .sidebar { 
+            width: 260px; 
+            min-width: 260px; 
+            height: 100vh !important; /* Force full height */
+            background-color: var(--bg-sidebar); 
+            border-right: 1px solid var(--border-color); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 1.5rem 1.25rem; 
+            box-sizing: border-box; 
+            z-index: 100; 
+        }
+        
+        /* Renamed to avoid collision with .logo-container in style.css */
+        .sidebar-logo-container { 
+            margin-bottom: 2.5rem; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .logo-icon-box { 
+            background: var(--color-primary); 
+            color: white; 
+            width: 32px; height: 32px; 
+            border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 1.1rem; 
+            margin-bottom: 1rem; 
+        }
+        .brand-h1 { font-size: 1.15rem; font-weight: 800; margin: 0; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-main); }
+        .brand-badge { font-size: 0.5rem; background: rgba(59, 130, 246, 0.2); color: #93c5fd; padding: 0.25rem 0.4rem; border-radius: 4px; font-weight: 800; letter-spacing: 0.5px; }
+        .brand-p { font-size: 0.65rem; color: var(--color-text-muted); margin: 0.35rem 0 0 0; line-height: 1.4; }
+
+        /* NAVIGATION LINKS */
+        .side-nav { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+        .side-nav-btn { 
+            background: transparent; 
+            color: var(--color-text-muted); 
+            border: 1px solid transparent; 
+            padding: 0.8rem 1rem; 
+            border-radius: 8px; 
+            text-align: left; 
+            font-size: 0.72rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition-smooth); 
+            outline: none; 
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .side-nav-btn:hover { background: rgba(255,255,255,0.03); color: var(--color-text-main); }
+        .side-nav-btn.active { 
+            background: var(--bg-surface-solid); 
+            color: var(--color-text-main); 
+            border: 1px solid var(--border-color); 
+            font-weight: 800; 
+            box-shadow: var(--shadow-sm); 
+        }
+
+        /* BOTTOM ACTIONS */
+        .sidebar-bottom-actions { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+        .action-btn { 
+            background: transparent; 
+            color: var(--color-text-muted); 
+            border: 1px solid var(--border-color); 
+            padding: 0.6rem; 
+            border-radius: 8px; 
+            font-size: 0.72rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition-smooth); 
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .action-btn:hover { background: var(--bg-surface-solid); color: var(--color-text-main); }
+        .action-btn.primary { background: var(--color-primary); color: white; border-color: var(--color-primary); font-weight: 700; }
+        .action-btn.primary:hover { filter: brightness(1.1); background: var(--color-primary); }
+        
+        .status-badge { 
+            background: rgba(16, 185, 129, 0.08); 
+            border: 1px solid rgba(16, 185, 129, 0.2); 
+            color: #34d399; 
+            padding: 0.6rem; 
+            border-radius: 8px; 
+            font-size: 0.6rem; 
+            font-weight: 800; 
+            text-align: center; 
+            display: flex; align-items: center; justify-content: center; gap: 0.35rem; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .pulse-dot { width: 6px; height: 6px; background: #34d399; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px rgba(52, 211, 153, 0.6); }
+
+        /* MAIN CONTENT AREA */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            overflow-y: auto; 
+            background-color: var(--bg-main) !important; 
+            padding: 1.5rem 2rem !important; /* Override legacy padding */
+            padding-top: 1.5rem !important;  /* Force remove legacy top header padding! */
+            margin-top: 0 !important;         /* Force remove legacy top header margin! */
+            box-sizing: border-box; 
+            height: 100vh;
+        }
+        
+        .phase-container { display: flex; flex-direction: column; height: 100%; width: 100%; }
+
+        /* HEADER BANNER */
+        .gradient-banner {
+            background: linear-gradient(135deg, #d8f3dc 0%, #e0e7ff 50%, #fcd5ce 100%);
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .gradient-banner h2 { font-size: 1.4rem; font-weight: 800; margin: 0; font-family: 'Outfit', sans-serif; color: #0f172a; text-transform: uppercase; letter-spacing: -0.5px;}
+        .gradient-banner p { font-size: 0.78rem; font-weight: 600; margin: 0.4rem 0 0 0; color: #334155; }
+
+        /* OVERRIDING INLINE STYLES FOR PARTIAL LIGHT CONTENT */
+        .phase-title-strip { display: none !important; }
+        .cdo-metric-card { 
+            background: var(--bg-surface) !important; 
+            border: 1px solid var(--border-color) !important; 
+            border-radius: 12px; 
+            box-shadow: var(--shadow-lg); 
+        }
+        div[style*="background: rgba(0,0,0,0.15)"] { 
+            background: var(--bg-surface-solid) !important; 
+            border-color: var(--border-color) !important; 
+        }
+        .panel-header-compact h3 { color: var(--color-text-main) !important; }
+        .panel-header-compact p { color: var(--color-text-muted) !important; }
+        .heatmap-table th { color: var(--color-text-muted) !important; }
+        .heatmap-table td { color: var(--color-text-main) !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; }
+        
+        .heatmap-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 800; border: 1px solid; }
+        .zero-teal { color: #2dd4bf !important; background: rgba(45, 212, 191, 0.1) !important; border-color: rgba(45, 212, 191, 0.2) !important; }
+        .zero-blue { color: #60a5fa !important; background: rgba(96, 165, 250, 0.1) !important; border-color: rgba(96, 165, 250, 0.2) !important; }
+        .zero-purple { color: #a78bfa !important; background: rgba(167, 139, 250, 0.1) !important; border-color: rgba(167, 139, 250, 0.2) !important; }
+        .gold-g { color: #fbbf24 !important; background: rgba(251, 191, 36, 0.1) !important; border-color: rgba(251, 191, 36, 0.2) !important; }
+        .red-delta { color: #f87171 !important; background: rgba(248, 113, 113, 0.1) !important; border-color: rgba(248, 113, 113, 0.2) !important; }
+        .orange-o { color: #fb923c !important; background: rgba(251, 146, 60, 0.1) !important; border-color: rgba(251, 146, 60, 0.2) !important; }
+
+        /* Remove legacy layout elements */
+        .app-header { display: none !important; }
+        .phase-connector-card, .phase-connector-card-left { display: none !important; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+    </style>
+
 </head>
 <body class="light-theme">
     <div class="app-container">
         <!-- TOP NAVIGATION BAR (Premium Restructured Header matching Mockups!) -->
-        <header class="app-header">
-            <div class="header-left" onclick="switchPhase(-1)" style="cursor: pointer; transition: var(--transition-smooth);" onmouseover="this.style.filter='brightness(1.25)'" onmouseout="this.style.filter='none'">
-                <div class="logo-container">
-                    <span class="logo-icon">M</span>
-                </div>
-                <div class="brand-info">
-                    <h1>MAESTRO <span class="header-badge-contentstudio">ContentStudio</span></h1>
-                    <p>Agentic Marketing Workbench & Compliance Ledger</p>
-                </div>
+                <!-- RESTUCTURED LEFT PANE NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-logo-container">
+                <div class="logo-icon-box">M</div>
+                <h1 class="brand-h1">MAESTRO <span class="brand-badge">CONTENTSTUDIO</span></h1>
+                <p class="brand-p">Agentic Marketing Workbench &<br>Compliance Ledger</p>
             </div>
-            
-            <!-- Global Header Menu Text Navigation (Stationary & Elegant!) -->
-            <div class="header-workflow-nav" id="header-workflow-nav" style="display: flex; align-items: center; gap: 0.8rem; justify-content: center; flex: 1; box-sizing: border-box;">
-                <button onclick="switchPhase(-1)" id="global-nav-btn--1" class="global-nav-btn" title="Global Strategic Command Center">Command Center</button>
-                <span style="font-size: 0.6rem; color: var(--color-text-muted); opacity: 0.4;">➔</span>
-                <button onclick="switchPhase(1)" id="global-nav-btn-1" class="global-nav-btn" title="Clinical Ingest Deck">Clinical Ingest</button>
-                <span style="font-size: 0.6rem; color: var(--color-text-muted); opacity: 0.4;">➔</span>
-                <button onclick="switchPhase(2)" id="global-nav-btn-2" class="global-nav-btn" title="Creative Composer Workbench">Creative Composer</button>
-                <span style="font-size: 0.6rem; color: var(--color-text-muted); opacity: 0.4;">➔</span>
-                <button onclick="switchPhase(3)" id="global-nav-btn-3" class="global-nav-btn" title="Governance & Compliance Ledger">Governance Ledger</button>
-            </div>
-            
-            <!-- Hidden Legacy Navigation Tabs (Kept in DOM to guarantee zero JS selector breakage!) -->
-            <nav class="header-nav" style="display: none !important;">
-                <button class="nav-link tab-btn active" onclick="switchTab('workbench')" id="tab-btn-workbench">Marketing Workbench</button>
-                <button class="nav-link tab-btn" onclick="switchTab('explorer')" id="tab-btn-explorer">Claims Graph Explorer</button>
-                <button class="nav-link tab-btn" onclick="switchTab('ledger')" id="tab-btn-ledger">Compliance Ledger</button>
-                <button class="nav-link tab-btn" onclick="switchTab('analytics')" id="tab-btn-analytics">Analytics & Audits</button>
+
+            <nav class="side-nav" id="header-workflow-nav">
+                <button onclick="switchPhase(-1)" id="global-nav-btn--1" class="side-nav-btn active">COMMAND CENTER</button>
+                <button onclick="switchPhase(1)" id="global-nav-btn-1" class="side-nav-btn">CLINICAL INGEST</button>
+                <button onclick="switchPhase(2)" id="global-nav-btn-2" class="side-nav-btn">CREATIVE COMPOSER</button>
+                <button onclick="switchPhase(3)" id="global-nav-btn-3" class="side-nav-btn">GOVERNANCE LEDGER</button>
             </nav>
-            
-            <div class="header-right">
-                <!-- Premium Interactive Tour Button -->
-                <button id="btn-tour-trigger" onclick="startInteractiveTour()" class="btn btn-primary btn-small btn-tour-trigger" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; outline: none; transition: var(--transition-smooth); background: var(--color-primary); border: 1px solid var(--color-primary); color: #ffffff; margin-right: 0.4rem;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter='none'">
-                    <span>🚀</span> Start Tour
+
+            <div class="sidebar-bottom-actions">
+                <button class="action-btn primary btn-tour-trigger" id="btn-tour-trigger" onclick="startInteractiveTour()">🚀 Start Tour</button>
+                <button class="action-btn btn-guide-trigger" onclick="window.open('/user_guide.html','_blank')">📖 User Guide</button>
+                <button class="action-btn btn-analytics-trigger" onclick="toggleDiagnosticsModal()">📊 Analytics</button>
+                
+                <div class="status-badge compliance-badge" id="header-compliance-badge">
+                    <span class="pulse-dot"></span> FDA & VEEVA PROM...-LOCKED
+                </div>
+                
+                <button class="action-btn user-profile" id="btn-role-selector" style="justify-content: space-between; padding: 0.6rem 0.8rem;">
+                    <span style="display: flex; align-items: center; gap: 0.4rem;">👤 nitinagge-ge-2</span>
+                    <span>⚙️</span>
                 </button>
-                <!-- Premium User Guide Link -->
-                <a href="/user_guide.html" target="_blank" class="btn btn-secondary btn-small btn-guide-trigger" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; text-decoration: none; outline: none; transition: var(--transition-smooth); background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: var(--color-text-main);">
-                    <span>📖</span> User Guide
-                </a>
-                <!-- Interactive Analytics button matching the mockup -->
-                <button class="btn btn-secondary btn-small btn-analytics-trigger" onclick="toggleDiagnosticsModal()" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; outline: none; transition: var(--transition-smooth); background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: var(--color-text-main);">
-                    <span>📊</span> Analytics
-                </button>
-                <span class="compliance-badge" id="header-compliance-badge">
-                    <span class="pulse-icon-green"></span> FDA & VEEVA PROMC-LOCKED
-                </span>
-                <span class="user-profile" id="btn-role-selector">
-                    <span style="font-size: 0.65rem;">👤</span> nitinagga-ge-2
-                </span>
-                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
-                    <span class="theme-icon" id="theme-icon">☀️</span>
+                
+                <!-- Preserved Theme Toggle for 100% Scripting Compatibility -->
+                <button class="action-btn theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme" style="justify-content: center; gap: 0.5rem; margin-top: 0.25rem;">
+                    <span id="theme-icon">☀️</span> Toggle Theme
                 </button>
             </div>
-        </header>
+        </aside>
 
         <!-- MAIN WORKSPACE CONTENT (Dedicated Viewport Router) -->
         <main class="main-content">
@@ -111,9 +293,9 @@
                 
                 <!-- PHASE -1: GLOBAL STRATEGIC INTELLIGENCE COMMAND CENTER -->
                 <div class="phase-container" id="phase-minus1-view" style="display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%;">
-                    <div class="phase-title-strip" style="padding: 1.25rem 2rem 0 2rem; box-sizing: border-box;">
-                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--color-text-main); margin: 0; font-family: 'Outfit';">COMMAND CENTER: GLOBAL STRATEGIC INTELLIGENCE</h2>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">The foundational strategic intelligence hub of the Maestro Enterprise Ecosystem.</p>
+                    <div class="gradient-banner">
+                        <h2>COMMAND CENTER: GLOBAL STRATEGIC INTELLIGENCE</h2>
+                        <p>The foundational strategic intelligence hub of the Maestro Enterprise Ecosystem.</p>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 52fr 48fr; flex: 1; min-height: 0; overflow: hidden; padding: 1.5rem 2rem; gap: 1.5rem; box-sizing: border-box; position: relative;">
@@ -290,9 +472,9 @@
 
                 <!-- PHASE 0: STRATEGIC PORTFOLIO & CAMPAIGN PLANNING -->
                 <div class="phase-container" id="phase-0-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%;">
-                    <div class="phase-title-strip" style="padding: 1.25rem 2rem 0 2rem; box-sizing: border-box;">
-                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--color-text-main); margin: 0; font-family: 'Outfit';">STRATEGIC PORTFOLIO & CAMPAIGN PLANNING</h2>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">Orchestrate and coordinate campaign strategy, briefs, and indications.</p>
+                    <div class="gradient-banner">
+                        <h2>STRATEGIC PORTFOLIO & CAMPAIGN PLANNING</h2>
+                        <p>Orchestrate and coordinate campaign strategy, briefs, and indications.</p>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 58fr 42fr; flex: 1; min-height: 0; overflow: hidden; padding: 1.5rem 2rem; gap: 1.5rem; box-sizing: border-box; position: relative;">
