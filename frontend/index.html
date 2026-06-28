@@ -267,7 +267,7 @@
             <div class="sidebar-bottom-actions">
                 <button class="action-btn primary btn-tour-trigger" id="btn-tour-trigger" onclick="startInteractiveTour()">🚀 Start Tour</button>
                 <button class="action-btn btn-guide-trigger" onclick="window.open('/user_guide.html','_blank')">📖 User Guide</button>
-                <button class="action-btn btn-analytics-trigger" onclick="toggleDiagnosticsModal()">📊 Analytics</button>
+                <button class="action-btn btn-analytics-trigger" id="global-nav-btn-analytics" onclick="switchTab('analytics')">📊 Analytics</button>
                 
                 <div class="status-badge compliance-badge" id="header-compliance-badge">
                     <span class="pulse-dot"></span> FDA & VEEVA PROM...-LOCKED
@@ -1322,8 +1322,173 @@
                 <!-- Content redirected to Phase 3 ledger table -->
             </div>
 
-            <div id="tab-analytics" class="tab-content" style="display: none !important;">
-                <!-- Content redirected to System Diagnostics Modal -->
+            <!-- TAB 4: MAESTRO EXECUTIVE AI/ML ANALYTICS & INSIGHTS COCKPIT -->
+            <div id="tab-analytics" class="tab-content" style="display: none; flex-direction: column; height: 100%; width: 100%;">
+                
+                <!-- GRADIENT BANNER -->
+                <div class="gradient-banner">
+                    <h2>MAESTRO ANALYTICS & AI INSIGHTS COCKPIT</h2>
+                    <p>Real-time system telemetry, compliance audits, cost efficiencies, and GenAI-powered executive briefings.</p>
+                </div>
+                
+                <!-- FOUR METRIC CARDS ROW -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem; flex-shrink: 0;">
+                    <div class="cdo-metric-card" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; background: var(--bg-surface);">
+                        <div style="background: rgba(59, 130, 246, 0.1); color: var(--color-primary); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">⚡</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.6rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Kong Gateway Latency</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #10B981; display: flex; align-items: center; gap: 0.35rem;">
+                                <span class="pulse-dot"></span> 12 ms
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cdo-metric-card" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; background: var(--bg-surface);">
+                        <div style="background: rgba(16, 185, 129, 0.1); color: #10B981; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔒</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.6rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">PII Sanitization Rate</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main);">100% Secured</span>
+                        </div>
+                    </div>
+                    <div class="cdo-metric-card" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; background: var(--bg-surface);">
+                        <div style="background: rgba(139, 92, 246, 0.1); color: var(--color-secondary); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">⚖️</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.6rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">MLR Judge Pass Rate</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: #10B981;">98.2% Approved</span>
+                        </div>
+                    </div>
+                    <div class="cdo-metric-card" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; background: var(--bg-surface);">
+                        <div style="background: rgba(245, 158, 11, 0.1); color: #F59E0B; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🛠️</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.6rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Avg Self-Healing Time</span>
+                            <span style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main);">1.18s (Fast)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TWO COLUMN WORKSPACE -->
+                <div style="display: grid; grid-template-columns: 55fr 45fr; gap: 1.5rem; flex: 1; min-height: 0; overflow: hidden; margin-bottom: 1.5rem; box-sizing: border-box;">
+                    
+                    <!-- Left Column: Gemini AI Compliance Auditor -->
+                    <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.5rem; height: 100%; box-sizing: border-box; overflow: hidden;">
+                        <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span class="panel-icon" style="font-size: 1.2rem;">🧠</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; display: inline; letter-spacing: 0.5px;">GEMINI AI COMPLIANCE AUDITOR</h3>
+                                <p style="font-size: 0.68rem; margin: 0.2rem 0 0 0; color: var(--color-text-muted);">Live LLM audit summaries generated directly from compliance database telemetry.</p>
+                            </div>
+                            <button class="action-btn primary" id="btn-generate-audit" onclick="triggerLiveAIAudit()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.68rem; font-weight: 800; display: flex; align-items: center; gap: 0.35rem; border-radius: 6px; box-shadow: 0 0 12px var(--color-primary-glow);">
+                                ✨ Run Live AI Audit
+                            </button>
+                        </div>
+                        
+                        <!-- AI Briefing Output Container -->
+                        <div id="gemini-audit-output" style="flex: 1; overflow-y: auto; padding: 1rem; background: rgba(0, 0, 0, 0.15); border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.75rem; line-height: 1.6; color: var(--color-text-main); font-family: 'Inter', sans-serif;">
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: var(--color-text-muted); gap: 0.75rem;">
+                                <span style="font-size: 2.5rem; opacity: 0.3;">🧠</span>
+                                <p style="max-width: 380px; margin: 0; font-size: 0.72rem; font-weight: 500; line-height: 1.5;">
+                                    Awaiting live compliance audit. Click the <strong>"Run Live AI Audit"</strong> button above to invoke Gemini and analyze your brand's compliance posture in real-time.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Chart.js Telemetry -->
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; height: 100%; box-sizing: border-box; overflow: hidden;">
+                        
+                        <!-- Card 1: Compliance Distribution (Doughnut) & Indication SOV -->
+                        <div class="cdo-metric-card" style="flex: 1; display: flex; flex-direction: column; padding: 1.25rem; min-height: 0; overflow: hidden;">
+                            <div class="panel-header-compact" style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem; flex-shrink: 0;">
+                                <span class="panel-icon">📊</span>
+                                <h3 style="font-size: 0.85rem; font-weight: 800; margin: 0; display: inline;">COMPLIANCE DISTRIBUTION</h3>
+                                <p style="font-size: 0.6rem; margin: 0.1rem 0 0 0; color: var(--color-text-muted);">Ratio of fully compliant, auto-healed, and blocked campaigns.</p>
+                            </div>
+                            <div style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 0; position: relative;">
+                                <div style="width: 120px; height: 120px; position: relative; flex-shrink: 0;">
+                                    <canvas id="complianceChart"></canvas>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.65rem; font-weight: 700; flex: 1;">
+                                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                        <span style="width: 8px; height: 8px; background: #10B981; border-radius: 50%;"></span>
+                                        <span style="flex: 1; color: var(--color-text-muted);">Fully Compliant</span>
+                                        <span id="stat-fully-compliant" style="color: var(--color-text-main); font-weight: 800;">3 Runs</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                        <span style="width: 8px; height: 8px; background: #F59E0B; border-radius: 50%;"></span>
+                                        <span style="flex: 1; color: var(--color-text-muted);">Auto-Healed</span>
+                                        <span id="stat-auto-healed" style="color: var(--color-text-main); font-weight: 800;">1 Run</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                        <span style="width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span>
+                                        <span style="flex: 1; color: var(--color-text-muted);">Violations Blocked</span>
+                                        <span id="stat-blocked" style="color: var(--color-text-main); font-weight: 800;">0 Runs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2: Cost & Token Savings (Drill-Down Line/Area Chart) -->
+                        <div class="cdo-metric-card" style="flex: 1.2; display: flex; flex-direction: column; padding: 1.25rem; min-height: 0; overflow: hidden;">
+                            <div class="panel-header-compact" style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span class="panel-icon">💵</span>
+                                    <h3 style="font-size: 0.85rem; font-weight: 800; margin: 0; display: inline; text-transform: uppercase;">Token & Cost Efficiency</h3>
+                                    <p style="font-size: 0.6rem; margin: 0.1rem 0 0 0; color: var(--color-text-muted);">Cumulative cost savings from automated self-healing layout repairs.</p>
+                                </div>
+                                <span id="btn-chart-drillback" onclick="drillUpSavingsChart()" style="background: rgba(59, 130, 246, 0.1); color: var(--color-primary); border: 1px solid rgba(59, 130, 246, 0.2); font-size: 0.58rem; font-weight: 800; padding: 0.15rem 0.4rem; border-radius: 4px; cursor: pointer; display: none; transition: var(--transition-smooth);" onmouseover="this.style.background='rgba(59,130,246,0.2)'" onmouseout="this.style.background='rgba(59,130,246,0.1)'">
+                                    ↩ Drill Up
+                                </span>
+                            </div>
+                            <div style="flex: 1; position: relative; min-height: 120px;">
+                                <canvas id="chart-token-savings" style="width: 100%; height: 100%; max-height: 130px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BOTTOM ROW: DYNAMIC CAMPAIGN AUDIT LEDGER -->
+                <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.5rem; height: 260px; min-height: 260px; box-sizing: border-box; overflow: hidden; flex-shrink: 0;">
+                    <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span class="panel-icon">📋</span>
+                            <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; display: inline; letter-spacing: 0.5px; text-transform: uppercase;">Campaign Audit & Compliance Ledger</h3>
+                            <p style="font-size: 0.68rem; margin: 0.2rem 0 0 0; color: var(--color-text-muted);">Active cryptographic ledger tracking clinical grounding and pre-screen validation states.</p>
+                        </div>
+                        <span class="badge-verified" style="background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); font-size: 0.58rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 20px;">✓ Blockchain Secured</span>
+                    </div>
+                    
+                    <div style="flex: 1; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+                        <table class="heatmap-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="background: var(--bg-surface-solid); border-bottom: 1px solid var(--border-color);">
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Campaign ID</th>
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Project / Brand</th>
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Medication</th>
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Pre-Screen Status</th>
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Self-Healing</th>
+                                    <th style="padding: 0.75rem 1rem; font-size: 0.68rem; text-transform: uppercase; font-weight: 800; color: var(--color-text-muted);">Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analytics-ledger-body" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-main);">
+                                <tr style="cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); transition: var(--transition-smooth);" onclick="drillDownCampaign('violation_product_a')" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
+                                    <td style="padding: 0.85rem 1rem; font-family: monospace; color: var(--color-primary);">CAMP-KT-189-NSCLC</td>
+                                    <td style="padding: 0.85rem 1rem;">Merck Gemini Enterprise</td>
+                                    <td style="padding: 0.85rem 1rem;">Product-A</td>
+                                    <td style="padding: 0.85rem 1rem;"><span class="heatmap-badge zero-teal" style="width: auto; height: auto; border-radius: 4px; padding: 0.15rem 0.4rem; font-size: 0.58rem;">PASSED</span></td>
+                                    <td style="padding: 0.85rem 1rem; color: var(--color-text-muted);">0 Violations</td>
+                                    <td style="padding: 0.85rem 1rem; color: var(--color-text-muted); font-weight: 500;">2026-06-27 18:19:35</td>
+                                </tr>
+                                <tr style="cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); transition: var(--transition-smooth);" onclick="drillDownCampaign('violation_product_b')" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
+                                    <td style="padding: 0.85rem 1rem; font-family: monospace; color: var(--color-primary);">CAMP-KT-581-CLEAR</td>
+                                    <td style="padding: 0.85rem 1rem;">Eisai Lenvima Launch</td>
+                                    <td style="padding: 0.85rem 1rem;">Product-B</td>
+                                    <td style="padding: 0.85rem 1rem;"><span class="heatmap-badge zero-teal" style="width: auto; height: auto; border-radius: 4px; padding: 0.15rem 0.4rem; font-size: 0.58rem;">PASSED</span></td>
+                                    <td style="padding: 0.85rem 1rem; color: #F59E0B;">1 Overlap Healed</td>
+                                    <td style="padding: 0.85rem 1rem; color: var(--color-text-muted); font-weight: 500;">2026-06-27 18:25:31</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </main>

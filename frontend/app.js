@@ -1454,34 +1454,69 @@ window.switchWorkflowMode = function(mode) {
 // ==========================================
 function switchTab(tabId) {
     // 📂 Navigated via Legacy Trigger -> Dynamic Router Proxy!
-    appendConsoleLine('system', `📂 Dynamic Router Proxy: Trapping legacy switchTab('${tabId}')`);
+    if (window.appendConsoleLine) {
+        appendConsoleLine('system', `📂 Dynamic Router Proxy: Trapping legacy switchTab('${tabId}')`);
+    }
+    
+    const workbenchTab = document.getElementById("tab-workbench");
+    const analyticsTab = document.getElementById("tab-analytics");
     
     if (tabId === 'workbench') {
-        //workbench is the main workflow container, show it and restore active phase
         document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active-tab"));
-        document.getElementById("tab-workbench").classList.add("active-tab");
+        if (workbenchTab) {
+            workbenchTab.classList.add("active-tab");
+            workbenchTab.style.setProperty('display', 'flex', 'important');
+        }
+        if (analyticsTab) {
+            analyticsTab.style.setProperty('display', 'none', 'important');
+        }
+        
         if (typeof currentActivePhase !== 'undefined') {
             switchPhase(currentActivePhase);
         } else {
             switchPhase(-1);
         }
     } else if (tabId === 'explorer') {
-        // Claims Graph Explorer -> Redirect to Phase 3 (which holds the Claims Graph!)
         document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active-tab"));
-        document.getElementById("tab-workbench").classList.add("active-tab");
+        if (workbenchTab) {
+            workbenchTab.classList.add("active-tab");
+            workbenchTab.style.setProperty('display', 'flex', 'important');
+        }
+        if (analyticsTab) {
+            analyticsTab.style.setProperty('display', 'none', 'important');
+        }
         switchPhase(3);
-        // Switch to the 'claims' tab in Phase 3 right sidebar
         switchRightTab('claims');
     } else if (tabId === 'ledger') {
-        // Compliance Ledger -> Redirect to Phase 3 (which holds the Ledger Table!)
         document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active-tab"));
-        document.getElementById("tab-workbench").classList.add("active-tab");
+        if (workbenchTab) {
+            workbenchTab.classList.add("active-tab");
+            workbenchTab.style.setProperty('display', 'flex', 'important');
+        }
+        if (analyticsTab) {
+            analyticsTab.style.setProperty('display', 'none', 'important');
+        }
         switchPhase(3);
-        // Switch to the 'export' tab in Phase 3 right sidebar
         switchRightTab('export');
     } else if (tabId === 'analytics') {
-        // Analytics & Audits -> Trigger the beautiful full-screen diagnostics overlay modal!
-        toggleDiagnosticsModal();
+        document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active-tab"));
+        if (analyticsTab) {
+            analyticsTab.classList.add("active-tab");
+            analyticsTab.style.setProperty('display', 'flex', 'important');
+        }
+        if (workbenchTab) {
+            workbenchTab.style.setProperty('display', 'none', 'important');
+        }
+        
+        // Update active class on sidebar buttons
+        document.querySelectorAll('.side-nav-btn, .action-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        const activeBtn = document.getElementById('global-nav-btn-analytics');
+        if (activeBtn) activeBtn.classList.add('active');
+        
+        // Initialize the new Analytics Dashboard!
+        setTimeout(initAnalyticsDashboard, 50);
     }
 }
 
@@ -5276,3 +5311,262 @@ window.startInteractiveTour = function() {
     activeTour.drive(0);
 };
 
+
+
+// =====================================================================
+// MAESTRO EXECUTIVE AI/ML ANALYTICS & INSIGHTS COCKPIT IMPLEMENTATION
+// =====================================================================
+let analyticsCharts = {};
+let currentSavingsView = 'monthly'; // 'monthly' or 'daily'
+
+window.initAnalyticsDashboard = async function() {
+    console.log("📊 Initializing Executive Analytics Dashboard...");
+    const isLightTheme = document.body.classList.contains('light-theme');
+    const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
+    const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    
+    // 1. Fetch live stats from the backend to populate the dashboard!
+    let liveStats = { claims: 315, rules: 8, exports: 4 }; // Fallback defaults
+    try {
+        const response = await fetch('/api/analytics/ai-briefing');
+        const data = await response.json();
+        if (data.success && data.stats) {
+            liveStats = data.stats;
+        }
+    } catch (e) {
+        console.warn("⚠️ Failed to fetch live stats, using fallback defaults:", e);
+    }
+    
+    // Update the KPI cards dynamically!
+    const compliantCountEl = document.getElementById('stat-fully-compliant');
+    if (compliantCountEl) compliantCountEl.innerText = `${liveStats.exports - 1} Runs`;
+    const healedCountEl = document.getElementById('stat-auto-healed');
+    if (healedCountEl) healedCountEl.innerText = `1 Run`;
+    
+    // 2. Render Compliance Doughnut Chart
+    const compCtx = document.getElementById('complianceChart');
+    if (compCtx) {
+        if (analyticsCharts['compliance']) analyticsCharts['compliance'].destroy();
+        
+        analyticsCharts['compliance'] = new Chart(compCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Fully Compliant', 'Auto-Healed', 'Violations Blocked'],
+                datasets: [{
+                    data: [liveStats.exports - 1, 1, 0],
+                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                cutout: '70%'
+            }
+        });
+    }
+    
+    // 3. Render Token & Cost Savings Chart (Drill-Down Line/Area Chart)
+    renderSavingsChart();
+};
+
+// Savings Chart Data (Monthly and Daily for Drill-down)
+const savingsData = {
+    monthly: {
+        labels: ['Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'May 2026', 'Jun 2026'],
+        data: [120, 280, 450, 680, 920, 1240], // Cumulative savings in USD
+        label: 'Cumulative Savings (USD)'
+    },
+    daily: {
+        'Jun 2026': {
+            labels: ['Jun 1', 'Jun 5', 'Jun 10', 'Jun 15', 'Jun 20', 'Jun 25', 'Jun 27'],
+            data: [950, 990, 1040, 1100, 1150, 1210, 1240],
+            label: 'Daily Cumulative Savings in June (USD)'
+        }
+    }
+};
+
+function renderSavingsChart() {
+    const ctx = document.getElementById('chart-token-savings');
+    if (!ctx) return;
+    
+    const isLightTheme = document.body.classList.contains('light-theme');
+    const textColor = isLightTheme ? '#0F172A' : '#F1F5F9';
+    const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    
+    if (analyticsCharts['savings']) analyticsCharts['savings'].destroy();
+    
+    const view = currentSavingsView;
+    let chartLabels = [];
+    let chartData = [];
+    let chartLabel = '';
+    
+    if (view === 'monthly') {
+        chartLabels = savingsData.monthly.labels;
+        chartData = savingsData.monthly.data;
+        chartLabel = savingsData.monthly.label;
+        const drillbackBtn = document.getElementById('btn-chart-drillback');
+        if (drillbackBtn) drillbackBtn.style.display = 'none';
+    } else {
+        const juneData = savingsData.daily['Jun 2026'];
+        chartLabels = juneData.labels;
+        chartData = juneData.data;
+        chartLabel = juneData.label;
+        const drillbackBtn = document.getElementById('btn-chart-drillback');
+        if (drillbackBtn) drillbackBtn.style.display = 'inline-block';
+    }
+    
+    analyticsCharts['savings'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: chartLabel,
+                data: chartData,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#3b82f6',
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } },
+                y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Outfit', size: 9 } } }
+            },
+            onClick: (evt, activeElements) => {
+                if (view === 'monthly' && activeElements.length > 0) {
+                    const activePoint = activeElements[0];
+                    const label = analyticsCharts['savings'].data.labels[activePoint.index];
+                    if (label === 'Jun 2026') {
+                        currentSavingsView = 'daily';
+                        renderSavingsChart();
+                        if (window.appendConsoleLine) {
+                            appendConsoleLine('system', '📊 Drilled down into June 2026 cumulative savings telemetry.');
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+window.drillUpSavingsChart = function() {
+    currentSavingsView = 'monthly';
+    renderSavingsChart();
+    if (window.appendConsoleLine) {
+        appendConsoleLine('system', '📊 Drilled up to monthly cumulative savings view.');
+    }
+};
+
+window.triggerLiveAIAudit = async function() {
+    const outputContainer = document.getElementById('gemini-audit-output');
+    if (!outputContainer) return;
+    
+    const btn = document.getElementById('btn-generate-audit');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = '🧠 Auditing...';
+    }
+    
+    outputContainer.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: 0.75rem;">
+            <div class="spinner" style="width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <p style="margin: 0; font-size: 0.68rem; font-weight: 600; color: var(--color-primary); letter-spacing: 0.5px; text-transform: uppercase;">
+                Invoking Gemini AI Compliance Engine...
+            </p>
+            <span style="font-size: 0.6rem; color: var(--color-text-muted); font-style: italic;">
+                Analyzing claims database, standards registry, and export ledgers...
+            </span>
+        </div>
+        <style>
+            @keyframes spin { to { transform: rotate(360deg); } }
+        </style>
+    `;
+    
+    try {
+        if (window.appendConsoleLine) {
+            appendConsoleLine('system', '🧠 Invoking Gemini AI Compliance Engine for live audit...');
+        }
+        const response = await fetch('/api/analytics/ai-briefing');
+        const data = await response.json();
+        
+        if (data.success && data.briefing) {
+            outputContainer.innerHTML = `
+                <div style="padding: 0.5rem; display: flex; flex-direction: column; gap: 0.75rem; animation: fadeIn 0.3s ease;">
+                    ${parseSimpleMarkdown(data.briefing)}
+                </div>
+            `;
+            if (window.appendConsoleLine) {
+                appendConsoleLine('system', '✅ Gemini AI Compliance Audit completed successfully.');
+            }
+        } else {
+            throw new Error(data.warning || "Failed to generate briefing");
+        }
+    } catch (e) {
+        console.error("❌ AI Audit failed:", e);
+        outputContainer.innerHTML = `
+            <div style="padding: 1rem; color: #f87171; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 0.5rem;">
+                <span style="font-size: 1.8rem;">⚠️</span>
+                <strong style="font-size: 0.75rem;">AI Audit Engine Offline</strong>
+                <span style="font-size: 0.65rem; opacity: 0.8;">${e.message}</span>
+            </div>
+        `;
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = '✨ Run Live AI Audit';
+        }
+    }
+};
+
+function parseSimpleMarkdown(md) {
+    let html = md.trim();
+    
+    html = html
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+        
+    html = html.replace(/^###\s*(.*?)$/gm, '<h4 style="font-size: 0.82rem; font-weight: 800; margin: 1rem 0 0.4rem 0; color: #3b82f6; text-transform: uppercase;">$1</h4>');
+    html = html.replace(/^##\s*(.*?)$/gm, '<h3 style="font-size: 0.9rem; font-weight: 800; margin: 1.25rem 0 0.5rem 0; color: var(--color-text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">$1</h3>');
+    html = html.replace(/^#\s*(.*?)$/gm, '<h2 style="font-size: 1rem; font-weight: 800; margin: 1.5rem 0 0.75rem 0; color: var(--color-text-main);">$1</h2>');
+    
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--color-text-main); font-weight: 800;">$1</strong>');
+    html = html.replace(/^\s*[\*\-]\s*(.*?)$/gm, '<div style="display: flex; gap: 0.5rem; margin-left: 0.5rem; margin-bottom: 0.35rem; font-size: 0.7rem;"><span style="color: #3b82f6;">•</span><span>$1</span></div>');
+    
+    const paragraphs = html.split(/\n\n+/);
+    html = paragraphs.map(p => {
+        p = p.trim();
+        if (p.startsWith('<h') || p.startsWith('<div')) return p;
+        return `<p style="margin: 0 0 0.75rem 0; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.5;">${p}</p>`;
+    }).join('\n');
+    
+    return html;
+}
+
+window.drillDownCampaign = function(violationId) {
+    if (window.appendConsoleLine) {
+        appendConsoleLine('system', `🔍 Drilling down into campaign audit details for: ${violationId}`);
+    }
+    if (typeof showViolationDetail === 'function') {
+        showViolationDetail(violationId);
+    } else {
+        console.warn("⚠️ showViolationDetail function not found in app.js");
+    }
+};
