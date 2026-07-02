@@ -6113,6 +6113,36 @@ window.startLandingSimulation = function() {
     const consoleEl = document.getElementById('landing-sim-console');
     if (!consoleEl) return;
     
+    // Grab visual elements
+    const adMockup = document.getElementById('sim-ad-mockup');
+    const laserScanner = document.getElementById('sim-laser-scanner');
+    const toastMlr = document.getElementById('sim-toast-mlr');
+    const toastLayout = document.getElementById('sim-toast-layout');
+    const successBadge = document.getElementById('sim-success-badge');
+    const claimVal = document.getElementById('sim-claim-val');
+    const adClaim = document.getElementById('sim-ad-claim');
+    const adFooter = document.getElementById('sim-ad-footer');
+    
+    // Reset visual elements to initial state (mockup blurred, warning claim, offset footer, no success badge)
+    if (adMockup) {
+        adMockup.style.filter = 'blur(4px)';
+        adMockup.style.opacity = '0.4';
+    }
+    if (laserScanner) laserScanner.style.display = 'none';
+    if (toastMlr) toastMlr.style.display = 'none';
+    if (toastLayout) toastLayout.style.display = 'none';
+    if (successBadge) successBadge.style.display = 'none';
+    if (claimVal) {
+        claimVal.innerText = '68%';
+        claimVal.style.color = '#f87171'; // Red
+    }
+    if (adClaim) adClaim.style.background = 'transparent';
+    if (adFooter) {
+        adFooter.style.marginTop = '-12px';
+        adFooter.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+        adFooter.style.background = 'transparent';
+    }
+    
     consoleEl.innerHTML = '<p class="console-line system">[System] Initializing Agentic Compliance Sandbox Pipeline...</p>';
     
     const steps = [
@@ -6144,6 +6174,11 @@ window.startLandingSimulation = function() {
         if (currentStep >= steps.length) {
             logLine('🎉 COMPLIANCE PIPELINE SECURED AND CERTIFIED.', 'success');
             logLine('[System] Demo run complete! Feel free to enter the Command Center workbench.', 'system');
+            
+            // Show Success badge overlay
+            if (successBadge) successBadge.style.display = 'block';
+            if (adMockup) adMockup.style.opacity = '0.7';
+            
             if (btn) {
                 btn.disabled = false;
                 btn.innerText = '⚡ Run Compliance Demo Again';
@@ -6162,24 +6197,71 @@ window.startLandingSimulation = function() {
             setTimeout(() => {
                 logLine('📥 Parsing guidelines document: Product_A_Brief.pdf', 'system');
                 logLine('📥 Clinical constraints mapping: Pembrolizumab, indication: NSCLC', 'success');
+                
+                // Ingest files, unblur mockup!
+                if (adMockup) {
+                    adMockup.style.filter = 'none';
+                    adMockup.style.opacity = '1';
+                }
                 finishStep();
             }, 1500);
         } else if (currentStep === 1) {
             logLine('⚖️ MLR Judge Agent loading dynamic Claims Vault...', 'system');
+            
+            // Turn on laser scanner visual overlay
+            if (laserScanner) laserScanner.style.display = 'block';
+            
             setTimeout(() => {
-                logLine('⚖️ Auditing material claims: "Product-A shows unprecedented response in NSCLC..."', 'system');
+                logLine('⚖️ Auditing material claims: "Product-A shows response rate of 68% in NSCLC..."', 'system');
                 logLine('⚠️ WARNING: Claim mismatches FDA clinical register key (Survival rate 68% vs 65% in trial data).', 'warn');
-                logLine('⚖️ MLR Graph mismatch flagged. Correcting parameter target...', 'system');
-                finishStep();
-            }, 2000);
+                
+                // Show warning toast visual overlay
+                if (toastMlr) toastMlr.style.display = 'flex';
+                if (adClaim) adClaim.style.background = 'rgba(239, 68, 68, 0.1)';
+                
+                setTimeout(() => {
+                    logLine('⚖️ MLR Graph mismatch flagged. Correcting parameter target...', 'system');
+                    logLine('✅ Claim rectified to 65% based on Keynote-607 source node.', 'success');
+                    
+                    // Hide laser and toast, update claim value to 65% green!
+                    if (laserScanner) laserScanner.style.display = 'none';
+                    if (toastMlr) toastMlr.style.display = 'none';
+                    if (claimVal) {
+                        claimVal.innerText = '65%';
+                        claimVal.style.color = '#34d399'; // Green success
+                    }
+                    if (adClaim) adClaim.style.background = 'rgba(52, 211, 153, 0.08)';
+                    
+                    finishStep();
+                }, 1800);
+            }, 1500);
         } else if (currentStep === 2) {
             logLine('🩹 Self-Healing Layout Agent analyzing visual CSS output...', 'system');
+            
+            // Highlight overlap warning toast
+            if (toastLayout) toastLayout.style.display = 'flex';
+            if (adFooter) {
+                adFooter.style.borderColor = '#f59e0b';
+                adFooter.style.background = 'rgba(245, 158, 11, 0.05)';
+            }
+            
             setTimeout(() => {
                 logLine('🩹 Visual collision detected: Footers overlapping primary disclaimer text box.', 'warn');
                 logLine('🩹 Auto-recalculating layout constraints using design token registers...', 'system');
-                logLine('✅ Inline CSS healed successfully: padding-bottom increased by 20px.', 'success');
-                finishStep();
-            }, 1800);
+                
+                setTimeout(() => {
+                    logLine('✅ Inline CSS healed successfully: padding-bottom increased by 20px.', 'success');
+                    
+                    // Shift footer down to resolve overlap
+                    if (toastLayout) toastLayout.style.display = 'none';
+                    if (adFooter) {
+                        adFooter.style.marginTop = '4px'; // Healed down!
+                        adFooter.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                        adFooter.style.background = 'rgba(16, 185, 129, 0.04)';
+                    }
+                    finishStep();
+                }, 1800);
+            }, 1200);
         } else if (currentStep === 3) {
             logLine('🔒 Compiling GxP audit package...', 'system');
             setTimeout(() => {

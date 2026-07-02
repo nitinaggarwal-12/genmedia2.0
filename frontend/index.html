@@ -827,7 +827,7 @@
                 <p class="section-desc">Click run to watch the sub-agents interactively ingest a campaign, execute GxP integrity audits, and auto-correct visual alignment violations.</p>
             </div>
             
-            <div class="sim-container">
+            <div class="sim-container" style="display: grid; grid-template-columns: 3.5fr 4.2fr 4.3fr; gap: 1.5rem; max-width: 1300px;">
                 <div class="sim-controls">
                     <h3 class="sim-title">Compliance Simulation</h3>
                     <div class="sim-steps">
@@ -853,7 +853,54 @@
                     </button>
                 </div>
                 
-                <div class="sim-console" id="landing-sim-console">
+                <!-- Visual Sandbox Mockup Canvas -->
+                <div class="sim-visual-canvas-wrapper" style="background: #0B0F19; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; height: 320px; position: relative; overflow: hidden; box-sizing: border-box;">
+                    <!-- Laser Scanner Line -->
+                    <div id="sim-laser-scanner" class="laser-scanner" style="display: none; position: absolute; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, #00F2FE, transparent); box-shadow: 0 0 10px #00F2FE, 0 0 20px #00F2FE; z-index: 5; animation: scan 2s linear infinite;"></div>
+                    
+                    <!-- Ad Mockup Card -->
+                    <div id="sim-ad-mockup" class="sim-ad-mockup" style="display: flex; flex-direction: column; gap: 0.5rem; filter: blur(4px); opacity: 0.4; transition: all 0.5s; height: 100%; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.6rem; font-weight: 700; color: #00F2FE; letter-spacing: 1px; text-transform: uppercase;">Product-A Campaign</span>
+                            <span style="font-size: 0.5rem; background: rgba(0,242,254,0.1); border: 1px solid rgba(0,242,254,0.2); padding: 0.15rem 0.35rem; border-radius: 4px; color: #00F2FE;">Banner</span>
+                        </div>
+                        <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin: 0.25rem 0 0 0;">Breakthrough Treatment for NSCLC</h4>
+                        <p id="sim-ad-claim" style="font-size: 0.72rem; line-height: 1.4; color: #94a3b8; margin: 0; padding: 0.25rem; border-radius: 4px; transition: all 0.3s; background: transparent;">
+                            Pembrolizumab increases overall survival rate to <strong id="sim-claim-val" style="color: #f87171; font-weight: 800; transition: color 0.3s;">68%</strong> in first-line therapy.
+                        </p>
+                        
+                        <!-- Mini Graphic -->
+                        <div style="height: 50px; background: linear-gradient(90deg, rgba(0,242,254,0.05), rgba(192,132,252,0.05)); border: 1px dashed rgba(255,255,255,0.08); border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 0.25rem 0;">
+                            <span style="font-size: 1.2rem;">🔬</span>
+                            <div style="display: flex; flex-direction: column; gap: 2px; width: 60%;">
+                                <div style="height: 4px; background: rgba(255,255,255,0.2); width: 80%; border-radius: 2px;"></div>
+                                <div style="height: 4px; background: rgba(255,255,255,0.1); width: 50%; border-radius: 2px;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Overlapping Footer / Disclaimer -->
+                        <div id="sim-ad-footer" style="font-size: 0.58rem; color: #64748b; line-height: 1.3; margin-top: -12px; transition: all 0.5s ease; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.25rem;">
+                            *Keynote-607 overall clinical registration index benchmarks. Verified by local registry rules.
+                        </div>
+                    </div>
+
+                    <!-- Floating Tooltips/Overlays -->
+                    <div id="sim-toast-mlr" class="sim-toast" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #FCA5A5; font-size: 0.65rem; padding: 0.5rem; border-radius: 6px; position: absolute; top: 35%; left: 5%; right: 5%; z-index: 10; align-items: center; gap: 0.4rem; backdrop-filter: blur(8px); box-sizing: border-box;">
+                        <span>⚠️</span>
+                        <span><strong>MLR Judge:</strong> Claim value (68%) does not match Clinical Trial Register (65%).</span>
+                    </div>
+                    
+                    <div id="sim-toast-layout" class="sim-toast" style="display: none; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #FCD34D; font-size: 0.65rem; padding: 0.5rem; border-radius: 6px; position: absolute; top: 52%; left: 5%; right: 5%; z-index: 10; align-items: center; gap: 0.4rem; backdrop-filter: blur(8px); box-sizing: border-box;">
+                        <span>⚠️</span>
+                        <span><strong>Layout Agent:</strong> Disclaimer overlaps main body copy block.</span>
+                    </div>
+
+                    <div id="sim-success-badge" style="display: none; align-self: center; justify-self: center; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #A7F3D0; font-size: 0.72rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 30px; letter-spacing: 0.5px; position: absolute; top: 40%; text-transform: uppercase; z-index: 15; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); box-sizing: border-box;">
+                        🔒 GxP Verified & Secured
+                    </div>
+                </div>
+                
+                <div class="sim-console" id="landing-sim-console" style="margin: 0;">
                     <p class="console-line system">[System] Ready to initialize compliance simulation run...</p>
                     <p class="console-line system">[System] Click 'Run Compliance Demo' to trigger sub-agents.</p>
                 </div>
