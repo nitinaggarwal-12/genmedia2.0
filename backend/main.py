@@ -1605,6 +1605,80 @@ async def get_analytics_data():
         raise HTTPException(status_code=500, detail=f"Failed to fetch analytics data: {str(e)}")
 
 
+@app.get("/api/strategic-heatmap")
+async def get_strategic_heatmap():
+    """
+    Computes a dynamic competitive claims matrix by mapping clinical oncology indications 
+    against campaign compliance status (from campaign_analytics_ledger).
+    """
+    import sqlite3
+    from claims_db import DB_PATH
+    
+    # Define fixed rows (indications) and columns (brands/products)
+    indications = ["NSCLC", "RCC", "Advanced RCC", "PAH", "Ovarian Cancer", "TNBC"]
+    brands = [
+        {"id": "Product-A", "name": "Product-A", "compound": "Pembrolizumab"},
+        {"id": "Product-B", "name": "Product-B", "compound": "Lenvatinib"},
+        {"id": "Product-C", "name": "Product-C", "compound": "Belzutifan"},
+        {"id": "Product-D", "name": "Product-D", "compound": "Sotatercept"},
+        {"id": "Product-E", "name": "Product-E", "compound": "Olaparib"}
+    ]
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        matrix = []
+        for ind in indications:
+            row_data = {"indication": ind, "cells": {}}
+            for brand in brands:
+                # Query database for all campaigns for this combination
+                cursor.execute(
+                    "SELECT status FROM campaign_analytics_ledger WHERE brand = ? AND indication = ?",
+                    (brand["id"], ind)
+                )
+                statuses = [r[0] for r in cursor.fetchall()]
+                
+                if not statuses:
+                    # No active campaigns
+                    cell_status = "EMPTY"
+                    cell_value = "0"
+                    cell_class = "zero-teal"
+                else:
+                    if "BLOCKED" in statuses:
+                        cell_status = "BLOCKED"
+                        cell_value = "Δ"
+                        cell_class = "red-delta"
+                    elif "AUTO_HEALED" in statuses:
+                        cell_status = "AUTO_HEALED"
+                        cell_value = "O"
+                        cell_class = "orange-o"
+                    else:
+                        cell_status = "COMPLIANT"
+                        cell_value = "G"
+                        cell_class = "gold-g"
+                
+                row_data["cells"][brand["id"]] = {
+                    "status": cell_status,
+                    "value": cell_value,
+                    "class": cell_class,
+                    "count": len(statuses)
+                }
+            matrix.append(row_data)
+            
+        conn.close()
+        return {
+            "success": True,
+            "columns": brands,
+            "matrix": matrix
+        }
+    except Exception as e:
+        import traceback
+        print("❌ Error generating strategic heatmap data:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Failed to generate heatmap data: {str(e)}")
+
+
 @app.post("/api/analytics/chat")
 async def post_analytics_chat(chat_input: ChatMessage):
     """

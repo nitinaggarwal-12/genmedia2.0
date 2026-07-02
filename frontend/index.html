@@ -309,7 +309,7 @@
                             
                             <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
                                 <table class="heatmap-table" style="width: 100%; border-collapse: collapse;">
-                                    <thead>
+                                    <thead id="heatmap-thead">
                                         <tr>
                                             <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
                                             <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitor<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
@@ -319,71 +319,8 @@
                                             <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitiiic<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
                                         </tr>
                                     </thead>
-                                    <tbody style="font-size: 0.72rem; font-weight: 700;">
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: background 0.2s;" onclick="triggerStrategicIngest('NSCLC', 'datasets/KEYTRUDA_Prescribing_Information_NSCLC.txt')" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">NSCLC <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-blue">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-blue">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-purple">0</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: background 0.2s;" onclick="triggerStrategicIngest('RCC', 'datasets/WELIREG_FDA_Approved_Label_2026.txt')" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">RCC <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-blue">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-purple">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">Gfy oncology <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-blue">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge red-delta">Δ</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">EUETP <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-blue">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: background 0.2s;" onclick="triggerStrategicIngest('PFS', 'datasets/LITESPARK-005_Trial_Data_Briefing.txt')" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">PFS <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge red-delta">Δ</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">Hyporoescohitia <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge orange-o">O</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge red-delta">Δ</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">Oncology Indications <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge red-delta">Δ</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge orange-o">O</span></td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                            <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main);">Drug Dooms <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge zero-teal">0</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge gold-g">G</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge orange-o">O</span></td>
-                                            <td style="text-align: center;"><span class="heatmap-badge red-delta">Δ</span></td>
-                                        </tr>
+                                    <tbody id="heatmap-tbody" style="font-size: 0.72rem; font-weight: 700;">
+                                        <!-- Dynamically populated from backend /api/strategic-heatmap -->
                                     </tbody>
                                 </table>
                             </div>

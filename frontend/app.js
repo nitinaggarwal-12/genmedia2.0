@@ -4644,11 +4644,81 @@ window.switchPhase = function(phaseNum) {
     
     logConsoleLine("Master_Orchestrator_Agent", `Switched workspace focus to Phase ${phaseNum}. Layout tokens re-grounded.`);
 };
+// --- Dynamic Strategic Heatmap Renderer ---
+async function fetchAndRenderStrategicHeatmap() {
+    const thead = document.getElementById('heatmap-thead');
+    const tbody = document.getElementById('heatmap-tbody');
+    if (!thead || !tbody) return;
+    
+    // Preset files mapping to enable interactive triggerStrategicIngest on row click
+    const presetMapping = {
+        'NSCLC': 'datasets/KEYTRUDA_Prescribing_Information_NSCLC.txt',
+        'RCC': 'datasets/WELIREG_FDA_Approved_Label_2026.txt',
+        'PFS': 'datasets/LITESPARK-005_Trial_Data_Briefing.txt'
+    };
+    
+    try {
+        const response = await fetch(BACKEND_URL + '/api/strategic-heatmap');
+        if (!response.ok) throw new Error('Failed to fetch strategic heatmap data');
+        const result = await response.json();
+        
+        if (result.success) {
+            // Render Headers
+            let theadHtml = `
+                <tr>
+                    <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
+            `;
+            result.columns.forEach(col => {
+                theadHtml += `
+                    <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted); text-align: center; font-weight: 800;">
+                        ${col.name}<br><span style="font-size: 0.52rem; font-style: italic; font-weight: 600; opacity: 0.7;">(${col.compound})</span>
+                    </th>
+                `;
+            });
+            theadHtml += '</tr>';
+            thead.innerHTML = theadHtml;
+            
+            // Render Rows
+            let tbodyHtml = '';
+            result.matrix.forEach(row => {
+                const targetPreset = presetMapping[row.indication];
+                let clickAction = '';
+                let cursorStyle = '';
+                if (targetPreset) {
+                    clickAction = `onclick="triggerStrategicIngest('${row.indication}', '${targetPreset}')"`;
+                    cursorStyle = 'cursor: pointer;';
+                }
+                
+                tbodyHtml += `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.02); ${cursorStyle} transition: background 0.2s;" ${clickAction} onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
+                        <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main); font-weight: 700;">${row.indication} <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
+                `;
+                
+                result.columns.forEach(col => {
+                    const cell = row.cells[col.id];
+                    tbodyHtml += `
+                        <td style="text-align: center; padding: 0.4rem;">
+                            <span class="heatmap-badge ${cell.class}" title="${cell.status} (${cell.count} runs)">${cell.value}</span>
+                        </td>
+                    `;
+                });
+                tbodyHtml += '</tr>';
+            });
+            tbody.innerHTML = tbodyHtml;
+        }
+    } catch (err) {
+        console.error('Error fetching strategic heatmap:', err);
+    }
+}
+
 // --- Phase -1: Chart.js Dashboards ---
 function initStrategicCharts() {
     if (strategicCharts.sentiment) strategicCharts.sentiment.destroy();
     if (strategicCharts.sov) strategicCharts.sov.destroy();
     if (strategicCharts.cdo) strategicCharts.cdo.destroy();
+    
+    // Fetch and populate dynamic strategic claims heatmap from the backend database
+    fetchAndRenderStrategicHeatmap();
     
     // 1. Sentiment Bar Chart
     const sentCtx = document.getElementById('chart-sentiment-bar');
