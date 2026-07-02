@@ -134,6 +134,9 @@ async function runE2E() {
         });
         await page.waitForSelector('#landing-view', { hidden: true, timeout: 3000 });
         
+        console.log('⏳ Injecting routing settling delay (300ms)...');
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
         // 2. Test Gradient Banner button click back to landing
         console.log('🔄 Clicking "Back to Landing Page" button above Command Center...');
         await page.evaluate(() => {

@@ -243,15 +243,18 @@
             border: 1px solid var(--border-color) !important; 
             border-radius: 12px; 
             box-shadow: var(--shadow-lg); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         div[style*="background: rgba(0,0,0,0.15)"] { 
-            background: var(--bg-surface-solid) !important; 
-            border-color: var(--border-color) !important; 
+            background: rgba(3, 7, 18, 0.4) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.04) !important; 
+            border-radius: 8px;
         }
         .panel-header-compact h3 { color: var(--color-text-main) !important; }
         .panel-header-compact p { color: var(--color-text-muted) !important; }
-        .heatmap-table th { color: var(--color-text-muted) !important; }
-        .heatmap-table td { color: var(--color-text-main) !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; }
+        .heatmap-table th, table th { color: var(--color-text-muted) !important; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.5px; border: none !important; }
+        .heatmap-table td, table td { color: var(--color-text-main) !important; border: none !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; }
         
         .heatmap-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 800; border: 1px solid; }
         .zero-teal { color: #2dd4bf !important; background: rgba(45, 212, 191, 0.1) !important; border-color: rgba(45, 212, 191, 0.2) !important; }
