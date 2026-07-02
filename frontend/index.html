@@ -912,46 +912,46 @@
 
         <!-- BEFORE & AFTER EXPANDED VIEW MODAL -->
         <div id="sim-comparison-modal" class="landing-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 7, 18, 0.9); z-index: 11000; align-items: center; justify-content: center; backdrop-filter: blur(16px); box-sizing: border-box; padding: 2rem;">
-            <div class="landing-modal-content" style="background: #0B0F19; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; width: 95%; max-width: 1150px; padding: 2rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 1.5rem; font-family: 'Inter', sans-serif;">
+            <div class="landing-modal-content" style="background: #0B0F19; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; width: 95%; max-width: 1200px; padding: 2.5rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 1.75rem; font-family: 'Inter', sans-serif;">
                 <!-- Close button -->
-                <button onclick="closeSimComparisonModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 2.2rem; height: 2.2rem; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.color='#ffffff'; this.style.borderColor='rgba(255,255,255,0.3)';" onmouseout="this.style.color='#94a3b8'; this.style.borderColor='rgba(255,255,255,0.1)';">✕</button>
+                <button onclick="closeSimComparisonModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 2.5rem; height: 2.5rem; color: #94a3b8; font-size: 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.color='#ffffff'; this.style.borderColor='rgba(255,255,255,0.3)';" onmouseout="this.style.color='#94a3b8'; this.style.borderColor='rgba(255,255,255,0.1)';">✕</button>
                 
                 <div>
-                    <h3 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #ffffff; letter-spacing: -0.02rem;">Expanded GxP / MLR Compliance Comparison</h3>
-                    <p style="font-size: 0.85rem; color: #94a3b8; margin: 0.25rem 0 0 0;">Before and After visual audit comparison showing medical claims validation, FDA Fair Balance adjustments, and visual layout self-healing.</p>
+                    <h3 style="font-size: 1.8rem; font-weight: 900; margin: 0; color: #ffffff; letter-spacing: -0.03rem;">Expanded GxP / MLR Compliance Comparison</h3>
+                    <p style="font-size: 1rem; color: #94a3b8; margin: 0.35rem 0 0 0;">Before and After visual audit comparison showing medical claims validation, FDA Fair Balance adjustments, and visual layout self-healing.</p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
                     <!-- BEFORE COLUMN -->
-                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span style="font-weight: 800; font-size: 0.85rem; color: #EF4444; letter-spacing: 0.5px; text-transform: uppercase;">⚠️ BEFORE AUDIT (4 Violations Identified)</span>
-                            <span style="font-size: 0.7rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; color: #EF4444; font-weight: 700;">Critical Mismatches</span>
+                            <span style="font-weight: 800; font-size: 1.05rem; color: #EF4444; letter-spacing: 0.5px; text-transform: uppercase;">⚠️ BEFORE AUDIT (4 Violations Identified)</span>
+                            <span style="font-size: 0.8rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.25rem 0.6rem; border-radius: 4px; color: #EF4444; font-weight: 700;">Critical Mismatches</span>
                         </div>
                         
                         <!-- Bad Mockup Canvas -->
-                        <div style="background: #030712; border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 310px; height: auto; box-sizing: border-box; gap: 0.5rem;">
+                        <div style="background: #030712; border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 350px; height: auto; box-sizing: border-box; gap: 0.75rem;">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="font-size: 0.55rem; font-weight: 700; color: #8EC5FC; letter-spacing: 1px;">PRODUCT-A BRIEFING</span>
-                                <span style="font-size: 0.48rem; background: rgba(255,255,255,0.05); padding: 0.12rem 0.3rem; border-radius: 4px; color: #94A3B8;">MLR Review Material</span>
+                                <span style="font-size: 0.7rem; font-weight: 700; color: #8EC5FC; letter-spacing: 1px;">PRODUCT-A BRIEFING</span>
+                                <span style="font-size: 0.6rem; background: rgba(255,255,255,0.05); padding: 0.15rem 0.45rem; border-radius: 4px; color: #94A3B8;">MLR Review Material</span>
                             </div>
                             
-                            <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin: 0.25rem 0 0 0;">Breakthrough Survival in NSCLC</h4>
+                            <h4 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0.25rem 0 0 0;">Breakthrough Survival in NSCLC</h4>
                             
                             <!-- Uncited Claim -->
-                            <p style="font-size: 0.72rem; line-height: 1.45; color: #94a3b8; margin: 0; padding: 0.25rem; border-radius: 4px; background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15);">
+                            <p style="font-size: 0.85rem; line-height: 1.5; color: #94a3b8; margin: 0; padding: 0.35rem 0.5rem; border-radius: 4px; background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15);">
                                 Pembrolizumab increases overall survival rate to <strong style="color: #EF4444; font-weight: 900; text-decoration: underline;">68%</strong> in first-line therapy.
                             </p>
                             
                             <!-- Missing / Colliding safety footer -->
-                            <div style="font-size: 0.52rem; color: #64748b; margin-top: -8px; transition: all 0.5s ease; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 0.25rem; line-height: 1.3;">
+                            <div style="font-size: 0.7rem; color: #64748b; margin-top: -4px; transition: all 0.5s ease; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 0.5rem; line-height: 1.4;">
                                 <span style="color: #ef4444; font-weight: bold;">[Overlap Collision]</span> *Warnings: Adverse events may occur. Contact physician immediately.
                             </div>
                         </div>
                         
-                        <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.1); border-radius: 8px; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; box-sizing: border-box;">
-                            <div style="font-size: 0.78rem; font-weight: 800; color: #EF4444; margin-bottom: 0.15rem;">🚨 MLR Audit Violations Log:</div>
-                            <ul style="font-size: 0.72rem; color: #94a3b8; margin: 0; padding-left: 1.15rem; line-height: 1.5; display: flex; flex-direction: column; gap: 0.35rem;">
+                        <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.1); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; box-sizing: border-box;">
+                            <div style="font-size: 0.95rem; font-weight: 800; color: #EF4444; margin-bottom: 0.2rem;">🚨 MLR Audit Violations Log:</div>
+                            <ul style="font-size: 0.85rem; color: #94a3b8; margin: 0; padding-left: 1.25rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.45rem;">
                                 <li><strong style="color: #FCA5A5;">Claim Discrepancy:</strong> Clinical register shows Keynote-607 survival at 65%, advertising copy claims 68% (unauthorized).</li>
                                 <li><strong style="color: #FCA5A5;">Missing Reference Citation:</strong> Key efficacy claim lacks subscript source indexes linking to Clinical bibliography registry.</li>
                                 <li><strong style="color: #FCA5A5;">Fair Balance Failure:</strong> Missing mandatory FDA Boxed Warnings describing immune-mediated risks (Pneumonitis, Colitis).</li>
@@ -961,40 +961,40 @@
                     </div>
                     
                     <!-- AFTER COLUMN -->
-                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span style="font-weight: 800; font-size: 0.85rem; color: #10B981; letter-spacing: 0.5px; text-transform: uppercase;">✅ AFTER REMEDIATION (Ensemble Handled)</span>
-                            <span style="font-size: 0.7rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; color: #10B981; font-weight: 700;">GxP Certified</span>
+                            <span style="font-weight: 800; font-size: 1.05rem; color: #10B981; letter-spacing: 0.5px; text-transform: uppercase;">✅ AFTER REMEDIATION (Ensemble Handled)</span>
+                            <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.25rem 0.6rem; border-radius: 4px; color: #10B981; font-weight: 700;">GxP Certified</span>
                         </div>
                         
                         <!-- Healed Mockup Canvas -->
-                        <div style="background: #030712; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 310px; height: auto; box-shadow: 0 0 20px rgba(16,185,129,0.1); box-sizing: border-box; gap: 0.5rem;">
+                        <div style="background: #030712; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 350px; height: auto; box-shadow: 0 0 20px rgba(16,185,129,0.1); box-sizing: border-box; gap: 0.75rem;">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <span style="font-size: 0.55rem; font-weight: 700; color: #00F2FE; letter-spacing: 1px;">PRODUCT-A CAMPAIGN</span>
-                                <span style="font-size: 0.48rem; background: rgba(0,242,254,0.1); border: 1px solid rgba(0,242,254,0.2); padding: 0.12rem 0.3rem; border-radius: 4px; color: #00F2FE;">Banner</span>
+                                <span style="font-size: 0.7rem; font-weight: 700; color: #00F2FE; letter-spacing: 1px;">PRODUCT-A CAMPAIGN</span>
+                                <span style="font-size: 0.6rem; background: rgba(0,242,254,0.1); border: 1px solid rgba(0,242,254,0.2); padding: 0.15rem 0.45rem; border-radius: 4px; color: #00F2FE;">Banner</span>
                             </div>
                             
-                            <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin: 0.25rem 0 0 0;">Breakthrough Survival in NSCLC</h4>
+                            <h4 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0.25rem 0 0 0;">Breakthrough Survival in NSCLC</h4>
                             
                             <!-- Synced and Cited Claim -->
-                            <p style="font-size: 0.72rem; line-height: 1.45; color: #94a3b8; margin: 0; padding: 0.25rem; border-radius: 4px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p style="font-size: 0.85rem; line-height: 1.5; color: #94a3b8; margin: 0; padding: 0.35rem 0.5rem; border-radius: 4px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(16, 185, 129, 0.2);">
                                 Pembrolizumab increases overall survival rate to <strong style="color: #34D399; font-weight: 900;">65%<sup>[1]</sup></strong> in first-line therapy.
                             </p>
                             
                             <!-- Integrated Safety Warning (Fair Balance) -->
-                            <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.15); padding: 0.35rem 0.5rem; border-radius: 6px; font-size: 0.5rem; color: #fca5a5; line-height: 1.3;">
+                            <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.15); padding: 0.45rem 0.6rem; border-radius: 6px; font-size: 0.7rem; color: #fca5a5; line-height: 1.45;">
                                 <strong style="color: #f87171;">⚠️ Boxed Warning:</strong> Immune-mediated adverse reactions (pneumonitis, colitis, hepatitis). Monitor closely.
                             </div>
                             
                             <!-- Re-aligned and Corrected Footers -->
-                            <div style="font-size: 0.52rem; color: #94a3b8; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.25rem; line-height: 1.3; box-sizing: border-box;">
+                            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; line-height: 1.4; box-sizing: border-box;">
                                 <sup>[1]</sup> Keynote-607 overall clinical trial registration index benchmarks. Verified by local registry rules.
                             </div>
                         </div>
                         
-                        <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.1); border-radius: 8px; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; box-sizing: border-box;">
-                            <div style="font-size: 0.78rem; font-weight: 800; color: #10B981; margin-bottom: 0.15rem;">✅ Agent Remediations Executed:</div>
-                            <ul style="font-size: 0.72rem; color: #94a3b8; margin: 0; padding-left: 1.15rem; line-height: 1.5; display: flex; flex-direction: column; gap: 0.35rem;">
+                        <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.1); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; box-sizing: border-box;">
+                            <div style="font-size: 0.95rem; font-weight: 800; color: #10B981; margin-bottom: 0.2rem;">✅ Agent Remediations Executed:</div>
+                            <ul style="font-size: 0.85rem; color: #94a3b8; margin: 0; padding-left: 1.25rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.45rem;">
                                 <li><strong style="color: #A7F3D0;">Claims Syncing:</strong> MLR Judge corrected the survival rate to 65% in accordance with verified FDA label registries.</li>
                                 <li><strong style="color: #A7F3D0;">Dynamic Citation Rendering:</strong> Appended citation reference index <sup>[1]</sup> and auto-generated footnotes bibliography block.</li>
                                 <li><strong style="color: #A7F3D0;">Fair Balance Compensation:</strong> Injected the safety warning container visually satisfying GxP safety prominence standards.</li>
@@ -1005,8 +1005,8 @@
                 </div>
                 
                 <div style="display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; margin-top: 0.5rem;">
-                    <button class="landing-btn secondary" onclick="closeSimComparisonModal()" style="padding: 0.5rem 1.25rem; font-size: 0.8rem; height: auto;">Close Expanded View</button>
-                    <button class="landing-btn primary" onclick="closeSimComparisonModal(); enterAppDashboard();" style="padding: 0.5rem 1.25rem; font-size: 0.8rem; height: auto;">Launch Developer Workbench ➔</button>
+                    <button class="landing-btn secondary" onclick="closeSimComparisonModal()" style="padding: 0.6rem 1.5rem; font-size: 0.9rem; height: auto;">Close Expanded View</button>
+                    <button class="landing-btn primary" onclick="closeSimComparisonModal(); enterAppDashboard();" style="padding: 0.6rem 1.5rem; font-size: 0.9rem; height: auto;">Launch Developer Workbench ➔</button>
                 </div>
             </div>
         </div>
