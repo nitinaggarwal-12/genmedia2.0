@@ -120,6 +120,29 @@ async function runE2E() {
         await page.screenshot({ path: dashboardScreenshot });
         console.log(`📸 Entered dashboard screenshot captured: ${dashboardScreenshot}`);
         
+        // 1. Test Sidebar M logo link click back to landing
+        console.log('🔄 Clicking sidebar M logo link to return to landing page...');
+        await page.click('.sidebar-logo-container a');
+        await page.waitForSelector('#landing-view', { visible: true, timeout: 3000 });
+        console.log('✅ Returned to landing page via logo link successfully!');
+        
+        // Go back to dashboard to test the second button
+        console.log('🚀 Re-entering the dashboard...');
+        await page.evaluate(() => {
+            const btn = Array.from(document.querySelectorAll('#landing-view button')).find(b => b.innerText.includes('Launch Workbench'));
+            if (btn) btn.click();
+        });
+        await page.waitForSelector('#landing-view', { hidden: true, timeout: 3000 });
+        
+        // 2. Test Gradient Banner button click back to landing
+        console.log('🔄 Clicking "Back to Landing Page" button above Command Center...');
+        await page.evaluate(() => {
+            const btn = Array.from(document.querySelectorAll('.gradient-banner button')).find(b => b.innerText.includes('Back to Landing Page'));
+            if (btn) btn.click();
+        });
+        await page.waitForSelector('#landing-view', { visible: true, timeout: 3000 });
+        console.log('✅ Returned to landing page via banner button successfully!');
+        
         console.log('✅ Puppeteer E2E Landing Page validation completed successfully with 100% assertions passed!');
     } catch (err) {
         console.error('❌ E2E Validation Failed:', err.message);

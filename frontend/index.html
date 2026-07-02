@@ -1088,7 +1088,7 @@
         <!-- RESTUCTURED LEFT PANE NAVIGATION -->
         <aside class="sidebar">
             <div class="sidebar-logo-container">
-                <div class="logo-icon-box">M</div>
+                <a href="javascript:void(0)" onclick="goBackToLanding()" title="Back to Landing Page" style="text-decoration: none;"><div class="logo-icon-box" style="cursor: pointer;">M</div></a>
                 <h1 class="brand-h1">MAESTRO <span class="brand-badge">CONTENTSTUDIO</span></h1>
                 <p class="brand-p">Agentic Marketing Workbench &<br>Compliance Ledger</p>
             </div>
@@ -1129,9 +1129,14 @@
                 
                 <!-- PHASE -1: GLOBAL STRATEGIC INTELLIGENCE COMMAND CENTER -->
                 <div class="phase-container" id="phase-minus1-view" style="display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%;">
-                    <div class="gradient-banner">
-                        <h2>COMMAND CENTER: GLOBAL STRATEGIC INTELLIGENCE</h2>
-                        <p>The foundational strategic intelligence hub of the Maestro Enterprise Ecosystem.</p>
+                    <div class="gradient-banner" style="display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;">
+                        <div>
+                            <h2>COMMAND CENTER: GLOBAL STRATEGIC INTELLIGENCE</h2>
+                            <p>The foundational strategic intelligence hub of the Maestro Enterprise Ecosystem.</p>
+                        </div>
+                        <button onclick="goBackToLanding()" class="landing-btn secondary" style="padding: 0.5rem 1.25rem; font-size: 0.8rem; border-color: rgba(15,23,42,0.15); color: #0f172a; display: flex; align-items: center; gap: 0.35rem; font-weight: 700; height: auto; flex-shrink: 0; cursor: pointer;">
+                            <span>⬅</span> Back to Landing Page
+                        </button>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 52fr 48fr; flex: 1; min-height: 0; overflow: hidden; padding: 1.5rem 2rem; gap: 1.5rem; box-sizing: border-box; position: relative;">

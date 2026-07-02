@@ -6110,6 +6110,13 @@ window.enterAppDashboard = function() {
     }
 };
 
+window.goBackToLanding = function() {
+    if (window.introjs) {
+        window.introjs.exit();
+    }
+    window.location.hash = '#/';
+};
+
 window.openSimComparisonModal = function() {
     const modal = document.getElementById('sim-comparison-modal');
     if (modal) modal.style.display = 'flex';
