@@ -3754,6 +3754,8 @@ window.handleIngestionSuccess = function(data, sourceName, sourceType) {
 window.addEventListener('load', () => {
     // Pre-load variant and restore workspace focus mode!
     setTimeout(() => {
+        isRoutingInProgress = true; // Lock hash updates during initial DOM load
+        
         switchRightTab('standards');
         fetchActiveStandards(); // Fetch active standards version & hash on startup
         
@@ -3767,13 +3769,13 @@ window.addEventListener('load', () => {
         // ALWAYS pre-load the variant on startup so that the DOM (composer image, text, and Left Ingest summaries) is fully initialized!
         loadVariant(initialVariant);
         
+        isRoutingInProgress = false; // Unlock hash updates
+        
         // Check if there is already a deep-link hash route in the URL!
         if (window.location.hash) {
             handleHashRoute();
         } else {
-            if (window.switchPhase) {
-                window.switchPhase(initialPhase);
-            }
+            window.location.hash = '#/';
         }
     }, 500);
     
@@ -5134,32 +5136,41 @@ function updateHashFromState() {
 
 // 2. Synchronizes URL Hash to State (Router)
 function handleHashRoute() {
-    const hash = window.location.hash || '#/home';
+    const hash = window.location.hash || '#/';
     isRoutingInProgress = true;
     
+    const landingView = document.getElementById('landing-view');
+    
     try {
-        // Support /home, root slash, empty hashes, and legacy /command for perfect backward compatibility!
-        if (hash.startsWith('#/home') || hash === '#/' || hash === '#' || hash === '' || hash.startsWith('#/command')) {
+        if (hash === '#/' || hash === '#' || hash === '' || hash === '#/landing') {
+            if (landingView) landingView.style.display = 'flex';
             currentActivePhase = -1;
             window.switchPhase(-1);
-        } else if (hash.startsWith('#/strategy')) {
-            currentActivePhase = 0;
-            window.switchPhase(0);
-        } else if (hash.startsWith('#/ingest')) {
-            currentActivePhase = 1;
-            window.switchPhase(1);
-        } else if (hash.startsWith('#/composer')) {
-            const match = hash.match(/#\/composer\/variant\/(\d+)/);
-            const variantNum = match ? parseInt(match[1]) : 1;
-            currentActivePhase = 2;
-            window.switchPhase(2);
-            window.loadVariant(variantNum);
-        } else if (hash.startsWith('#/governance')) {
-            const match = hash.match(/#\/governance\/variant\/(\d+)/);
-            const variantNum = match ? parseInt(match[1]) : 1;
-            currentActivePhase = 3;
-            window.switchPhase(3);
-            window.loadVariant(variantNum);
+        } else {
+            if (landingView) landingView.style.display = 'none';
+            
+            if (hash.startsWith('#/home') || hash.startsWith('#/command')) {
+                currentActivePhase = -1;
+                window.switchPhase(-1);
+            } else if (hash.startsWith('#/strategy')) {
+                currentActivePhase = 0;
+                window.switchPhase(0);
+            } else if (hash.startsWith('#/ingest')) {
+                currentActivePhase = 1;
+                window.switchPhase(1);
+            } else if (hash.startsWith('#/composer')) {
+                const match = hash.match(/#\/composer\/variant\/(\d+)/);
+                const variantNum = match ? parseInt(match[1]) : 1;
+                currentActivePhase = 2;
+                window.switchPhase(2);
+                window.loadVariant(variantNum);
+            } else if (hash.startsWith('#/governance')) {
+                const match = hash.match(/#\/governance\/variant\/(\d+)/);
+                const variantNum = match ? parseInt(match[1]) : 1;
+                currentActivePhase = 3;
+                window.switchPhase(3);
+                window.loadVariant(variantNum);
+            }
         }
     } finally {
         setTimeout(() => { isRoutingInProgress = false; }, 80);
@@ -6079,3 +6090,114 @@ window.drillDownCampaign = function(violationId) {
         console.warn("⚠️ showViolationDetail function not found in app.js");
     }
 };
+
+
+// --- PREMIUM LANDING PAGE INTERACTIVE LOGIC ---
+window.enterAppDashboard = function() {
+    const landingView = document.getElementById('landing-view');
+    if (landingView) landingView.style.display = 'none';
+    window.location.hash = '#/home';
+};
+
+let isLandingSimRunning = false;
+window.startLandingSimulation = function() {
+    if (isLandingSimRunning) return;
+    isLandingSimRunning = true;
+    
+    const btn = document.getElementById('run-sim-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = '⏳ Simulation Running...';
+    }
+    
+    const consoleEl = document.getElementById('landing-sim-console');
+    if (!consoleEl) return;
+    
+    consoleEl.innerHTML = '<p class="console-line system">[System] Initializing Agentic Compliance Sandbox Pipeline...</p>';
+    
+    const steps = [
+        { id: 'sim-step-1', text: 'Ingesting Campaign Briefing & Target Labels...' },
+        { id: 'sim-step-2', text: 'MLR Judge Scanning Claims Libraries...' },
+        { id: 'sim-step-3', text: 'Self-Healing Visual Token Overlaps...' },
+        { id: 'sim-step-4', text: 'Synchronizing Transaction to Brand Ledger...' }
+    ];
+    
+    // Reset steps UI
+    steps.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (el) {
+            el.className = 'sim-step';
+        }
+    });
+    
+    let currentStep = 0;
+    
+    function logLine(text, type = 'system') {
+        const p = document.createElement('p');
+        p.className = `console-line ${type}`;
+        p.innerText = `[${new Date().toLocaleTimeString()}] ${text}`;
+        consoleEl.appendChild(p);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+    
+    function executeNextStep() {
+        if (currentStep >= steps.length) {
+            logLine('🎉 COMPLIANCE PIPELINE SECURED AND CERTIFIED.', 'success');
+            logLine('[System] Demo run complete! Feel free to enter the Command Center workbench.', 'system');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerText = '⚡ Run Compliance Demo Again';
+            }
+            isLandingSimRunning = false;
+            return;
+        }
+        
+        const step = steps[currentStep];
+        const stepEl = document.getElementById(step.id);
+        if (stepEl) stepEl.className = 'sim-step active';
+        
+        // Log start of step
+        if (currentStep === 0) {
+            logLine('🚀 L3 Strategy Ingestor booting up...', 'system');
+            setTimeout(() => {
+                logLine('📥 Parsing guidelines document: Product_A_Brief.pdf', 'system');
+                logLine('📥 Clinical constraints mapping: Pembrolizumab, indication: NSCLC', 'success');
+                finishStep();
+            }, 1500);
+        } else if (currentStep === 1) {
+            logLine('⚖️ MLR Judge Agent loading dynamic Claims Vault...', 'system');
+            setTimeout(() => {
+                logLine('⚖️ Auditing material claims: "Product-A shows unprecedented response in NSCLC..."', 'system');
+                logLine('⚠️ WARNING: Claim mismatches FDA clinical register key (Survival rate 68% vs 65% in trial data).', 'warn');
+                logLine('⚖️ MLR Graph mismatch flagged. Correcting parameter target...', 'system');
+                finishStep();
+            }, 2000);
+        } else if (currentStep === 2) {
+            logLine('🩹 Self-Healing Layout Agent analyzing visual CSS output...', 'system');
+            setTimeout(() => {
+                logLine('🩹 Visual collision detected: Footers overlapping primary disclaimer text box.', 'warn');
+                logLine('🩹 Auto-recalculating layout constraints using design token registers...', 'system');
+                logLine('✅ Inline CSS healed successfully: padding-bottom increased by 20px.', 'success');
+                finishStep();
+            }, 1800);
+        } else if (currentStep === 3) {
+            logLine('🔒 Compiling GxP audit package...', 'system');
+            setTimeout(() => {
+                logLine('📤 Synchronizing regulatory files to Veeva PromoMats...', 'system');
+                logLine('🔒 Transaction finalized. Hash generated: sha256:d8b02ea9a8f4c4c8...', 'success');
+                finishStep();
+            }, 1500);
+        }
+    }
+    
+    function finishStep() {
+        const step = steps[currentStep];
+        const stepEl = document.getElementById(step.id);
+        if (stepEl) stepEl.className = 'sim-step completed';
+        currentStep++;
+        executeNextStep();
+    }
+    
+    executeNextStep();
+};
+
