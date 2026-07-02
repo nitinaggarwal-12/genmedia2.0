@@ -5186,6 +5186,12 @@ window.addEventListener('hashchange', () => {
 
 // 🚀 INTERACTIVE ONBOARDING TOUR (DRIVER.JS INTEGRATION)
 function initOnboardingTour() {
+    // If we are on the landing page, do not initialize the onboarding tour yet!
+    const hash = window.location.hash || '#/';
+    if (hash === '#/' || hash === '#' || hash === '' || hash === '#/landing') {
+        return;
+    }
+
     // Check if the user has already seen the onboarding tour
     if (localStorage.getItem('has_seen_onboarding') === 'true') {
         return;
@@ -6097,6 +6103,11 @@ window.enterAppDashboard = function() {
     const landingView = document.getElementById('landing-view');
     if (landingView) landingView.style.display = 'none';
     window.location.hash = '#/home';
+    
+    // Trigger the interactive onboarding tour after the dashboard has settled!
+    if (typeof initOnboardingTour === 'function') {
+        setTimeout(initOnboardingTour, 600);
+    }
 };
 
 let isLandingSimRunning = false;
