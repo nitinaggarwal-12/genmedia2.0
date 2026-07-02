@@ -6157,10 +6157,10 @@ window.startLandingSimulation = function() {
     consoleEl.innerHTML = '<p class="console-line system">[System] Initializing Agentic Compliance Sandbox Pipeline...</p>';
     
     const steps = [
-        { id: 'sim-step-1', text: 'Ingesting Campaign Briefing & Target Labels...' },
-        { id: 'sim-step-2', text: 'MLR Judge Scanning Claims Libraries...' },
-        { id: 'sim-step-3', text: 'Self-Healing Visual Token Overlaps...' },
-        { id: 'sim-step-4', text: 'Synchronizing Transaction to Brand Ledger...' }
+        { id: 'sim-step-1', text: 'Ingesting Campaign Briefing & Target Labels...', completedText: 'Campaign Ingested & Labels Verified' },
+        { id: 'sim-step-2', text: 'MLR Judge Scanning Claims Libraries...', completedText: 'Claims Audited & Integrity Rectified' },
+        { id: 'sim-step-3', text: 'Self-Healing Visual Token Overlaps...', completedText: 'Visual Token Overlaps Self-Healed' },
+        { id: 'sim-step-4', text: 'Synchronizing Transaction to Brand Ledger...', completedText: 'Transaction Synchronized to Brand Ledger' }
     ];
     
     // Reset steps UI
@@ -6168,6 +6168,8 @@ window.startLandingSimulation = function() {
         const el = document.getElementById(s.id);
         if (el) {
             el.className = 'sim-step';
+            const txtSpan = el.querySelector('span:nth-child(2)');
+            if (txtSpan) txtSpan.innerText = s.text;
         }
     });
     
@@ -6200,7 +6202,11 @@ window.startLandingSimulation = function() {
         
         const step = steps[currentStep];
         const stepEl = document.getElementById(step.id);
-        if (stepEl) stepEl.className = 'sim-step active';
+        if (stepEl) {
+            stepEl.className = 'sim-step active';
+            const txtSpan = stepEl.querySelector('span:nth-child(2)');
+            if (txtSpan) txtSpan.innerText = step.text;
+        }
         
         // Log start of step
         if (currentStep === 0) {
@@ -6286,7 +6292,11 @@ window.startLandingSimulation = function() {
     function finishStep() {
         const step = steps[currentStep];
         const stepEl = document.getElementById(step.id);
-        if (stepEl) stepEl.className = 'sim-step completed';
+        if (stepEl) {
+            stepEl.className = 'sim-step completed';
+            const txtSpan = stepEl.querySelector('span:nth-child(2)');
+            if (txtSpan) txtSpan.innerText = step.completedText;
+        }
         currentStep++;
         executeNextStep();
     }
