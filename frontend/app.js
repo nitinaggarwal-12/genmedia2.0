@@ -6110,6 +6110,16 @@ window.enterAppDashboard = function() {
     }
 };
 
+window.openSimComparisonModal = function() {
+    const modal = document.getElementById('sim-comparison-modal');
+    if (modal) modal.style.display = 'flex';
+};
+
+window.closeSimComparisonModal = function() {
+    const modal = document.getElementById('sim-comparison-modal');
+    if (modal) modal.style.display = 'none';
+};
+
 let isLandingSimRunning = false;
 window.startLandingSimulation = function() {
     if (isLandingSimRunning) return;
@@ -6133,8 +6143,9 @@ window.startLandingSimulation = function() {
     const claimVal = document.getElementById('sim-claim-val');
     const adClaim = document.getElementById('sim-ad-claim');
     const adFooter = document.getElementById('sim-ad-footer');
+    const compBtn = document.getElementById('open-comparison-btn');
     
-    // Reset visual elements to initial state (mockup blurred, warning claim, offset footer, no success badge)
+    // Reset visual elements to initial state
     if (adMockup) {
         adMockup.style.filter = 'blur(4px)';
         adMockup.style.opacity = '0.4';
@@ -6143,6 +6154,8 @@ window.startLandingSimulation = function() {
     if (toastMlr) toastMlr.style.display = 'none';
     if (toastLayout) toastLayout.style.display = 'none';
     if (successBadge) successBadge.style.display = 'none';
+    if (compBtn) compBtn.style.display = 'none';
+    
     if (claimVal) {
         claimVal.innerText = '68%';
         claimVal.style.color = '#f87171'; // Red
@@ -6191,6 +6204,9 @@ window.startLandingSimulation = function() {
             // Show Success badge overlay
             if (successBadge) successBadge.style.display = 'block';
             if (adMockup) adMockup.style.opacity = '0.7';
+            
+            // Show Expand Comparison button
+            if (compBtn) compBtn.style.display = 'block';
             
             if (btn) {
                 btn.disabled = false;

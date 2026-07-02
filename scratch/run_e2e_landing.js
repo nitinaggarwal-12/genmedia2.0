@@ -89,12 +89,21 @@ async function runE2E() {
         await page.screenshot({ path: simScreenshot });
         console.log(`📸 Completed simulation screenshot captured: ${simScreenshot}`);
         
-        // Enter workbench dashboard
-        console.log('🚀 Entering the app Command Center workbench...');
-        // Click Launch Workbench button in header
+        // Open Expanded comparison modal
+        console.log('🔍 Clicking Expand Comparison View button...');
+        await page.click('#open-comparison-btn');
+        await page.waitForSelector('#sim-comparison-modal', { visible: true, timeout: 3000 });
+        
+        // Take screenshot of expanded modal comparison
+        const modalScreenshot = path.join(SCREENSHOT_DIR, '02b_expanded_comparison_modal.png');
+        await page.screenshot({ path: modalScreenshot });
+        console.log(`📸 Expanded comparison modal screenshot captured: ${modalScreenshot}`);
+        
+        // Enter workbench dashboard via modal Launch button
+        console.log('🚀 Entering the app Command Center workbench from comparison modal...');
         await page.evaluate(() => {
-            const buttons = Array.from(document.querySelectorAll('#landing-view button'));
-            const launchBtn = buttons.find(b => b.innerText.includes('Launch Workbench'));
+            const buttons = Array.from(document.querySelectorAll('#sim-comparison-modal button'));
+            const launchBtn = buttons.find(b => b.innerText.includes('Launch Developer Workbench'));
             if (launchBtn) launchBtn.click();
         });
         
