@@ -37,6 +37,7 @@
  * ========================================== */
 body.light-theme {
     --bg-main: #F4F4F5; /* Premium light zinc slate */
+    --bg-sidebar: #E4E4E7; /* Clean light zinc for sidebar */
     --bg-surface: rgba(255, 255, 255, 0.7); /* Frosted light card */
     --bg-surface-solid: #FFFFFF; /* Pure paper white */
     --border-color: rgba(0, 0, 0, 0.06); /* Ultra-thin light border */
