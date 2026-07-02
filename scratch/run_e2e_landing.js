@@ -137,8 +137,20 @@ async function runE2E() {
         // 2. Test Gradient Banner button click back to landing
         console.log('🔄 Clicking "Back to Landing Page" button above Command Center...');
         await page.evaluate(() => {
+            const banners = Array.from(document.querySelectorAll('.gradient-banner'));
+            console.log('[E2E evaluate] Total gradient banners found:', banners.length);
+            banners.forEach((banner, idx) => {
+                const buttons = Array.from(banner.querySelectorAll('button'));
+                console.log(`[E2E evaluate] Banner #${idx} buttons count:`, buttons.length);
+                buttons.forEach(b => console.log(`[E2E evaluate]   Button text: "${b.innerText}"`));
+            });
             const btn = Array.from(document.querySelectorAll('.gradient-banner button')).find(b => b.innerText.includes('Back to Landing Page'));
-            if (btn) btn.click();
+            if (btn) {
+                console.log('[E2E evaluate] Clicking "Back to Landing Page" button...');
+                btn.click();
+            } else {
+                console.error('[E2E evaluate] ERROR: "Back to Landing Page" button not found!');
+            }
         });
         await page.waitForSelector('#landing-view', { visible: true, timeout: 3000 });
         console.log('✅ Returned to landing page via banner button successfully!');

@@ -6111,9 +6111,11 @@ window.enterAppDashboard = function() {
 };
 
 window.goBackToLanding = function() {
-    if (window.introjs) {
-        window.introjs.exit();
+    if (typeof activeTour !== 'undefined' && activeTour) {
+        if (typeof activeTour.destroy === 'function') activeTour.destroy();
     }
+    window.isTourActive = false;
+    window.tourStep = 0;
     window.location.hash = '#/';
 };
 
