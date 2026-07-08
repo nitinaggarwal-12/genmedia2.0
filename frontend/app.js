@@ -148,16 +148,43 @@ function handleIncomingLog(data) {
 // Append line to the bottom code console
 function appendConsoleLine(styleClass, text) {
     const consoleBody = document.getElementById("console-body");
-    const line = document.createElement("div");
-    line.className = `console-line ${styleClass}`;
+    const dashboardConsole = document.getElementById("dashboard-compliance-log");
     
     // Format timestamp
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
-    line.innerText = `[${timeStr}] ${text}`;
+    const formattedText = `[${timeStr}] ${text}`;
     
-    consoleBody.appendChild(line);
-    consoleBody.scrollTop = consoleBody.scrollHeight;
+    if (consoleBody) {
+        const line = document.createElement("div");
+        line.className = `console-line ${styleClass}`;
+        line.innerText = formattedText;
+        consoleBody.appendChild(line);
+        consoleBody.scrollTop = consoleBody.scrollHeight;
+    }
+    
+    if (dashboardConsole) {
+        const line = document.createElement("div");
+        line.className = `console-line ${styleClass}`;
+        // Style lines with oklch console colors
+        if (text.includes("COMPLIANT") || text.includes("Verified") || text.includes("complete") || text.includes("✅")) {
+            line.style.color = "var(--primary-mint)";
+        } else if (text.includes("VIOLATION") || text.includes("❌") || text.includes("failed")) {
+            line.style.color = "oklch(0.65 0.22 20)"; // Neon Red
+        } else if (text.includes("⚠️") || text.includes("warning")) {
+            line.style.color = "#fbbf24"; // Neon Yellow
+        } else {
+            line.style.color = "#94a3b8"; // Muted Slate
+        }
+        line.innerText = formattedText;
+        dashboardConsole.appendChild(line);
+        dashboardConsole.scrollTop = dashboardConsole.scrollHeight;
+        
+        // Cap lines at 100 to prevent layout memory bloating
+        while (dashboardConsole.childNodes.length > 100) {
+            dashboardConsole.removeChild(dashboardConsole.firstChild);
+        }
+    }
 }
 
 // Reset the progress trackers to default
@@ -4722,6 +4749,32 @@ function initStrategicCharts() {
     // Fetch and populate dynamic strategic claims heatmap from the backend database
     fetchAndRenderStrategicHeatmap();
     
+    // Seed initial dashboard compliance logs
+    const dbLog = document.getElementById("dashboard-compliance-log");
+    if (dbLog && dbLog.childNodes.length <= 3) { // Seeding if empty or just template scanning overlay
+        const initialLogs = [
+            "⚡ [Kong Gateway] Initializing full claims relationship integrity scan...",
+            "🛡️ [MLR Auditor] Verifying visual bounds, padding compliance, and legal footnotes...",
+            "🧬 [Claims Graph] Grounding all therapeutic indices against corporate FDA ledger...",
+            "✅ [Audit Registry] Integrity scan completed. All 12 nodes verified as 100% GxP compliant.",
+            "🔌 [WebSocket] Connection active. Ready to coordinate multi-agent telemetry..."
+        ];
+        initialLogs.forEach(log => {
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            const line = document.createElement("div");
+            line.className = "console-line system";
+            if (log.includes("✅") || log.includes("compliant")) {
+                line.style.color = "var(--primary-mint)";
+            } else {
+                line.style.color = "#94a3b8";
+            }
+            line.innerText = `[${timeStr}] ${log}`;
+            dbLog.appendChild(line);
+        });
+        dbLog.scrollTop = dbLog.scrollHeight;
+    }
+    
     // 1. Sentiment Bar Chart
     const sentCtx = document.getElementById('chart-sentiment-bar');
     if (sentCtx) {
@@ -4732,16 +4785,23 @@ function initStrategicCharts() {
                 datasets: [{
                     label: 'Sentiment Score',
                     data: [35, 23, 18],
-                    backgroundColor: ['#0d9488', '#6366f1', '#475569'],
+                    backgroundColor: ['oklch(0.696 0.17 162.48)', 'oklch(0.79 0.14 195)', 'rgba(255,255,255,0.15)'],
                     borderRadius: 4
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#a1a1aa', font: { size: 8 } } },
+                    y: { 
+                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
+                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                    },
                     x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
                 }
             }
@@ -4756,16 +4816,23 @@ function initStrategicCharts() {
             data: {
                 labels: ['US', 'EU', 'MEA', 'APAC'],
                 datasets: [
-                    { label: 'Maestro', data: [55, 60, 48, 52], backgroundColor: '#0d9488', borderRadius: 3 },
-                    { label: 'Competitors', data: [40, 35, 42, 38], backgroundColor: '#6366f1', borderRadius: 3 }
+                    { label: 'Maestro', data: [55, 60, 48, 52], backgroundColor: 'oklch(0.696 0.17 162.48)', borderRadius: 3 },
+                    { label: 'Competitors', data: [40, 35, 42, 38], backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#a1a1aa', font: { size: 8 } } },
+                    y: { 
+                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
+                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                    },
                     x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
                 }
             }
@@ -4775,6 +4842,11 @@ function initStrategicCharts() {
     // 3. Forecasted CDO Goal Alignment Line Chart
     const cdoCtx = document.getElementById('chart-cdo-alignment');
     if (cdoCtx) {
+        const ctx = cdoCtx.getContext('2d');
+        const mintGradient = ctx.createLinearGradient(0, 0, 0, 130);
+        mintGradient.addColorStop(0, 'oklch(0.696 0.17 162.48 / 0.16)');
+        mintGradient.addColorStop(1, 'oklch(0.696 0.17 162.48 / 0.0)');
+        
         strategicCharts.cdo = new Chart(cdoCtx, {
             type: 'line',
             data: {
@@ -4783,8 +4855,8 @@ function initStrategicCharts() {
                     {
                         label: 'Projected Alignment',
                         data: [18, 32, 45, 58, 65, 75, 90],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16,185,129,0.04)',
+                        borderColor: 'oklch(0.696 0.17 162.48)',
+                        backgroundColor: mintGradient,
                         fill: true,
                         tension: 0.4,
                         borderWidth: 2,
@@ -4793,7 +4865,7 @@ function initStrategicCharts() {
                     {
                         label: 'Baseline Forecast',
                         data: [15, 25, 38, 48, 55, 60, 70],
-                        borderColor: '#6366f1',
+                        borderColor: 'rgba(255,255,255,0.2)',
                         backgroundColor: 'transparent',
                         fill: false,
                         tension: 0.4,
@@ -4806,9 +4878,16 @@ function initStrategicCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#a1a1aa', font: { size: 8 } } },
+                    y: { 
+                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
+                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                    },
                     x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
                 }
             }
@@ -5186,9 +5265,9 @@ window.addEventListener('hashchange', () => {
 
 // 🚀 INTERACTIVE ONBOARDING TOUR (DRIVER.JS INTEGRATION)
 function initOnboardingTour() {
-    // If we are on the landing page, do not initialize the onboarding tour yet!
+    // Only initialize the general dashboard onboarding tour on the Command Center (#/command or #/dashboard)
     const hash = window.location.hash || '#/';
-    if (hash === '#/' || hash === '#' || hash === '' || hash === '#/landing') {
+    if (!hash.includes('/command') && !hash.includes('/dashboard')) {
         return;
     }
 
@@ -5296,11 +5375,11 @@ window.startInteractiveTour = function() {
         opacity: 0.75,
         steps: [
             {
-                element: '.brand-info',
+                element: '.sidebar-logo-container',
                 popover: {
                     title: 'GenMedia Guided Tour 🚀',
                     description: 'This interactive tour will guide you step-by-step through our end-to-end clinical compliance loop. Click **Next** to begin.',
-                    side: 'bottom',
+                    side: 'right',
                     align: 'start',
                     showButtons: ['next', 'close']
                 }
@@ -5319,8 +5398,8 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-2',
                 popover: {
                     title: 'Step 2: Harvesting & Grounding 📥',
-                    description: 'Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the top header to view the draft campaign assets!',
-                    side: 'bottom',
+                    description: 'Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the left sidebar to view the draft campaign assets!',
+                    side: 'right',
                     align: 'center',
                     showButtons: ['close'] // Hide next button to force click!
                 }
@@ -5369,8 +5448,8 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-3', // Governance Ledger button
                 popover: {
                     title: 'Step 7: Self-Healed & Secured! 🛡️',
-                    description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the header to lock in our security seal.',
-                    side: 'bottom',
+                    description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the left sidebar to lock in our security seal.',
+                    side: 'right',
                     align: 'center',
                     showButtons: ['close']
                 }

@@ -158,7 +158,8 @@ def seed_analytics_data(conn):
         run_time = now - timedelta(days=day_offset, hours=hour_offset, minutes=minute_offset)
         timestamp_str = run_time.strftime("%Y-%m-%d %H:%M:%S")
         
-        prod_key, prod_name, indication = random.choice(products)
+        prod_key = random.choice(["Product-A", "Product-B", "Product-C", "Product-D", "Product-E"])
+        indication = random.choice(["NSCLC", "RCC", "Advanced RCC", "PAH", "Ovarian Cancer", "TNBC"])
         project_name = random.choice(brand_projects[prod_key])
         
         status = random.choices(statuses, weights=status_weights, k=1)[0]

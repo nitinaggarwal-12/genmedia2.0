@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('/Users/nitinagga/Documents/PromptCanvas/node_modules/puppeteer');
 const fs = require('fs');
 const path = require('path');
 
@@ -94,10 +94,50 @@ async function runE2E() {
         await page.click('#open-comparison-btn');
         await page.waitForSelector('#sim-comparison-modal', { visible: true, timeout: 3000 });
         
-        // Take screenshot of expanded modal comparison
-        const modalScreenshot = path.join(SCREENSHOT_DIR, '02b_expanded_comparison_modal.png');
+        // Take screenshot of expanded modal comparison (Tab 1: Side-by-Side)
+        const modalScreenshot = path.join(SCREENSHOT_DIR, '02b_expanded_comparison_modal_tab1.png');
         await page.screenshot({ path: modalScreenshot });
-        console.log(`📸 Expanded comparison modal screenshot captured: ${modalScreenshot}`);
+        console.log(`📸 Expanded comparison modal Tab 1 screenshot captured: ${modalScreenshot}`);
+        
+        // Test Tab 2: Interactive Visual Slider Comparison
+        console.log('🔍 Switching to Tab 2: Interactive Visual Comparison...');
+        await page.click('#sim-tab-btn-slider');
+        
+        // Mandatory settling delay (>800ms per E2E Animation Settling rule)
+        console.log('⏳ Injecting mandatory 850ms settling delay for Tab 2 animation...');
+        await new Promise(resolve => setTimeout(resolve, 850));
+        
+        const slider50Screenshot = path.join(SCREENSHOT_DIR, '02c_modal_tab2_visual_slider_50.png');
+        await page.screenshot({ path: slider50Screenshot });
+        console.log(`📸 Tab 2 (Split 50/50) screenshot captured: ${slider50Screenshot}`);
+        
+        // Test 100% Before button
+        console.log('🔍 Clicking 100% Before button on visual slider...');
+        await page.evaluate(() => {
+            const btns = Array.from(document.querySelectorAll('#sim-tab-visual-slider button'));
+            const beforeBtn = btns.find(b => b.innerText.includes('100% Before'));
+            if (beforeBtn) beforeBtn.click();
+        });
+        await new Promise(resolve => setTimeout(resolve, 400));
+        const sliderBeforeScreenshot = path.join(SCREENSHOT_DIR, '02d_modal_tab2_before_100.png');
+        await page.screenshot({ path: sliderBeforeScreenshot });
+        console.log(`📸 Tab 2 (100% Before) screenshot captured: ${sliderBeforeScreenshot}`);
+        
+        // Test 100% After button
+        console.log('🔍 Clicking 100% After button on visual slider...');
+        await page.evaluate(() => {
+            const btns = Array.from(document.querySelectorAll('#sim-tab-visual-slider button'));
+            const afterBtn = btns.find(b => b.innerText.includes('100% After'));
+            if (afterBtn) afterBtn.click();
+        });
+        await new Promise(resolve => setTimeout(resolve, 400));
+        const sliderAfterScreenshot = path.join(SCREENSHOT_DIR, '02e_modal_tab2_after_100.png');
+        await page.screenshot({ path: sliderAfterScreenshot });
+        console.log(`📸 Tab 2 (100% After) screenshot captured: ${sliderAfterScreenshot}`);
+        
+        // Return to Tab 1 before launching workbench
+        await page.click('#sim-tab-btn-sbs');
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         // Enter workbench dashboard via modal Launch button
         console.log('🚀 Entering the app Command Center workbench from comparison modal...');

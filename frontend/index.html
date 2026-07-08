@@ -165,11 +165,11 @@
         }
         .side-nav-btn:hover { background: rgba(255,255,255,0.03); color: var(--color-text-main); }
         .side-nav-btn.active { 
-            background: var(--bg-surface-solid); 
-            color: var(--color-text-main); 
-            border: 1px solid var(--border-color); 
+            background: oklch(0.62 0.17 162.48) !important; 
+            color: #000000 !important; 
+            border: 1px solid transparent !important; 
             font-weight: 800; 
-            box-shadow: var(--shadow-sm); 
+            box-shadow: 0 4px 12px oklch(0.62 0.17 162.48 / 0.25); 
         }
 
         /* BOTTOM ACTIONS */
@@ -257,12 +257,68 @@
         .heatmap-table td, table td { color: var(--color-text-main) !important; border: none !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; }
         
         .heatmap-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 800; border: 1px solid; }
-        .zero-teal { color: #2dd4bf !important; background: rgba(45, 212, 191, 0.1) !important; border-color: rgba(45, 212, 191, 0.2) !important; }
-        .zero-blue { color: #60a5fa !important; background: rgba(96, 165, 250, 0.1) !important; border-color: rgba(96, 165, 250, 0.2) !important; }
-        .zero-purple { color: #a78bfa !important; background: rgba(167, 139, 250, 0.1) !important; border-color: rgba(167, 139, 250, 0.2) !important; }
-        .gold-g { color: #fbbf24 !important; background: rgba(251, 191, 36, 0.1) !important; border-color: rgba(251, 191, 36, 0.2) !important; }
-        .red-delta { color: #f87171 !important; background: rgba(248, 113, 113, 0.1) !important; border-color: rgba(248, 113, 113, 0.2) !important; }
-        .orange-o { color: #fb923c !important; background: rgba(251, 146, 60, 0.1) !important; border-color: rgba(251, 146, 60, 0.2) !important; }
+        .zero-teal { color: #64748b !important; background: rgba(100, 116, 139, 0.04) !important; border-color: rgba(100, 116, 139, 0.15) !important; }
+        .zero-blue { color: #64748b !important; background: rgba(100, 116, 139, 0.04) !important; border-color: rgba(100, 116, 139, 0.15) !important; }
+        .zero-purple { color: #64748b !important; background: rgba(100, 116, 139, 0.04) !important; border-color: rgba(100, 116, 139, 0.15) !important; }
+        .gold-g { color: #34d399 !important; background: rgba(52, 211, 153, 0.08) !important; border-color: rgba(52, 211, 153, 0.2) !important; }
+        .red-delta { color: #f43f5e !important; background: rgba(244, 63, 94, 0.1) !important; border-color: rgba(244, 63, 94, 0.25) !important; }
+        .orange-o { color: #fbbf24 !important; background: rgba(251, 191, 36, 0.08) !important; border-color: rgba(251, 191, 36, 0.2) !important; }
+
+        /* Speedometer Gauges Sweep Animations */
+        .gauge-arc {
+            stroke-dasharray: 126;
+            stroke-dashoffset: 126;
+            animation: gaugeArcSweep 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        .gauge-needle {
+            transform-origin: 50px 50px;
+            transform: rotate(0deg); /* Start pointing straight left */
+            animation-duration: 1.6s;
+            animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+            animation-fill-mode: forwards;
+        }
+
+        /* Animations for each speedometer gauge */
+        .gauge-arc-1 { animation-name: gaugeArcSweep1; }
+        .gauge-arc-2 { animation-name: gaugeArcSweep2; }
+        .gauge-arc-3 { animation-name: gaugeArcSweep3; }
+
+        @keyframes gaugeArcSweep1 {
+            from { stroke-dashoffset: 126; }
+            to { stroke-dashoffset: 35; } /* ~72% */
+        }
+        @keyframes gaugeArcSweep2 {
+            from { stroke-dashoffset: 126; }
+            to { stroke-dashoffset: 2; } /* 98.2% */
+        }
+        @keyframes gaugeArcSweep3 {
+            from { stroke-dashoffset: 126; }
+            to { stroke-dashoffset: 22; } /* ~82% */
+        }
+
+        /* Needle keyframes - rotating needles to target angles */
+        .gauge-needle-1 { animation-name: needleRotate1; }
+        .gauge-needle-2 { animation-name: needleRotate2; }
+        .gauge-needle-3 { animation-name: needleRotate3; }
+
+        @keyframes needleRotate1 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(130deg); }
+        }
+        @keyframes needleRotate2 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(154deg); }
+        }
+        @keyframes needleRotate3 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(141deg); }
+        }
+
+        @keyframes scanLineSweepAnim {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
 
         /* Remove legacy layout elements */
         .app-header { display: none !important; }
@@ -951,7 +1007,13 @@
                     <p style="font-size: 1rem; color: #94a3b8; margin: 0.35rem 0 0 0;">Before and After visual audit comparison showing medical claims validation, FDA Fair Balance adjustments, and visual layout self-healing.</p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
+                <!-- Tab Navigation Header -->
+                <div style="display: flex; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+                    <button id="sim-tab-btn-sbs" onclick="switchSimModalTab('sbs')" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 800; font-size: 0.85rem; padding: 0.5rem 1.25rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; outline: none;">📊 Side-by-Side View</button>
+                    <button id="sim-tab-btn-slider" onclick="switchSimModalTab('slider')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; font-weight: 700; font-size: 0.85rem; padding: 0.5rem 1.25rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; outline: none;">🌓 Interactive Visual Comparison</button>
+                </div>
+                
+                <div id="sim-tab-side-by-side" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
                     <!-- BEFORE COLUMN -->
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -1033,6 +1095,143 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- TAB 2: INTERACTIVE VISUAL SLIDER COMPARISON -->
+                <div id="sim-tab-visual-slider" style="display: none; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 0.75rem 1.25rem; border-radius: 10px; flex-wrap: wrap; gap: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 0.85rem; font-weight: 800; color: #EF4444;">◄ BEFORE (68% Uncited)</span>
+                            <span style="color: #64748b;">|</span>
+                            <span style="font-size: 0.85rem; font-weight: 800; color: #10B981;">AFTER (65% Cited + Boxed Warning) ►</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button onclick="setVisualSlider(100)" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #FCA5A5; font-size: 0.72rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; outline: none;">100% Before</button>
+                            <button onclick="setVisualSlider(50)" style="background: rgba(0,242,254,0.1); border: 1px solid rgba(0,242,254,0.3); color: #00F2FE; font-size: 0.72rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; outline: none;">Split 50/50</button>
+                            <button onclick="setVisualSlider(0)" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #A7F3D0; font-size: 0.72rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; outline: none;">100% After</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Split Screen Canvas Box -->
+                    <div id="sim-visual-slider-box" style="position: relative; width: 100%; height: 380px; background: #030712; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <!-- AFTER LAYER (Bottom / Full Width) -->
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 2.25rem; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, rgba(16,185,129,0.05) 0%, rgba(3,7,18,1) 60%);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="font-size: 0.8rem; font-weight: 800; color: #00F2FE; letter-spacing: 1px;">PRODUCT-A CAMPAIGN (GX-CERTIFIED)</span>
+                                <span style="font-size: 0.7rem; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.6rem; border-radius: 20px; color: #10B981; font-weight: 800;">✅ GxP Compliant Banner</span>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 0 0 0.75rem 0;">Breakthrough Survival in NSCLC</h4>
+                                <p style="font-size: 1rem; line-height: 1.6; color: #cbd5e1; margin: 0; padding: 0.75rem 1rem; border-radius: 8px; background: rgba(52,211,153,0.08); border: 1px solid rgba(16,185,129,0.3); max-width: 80%;">
+                                    Pembrolizumab increases overall survival rate to <strong style="color: #34D399; font-weight: 900; font-size: 1.1rem;">65%<sup>[1]</sup></strong> in first-line therapy.
+                                </p>
+                                <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.8rem; color: #fca5a5; line-height: 1.5; margin-top: 0.75rem; max-width: 80%;">
+                                    <strong style="color: #f87171;">⚠️ Boxed Warning:</strong> Immune-mediated adverse reactions (pneumonitis, colitis, hepatitis). Monitor closely.
+                                </div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;">
+                                <sup>[1]</sup> Keynote-607 overall clinical trial registration index benchmarks. Verified by local registry rules. <span style="color: #34D399; font-weight: bold;">[+16px Healed Layout Spacing]</span>
+                            </div>
+                        </div>
+
+                        <!-- BEFORE LAYER (Top / Clipped by Slider) -->
+                        <div id="sim-before-clip" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 2.25rem; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; background: #030712; border-right: 2px solid #EF4444; clip-path: inset(0 50% 0 0); transition: clip-path 0.05s linear; z-index: 5;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="font-size: 0.8rem; font-weight: 800; color: #8EC5FC; letter-spacing: 1px;">PRODUCT-A BRIEFING (RAW COPY)</span>
+                                <span style="font-size: 0.7rem; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); padding: 0.2rem 0.6rem; border-radius: 20px; color: #EF4444; font-weight: 800;">⚠️ 4 Violations Found</span>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 0 0 0.75rem 0;">Breakthrough Survival in NSCLC</h4>
+                                <p style="font-size: 1rem; line-height: 1.6; color: #cbd5e1; margin: 0; padding: 0.75rem 1rem; border-radius: 8px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); max-width: 80%;">
+                                    Pembrolizumab increases overall survival rate to <strong style="color: #EF4444; font-weight: 900; font-size: 1.1rem; text-decoration: underline;">68%</strong> in first-line therapy.
+                                </p>
+                            </div>
+                            <div style="font-size: 0.75rem; color: #64748b; border-top: 1px dashed rgba(239,68,68,0.4); padding-top: 0.3rem; margin-top: -8px;">
+                                <span style="color: #ef4444; font-weight: bold; background: rgba(239,68,68,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">[Overlap Collision]</span> *Warnings: Adverse events may occur. Contact physician immediately.
+                            </div>
+                        </div>
+
+                        <!-- Vertical Slider Handle Line -->
+                        <div id="sim-slider-handle-line" style="position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: #00F2FE; z-index: 10; pointer-events: none; transform: translateX(-50%); box-shadow: 0 0 15px #00F2FE;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0B0F19; border: 2px solid #00F2FE; color: #ffffff; font-size: 0.7rem; font-weight: 900; padding: 0.35rem 0.7rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.8); pointer-events: none;">
+                                ◄ Before | After ►
+                            </div>
+                        </div>
+
+                        <!-- Invisible Range Input covering canvas -->
+                        <input type="range" id="sim-visual-slider-range" min="0" max="100" value="50" oninput="updateVisualSlider(this.value)" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 20; margin: 0;">
+                    </div>
+                    
+                    <!-- Diff Annotation Cards -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 0.85rem; border-radius: 8px;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #34D399; margin-bottom: 0.25rem;">🎯 1. Claim Accuracy & Citation</div>
+                            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0; line-height: 1.4;">Uncited <strong style="color:#EF4444;">68%</strong> corrected to clinical index <strong style="color:#34D399;">65%<sup>[1]</sup></strong> with bibliography footnote.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 0.85rem; border-radius: 8px;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #F87171; margin-bottom: 0.25rem;">⚠️ 2. FDA Fair Balance Injection</div>
+                            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0; line-height: 1.4;">Injected prominent Boxed Warning container describing immune-mediated risks.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 0.85rem; border-radius: 8px;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #00F2FE; margin-bottom: 0.25rem;">📐 3. Layout Self-Healing</div>
+                            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0; line-height: 1.4;">Expanded footer padding by <strong style="color:#00F2FE;">+16px</strong> to resolve text overlap collisions.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    function switchSimModalTab(tab) {
+                        const sbsTab = document.getElementById('sim-tab-side-by-side');
+                        const sliderTab = document.getElementById('sim-tab-visual-slider');
+                        const sbsBtn = document.getElementById('sim-tab-btn-sbs');
+                        const sliderBtn = document.getElementById('sim-tab-btn-slider');
+                        
+                        if (tab === 'sbs') {
+                            if (sbsTab) sbsTab.style.display = 'grid';
+                            if (sliderTab) sliderTab.style.display = 'none';
+                            if (sbsBtn) {
+                                sbsBtn.style.background = 'rgba(0, 242, 254, 0.15)';
+                                sbsBtn.style.borderColor = '#00F2FE';
+                                sbsBtn.style.color = '#00F2FE';
+                            }
+                            if (sliderBtn) {
+                                sliderBtn.style.background = 'rgba(255, 255, 255, 0.03)';
+                                sliderBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                sliderBtn.style.color = '#94a3b8';
+                            }
+                        } else if (tab === 'slider') {
+                            if (sbsTab) sbsTab.style.display = 'none';
+                            if (sliderTab) sliderTab.style.display = 'flex';
+                            if (sliderBtn) {
+                                sliderBtn.style.background = 'rgba(0, 242, 254, 0.15)';
+                                sliderBtn.style.borderColor = '#00F2FE';
+                                sliderBtn.style.color = '#00F2FE';
+                            }
+                            if (sbsBtn) {
+                                sbsBtn.style.background = 'rgba(255, 255, 255, 0.03)';
+                                sbsBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                sbsBtn.style.color = '#94a3b8';
+                            }
+                            const rangeEl = document.getElementById('sim-visual-slider-range');
+                            if (rangeEl) updateVisualSlider(rangeEl.value);
+                        }
+                    }
+                    
+                    function updateVisualSlider(val) {
+                        const clipEl = document.getElementById('sim-before-clip');
+                        const handleEl = document.getElementById('sim-slider-handle-line');
+                        const clipPercent = 100 - val;
+                        if (clipEl) clipEl.style.clipPath = `inset(0 ${clipPercent}% 0 0)`;
+                        if (handleEl) handleEl.style.left = `${val}%`;
+                    }
+                    
+                    function setVisualSlider(val) {
+                        const rangeEl = document.getElementById('sim-visual-slider-range');
+                        if (rangeEl) {
+                            rangeEl.value = val;
+                            updateVisualSlider(val);
+                        }
+                    }
+                </script>
                 
                 <div style="display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; margin-top: 0.5rem;">
                     <button class="landing-btn secondary" onclick="closeSimComparisonModal()" style="padding: 0.6rem 1.5rem; font-size: 0.9rem; height: auto;">Close Expanded View</button>
@@ -1116,37 +1315,97 @@
     <div class="app-container">
         <!-- TOP NAVIGATION BAR (Premium Restructured Header matching Mockups!) -->
         <!-- RESTUCTURED LEFT PANE NAVIGATION -->
-        <aside class="sidebar">
-            <div class="sidebar-logo-container">
-                <a href="javascript:void(0)" onclick="goBackToLanding()" title="Back to Landing Page" style="text-decoration: none;"><div class="logo-icon-box" style="cursor: pointer;">M</div></a>
-                <h1 class="brand-h1">MAESTRO <span class="brand-badge">CONTENTSTUDIO</span></h1>
-                <p class="brand-p">Agentic Marketing Workbench &<br>Compliance Ledger</p>
-            </div>
-
-            <nav class="side-nav" id="header-workflow-nav">
-                <button onclick="switchPhase(-1)" id="global-nav-btn--1" class="side-nav-btn active">COMMAND CENTER</button>
-                <button onclick="switchPhase(1)" id="global-nav-btn-1" class="side-nav-btn">CLINICAL INGEST</button>
-                <button onclick="switchPhase(2)" id="global-nav-btn-2" class="side-nav-btn">CREATIVE COMPOSER</button>
-                <button onclick="switchPhase(3)" id="global-nav-btn-3" class="side-nav-btn">GOVERNANCE LEDGER</button>
-            </nav>
-
-            <div class="sidebar-bottom-actions">
-                <button class="action-btn primary btn-tour-trigger" id="btn-tour-trigger" onclick="startInteractiveTour()">🚀 Start Tour</button>
-                <button class="action-btn btn-guide-trigger" onclick="window.open('/user_guide.html','_blank')">📖 User Guide</button>
-                <button class="action-btn btn-analytics-trigger" id="global-nav-btn-analytics" onclick="switchTab('analytics')">📊 Analytics</button>
+        <aside class="sidebar" style="display: flex; flex-direction: column; justify-content: space-between; height: 100vh;">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-height: 0; overflow-y: auto;">
                 
-                <div class="status-badge compliance-badge" id="header-compliance-badge">
-                    <span class="pulse-dot"></span> FDA & VEEVA PROM...-LOCKED
+                <!-- Logo & Brand Header -->
+                <div class="sidebar-logo-container" style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <a href="javascript:void(0)" onclick="goBackToLanding()" title="Back to Landing Page" style="text-decoration: none;">
+                            <div class="logo-icon-box" style="cursor: pointer; margin-bottom: 0; width: 36px; height: 36px; background: var(--accent-cyan); color: #000; font-weight: 900;">M</div>
+                        </a>
+                        <div style="display: flex; flex-direction: column;">
+                            <h1 class="brand-h1" style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); margin: 0; letter-spacing: 0.5px;">MAESTRO</h1>
+                            <span class="brand-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.55rem; font-weight: 800; padding: 0.1rem 0.35rem; border-radius: 4px; width: fit-content; margin-top: 0.15rem; letter-spacing: 0.5px; border: 1px solid rgba(16, 185, 129, 0.25);">MLR V1.2 ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Portfolio Selector Section -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.25rem;">
+                    <span style="font-size: 0.58rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Active Portfolio</span>
+                    <select id="portfolio-asset-selector" style="width: 100%; background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.72rem; padding: 0.5rem; font-weight: 700; cursor: pointer;">
+                        <option value="product-a" selected>Product-A (Pembrolizumab)</option>
+                        <option value="product-b">Product-B (Lenvatinib)</option>
+                        <option value="product-c">Product-C (Belzutifan)</option>
+                        <option value="product-d">Product-D (Sotatercept)</option>
+                    </select>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
+                        <button onclick="switchPhase(1)" class="action-btn" style="font-size: 0.65rem; padding: 0.4rem; justify-content: center; font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface-solid); color: var(--color-text-main); display: flex; align-items: center; gap: 0.25rem; cursor: pointer; height: auto; outline: none;">
+                            <span>📤</span> Upload
+                        </button>
+                        <button onclick="switchPhase(2)" class="action-btn" style="font-size: 0.65rem; padding: 0.4rem; justify-content: center; font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface-solid); color: var(--color-text-main); display: flex; align-items: center; gap: 0.25rem; cursor: pointer; height: auto; outline: none;">
+                            <span>🏠</span> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.25rem; margin-top: 0.5rem;">
+                    <span style="font-size: 0.58rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.8px; display: flex; justify-content: space-between; align-items: center;">
+                        Campaign Navigation
+                        <span style="font-size: 0.5rem; color: var(--color-text-muted); opacity: 0.5;">&lt;</span>
+                    </span>
+                    <nav class="side-nav" id="header-workflow-nav" style="display: flex; flex-direction: column; gap: 0.35rem; width: 100%;">
+                        <button onclick="switchPhase(-1)" id="global-nav-btn--1" class="side-nav-btn active" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                            <span>🧭</span> 0. Command Center
+                        </button>
+                        <button onclick="switchPhase(1)" id="global-nav-btn-1" class="side-nav-btn" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                            <span>💼</span> 1. Clinical Ingest
+                        </button>
+                        <button onclick="switchPhase(2)" id="global-nav-btn-2" class="side-nav-btn" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                            <span>✏️</span> 2. Creative Composer
+                        </button>
+                        <button onclick="switchPhase(3)" id="global-nav-btn-3" class="side-nav-btn" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                            <span>🛡️</span> 3. Governance Ledger
+                        </button>
+                    </nav>
                 </div>
                 
-                <button class="action-btn user-profile" id="btn-role-selector" style="justify-content: space-between; padding: 0.6rem 0.8rem;">
-                    <span style="display: flex; align-items: center; gap: 0.4rem;">👤 nitinagge-ge-2</span>
+            </div>
+
+            <!-- Bottom Actions Group (Fixed at the bottom of the sidebar view) -->
+            <div class="sidebar-bottom-actions" style="display: flex; flex-direction: column; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); flex-shrink: 0; box-sizing: border-box; margin-top: auto;">
+                <!-- Outlined Tour trigger button -->
+                <button class="action-btn primary btn-tour-trigger" id="btn-tour-trigger" onclick="startInteractiveTour()" style="justify-content: center; font-size: 0.72rem; padding: 0.55rem; font-weight: 700; border: 1px solid var(--accent-cyan); background: transparent; color: var(--accent-cyan); border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; transition: var(--transition-smooth); width: 100%; height: auto; outline: none;">
+                    <span>✨</span> Start Guided Tour
+                </button>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                    <button class="action-btn btn-guide-trigger" onclick="window.open('/user_guide.html','_blank')" style="font-size: 0.65rem; padding: 0.45rem 0.25rem; justify-content: center; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; color: var(--color-text-muted); cursor: pointer; height: auto; outline: none;">📖 Guide</button>
+                    <button class="action-btn btn-analytics-trigger" id="global-nav-btn-analytics" onclick="switchTab('analytics')" style="font-size: 0.65rem; padding: 0.45rem 0.25rem; justify-content: center; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; color: var(--color-text-muted); cursor: pointer; height: auto; outline: none;">📊 Analytics</button>
+                </div>
+
+                <!-- Filing Context Status Panel -->
+                <div style="background: rgba(3, 7, 18, 0.45); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.55rem; display: flex; flex-direction: column; gap: 0.2rem; box-sizing: border-box;">
+                    <span style="font-size: 0.55rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.8px; display: flex; align-items: center; justify-content: space-between;">
+                        Filing Context
+                        <span style="width: 6px; height: 6px; background-color: var(--primary-mint); border-radius: 50%; display: inline-block; animation: compliancePulse 2s infinite;"></span>
+                    </span>
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Product-A (Pembrolizumab)</span>
+                    <span style="font-size: 0.52rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">ONCOLOGY / MLR-SCREENED</span>
+                </div>
+
+                <!-- Role Selector -->
+                <button class="action-btn user-profile" id="btn-role-selector" style="justify-content: space-between; padding: 0.5rem 0.6rem; font-size: 0.68rem; border-radius: 6px; background: transparent; border: 1px solid var(--border-color); color: var(--color-text-muted); cursor: pointer; display: flex; align-items: center; width: 100%; height: auto; outline: none;">
+                    <span style="display: flex; align-items: center; gap: 0.35rem;">👤 nitinagge-ge-2</span>
                     <span>⚙️</span>
                 </button>
                 
-                <!-- Preserved Theme Toggle for 100% Scripting Compatibility -->
-                <button class="action-btn theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme" style="justify-content: center; gap: 0.5rem; margin-top: 0.25rem;">
-                    <span id="theme-icon">☀️</span> Toggle Theme
+                <!-- Theme Toggle -->
+                <button class="action-btn theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme" style="justify-content: center; gap: 0.35rem; margin-top: 0; font-size: 0.65rem; padding: 0.45rem; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; color: var(--color-text-muted); cursor: pointer; display: flex; align-items: center; width: 100%; height: auto; outline: none;">
+                    <span id="theme-icon">🌙</span> Toggle Theme
                 </button>
             </div>
         </aside>
@@ -1155,10 +1414,10 @@
         <main class="main-content">
             
             <!-- TAB 1: MAIN WORKFLOW WORKSPACE (HOUSES ALL 5 PROGRESSIVE PHASES) -->
-            <div id="tab-workbench" class="tab-content active-tab" style="display: flex; flex-direction: column; height: 100%; width: 100%;">
+            <div id="tab-workbench" class="tab-content active-tab" style="display: flex; flex-direction: column; min-height: 100%; width: 100%;">
                 
                 <!-- PHASE -1: GLOBAL STRATEGIC INTELLIGENCE COMMAND CENTER -->
-                <div class="phase-container" id="phase-minus1-view" style="display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%;">
+                <div class="phase-container" id="phase-minus1-view" style="display: flex; flex-direction: column; width: 100%;">
                     <div class="gradient-banner" style="display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;">
                         <div>
                             <h2>COMMAND CENTER: GLOBAL STRATEGIC INTELLIGENCE</h2>
@@ -1169,36 +1428,94 @@
                         </button>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 52fr 48fr; flex: 1; min-height: 0; overflow: hidden; padding: 1.5rem 2rem; gap: 1.5rem; box-sizing: border-box; position: relative;">
-                        <!-- Left Column: Competitive Claims Heatmap -->
-                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.5rem; height: 100%; box-sizing: border-box; overflow: hidden;">
-                            <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0;">
-                                <span class="panel-icon">📊</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
-                                <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
-                            </div>
-                            
-                            <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
-                                <table class="heatmap-table" style="width: 100%; border-collapse: collapse;">
-                                    <thead id="heatmap-thead">
-                                        <tr>
-                                            <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
-                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitor<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competic-in<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-607<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-3A<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitiiic<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="heatmap-tbody" style="font-size: 0.72rem; font-weight: 700;">
-                                        <!-- Dynamically populated from backend /api/strategic-heatmap -->
-                                    </tbody>
-                                </table>
+                    <!-- EXECUTIVE KPI STATS ROW (Dossier Harmonizer Style) -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; padding: 0.75rem 2rem 0 2rem; box-sizing: border-box; flex-shrink: 0;">
+                        <!-- Card 1: Screened Claims -->
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
+                            <div style="background: rgba(16, 185, 129, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981;">💼</div>
+                            <div>
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Screened Indications</div>
+                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">36 Claims</div>
                             </div>
                         </div>
+                        <!-- Card 2: Remediation Gaps -->
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
+                            <div style="background: rgba(251, 191, 36, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(251, 191, 36, 0.2); color: #fbbf24;">⚠️</div>
+                            <div>
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Remediation Gaps</div>
+                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">4 Gaps</div>
+                            </div>
+                        </div>
+                        <!-- Card 3: Governance Health -->
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
+                            <div style="background: rgba(6, 182, 212, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(6, 182, 212, 0.2); color: #06b6d4;">📈</div>
+                            <div>
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Governance Health</div>
+                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">98.2% Approved</div>
+                            </div>
+                        </div>
+                        <!-- Card 4: Estimated Savings -->
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
+                            <div style="background: rgba(16, 185, 129, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981;">💵</div>
+                            <div>
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">MLR Labor Savings</div>
+                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">$420.5K USD</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 52fr 48fr; gap: 1.25rem; padding: 0.75rem 2rem 1.5rem 2rem; box-sizing: border-box; position: relative;">
+                        <!-- Left Column: Heatmap + Live GxP Compliance Feed -->
+                        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            <!-- Top: Competitive Claims Heatmap -->
+                            <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box;">
+                                <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0;">
+                                    <span class="panel-icon">📊</span>
+                                    <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
+                                    <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
+                                </div>
+                                
+                                <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
+                                    <table class="heatmap-table" style="width: 100%; border-collapse: collapse;">
+                                        <thead id="heatmap-thead">
+                                            <tr>
+                                                <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
+                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitor<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competic-in<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-607<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-3A<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitiiic<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="heatmap-tbody" style="font-size: 0.72rem; font-weight: 700;">
+                                            <!-- Dynamically populated from backend /api/strategic-heatmap -->
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bottom: Live GxP Compliance Feed Console -->
+                                <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; height: 260px; box-sizing: border-box; overflow: hidden;">
+                                    <div class="panel-header-compact" style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <span class="panel-icon">💻</span>
+                                            <h3 style="font-size: 0.85rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">System Compliance Live Feed</h3>
+                                            <p style="font-size: 0.62rem; color: var(--color-text-muted); margin: 0.15rem 0 0 0;">Real-time agentic GxP validation transactions and ledger locks.</p>
+                                        </div>
+                                        <span style="font-size: 0.58rem; color: var(--primary-mint); font-weight: 700; display: flex; align-items: center; gap: 0.25rem;">
+                                            <span class="pulse-dot" style="width: 6px; height: 6px; background-color: var(--primary-mint); display: inline-block; border-radius: 50%;"></span>
+                                            Core VM in sync
+                                        </span>
+                                    </div>
+                                    <div id="dashboard-compliance-log" class="console-body" style="flex: 1; overflow-y: auto; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 0.68rem; background: rgba(3, 7, 18, 0.4); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); box-sizing: border-box; line-height: 1.5; color: #a1a1aa; position: relative;">
+                                        <!-- Scanning sweep line overlay -->
+                                        <div class="scan-line-sweep" style="position: absolute; left: 0; top: 0; width: 100%; height: 2px; background: linear-gradient(to right, transparent, var(--accent-cyan), transparent); opacity: 0.15; animation: scanLineSweepAnim 4s linear infinite; pointer-events: none;"></div>
+                                    </div>
+                                </div>
+                            </div>
                         
                         <!-- Right Column: Brand Sentiment & Share of Voice Dashboard -->
-                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.5rem; height: 100%; box-sizing: border-box; overflow: hidden; position: relative;">
+                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box; position: relative;">
                             <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
                                 <div>
                                     <span class="panel-icon">📈</span>
@@ -1208,15 +1525,15 @@
                                 <span class="badge-verified" style="background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); font-size: 0.58rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 20px;">✓ Verified</span>
                             </div>
                             
-                            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                                 <!-- Speedometer Gauges Row -->
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <div class="gauge-card" style="flex: 1; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                                         <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">HCP Perception</span>
                                         <svg width="80" height="48" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 75 22" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
-                                            <line x1="50" y1="50" x2="70" y2="28" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-1" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
+                                            <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-1" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
                                         <span style="font-size: 0.65rem; color: #34d399; font-weight: 800; margin-top: 0.25rem;">Current Gauges</span>
@@ -1225,8 +1542,8 @@
                                         <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Competitive Adherence</span>
                                         <svg width="80" height="48" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 85 30" fill="none" stroke="var(--color-secondary)" stroke-width="8" stroke-linecap="round"/>
-                                            <line x1="50" y1="50" x2="80" y2="35" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-2" fill="none" stroke="var(--color-secondary)" stroke-width="8" stroke-linecap="round"/>
+                                            <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-2" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
                                         <span style="font-size: 0.65rem; color: var(--color-secondary); font-weight: 800; margin-top: 0.25rem;">98.2% Approved</span>
@@ -1235,8 +1552,8 @@
                                         <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Share of Voice</span>
                                         <svg width="80" height="48" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 80 25" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
-                                            <line x1="50" y1="50" x2="75" y2="30" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-3" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
+                                            <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-3" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
                                         <span style="font-size: 0.65rem; color: #34d399; font-weight: 800; margin-top: 0.25rem;">98.2% (Fasts)</span>

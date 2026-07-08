@@ -211,13 +211,28 @@ body.light-theme textarea:focus {
     box-shadow: 0 0 0 2px var(--color-primary-glow) !important;
 }
 
-/* heatmap badges */
+/* heatmap badges overrides for high-contrast accessibility in light mode */
 body.light-theme .heatmap-badge.zero-teal,
 body.light-theme .heatmap-badge.zero-blue,
 body.light-theme .heatmap-badge.zero-purple {
-    background: #F1F5F9 !important;
-    color: #64748B !important;
-    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid rgba(71, 85, 105, 0.15) !important;
+}
+body.light-theme .heatmap-badge.gold-g {
+    background: #d1fae5 !important;
+    color: #047857 !important;
+    border: 1px solid rgba(4, 120, 87, 0.25) !important;
+}
+body.light-theme .heatmap-badge.orange-o {
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+    border: 1px solid rgba(180, 83, 9, 0.25) !important;
+}
+body.light-theme .heatmap-badge.red-delta {
+    background: #ffe4e6 !important;
+    color: #be123c !important;
+    border: 1px solid rgba(190, 18, 60, 0.25) !important;
 }
 
 body.light-theme .heatmap-table th {
