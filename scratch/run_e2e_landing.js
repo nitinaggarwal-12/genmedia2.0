@@ -67,7 +67,7 @@ async function runE2E() {
         
         // Trigger live simulation
         console.log('⚡ Triggering the Live Compliance Simulation...');
-        await page.click('#run-sim-btn');
+        await page.$eval('#run-sim-btn', el => el.click());
         
         // Wait 11000ms for simulation to run and log lines
         console.log('⏳ Waiting for agent simulation to finish (11 seconds)...');
@@ -91,7 +91,7 @@ async function runE2E() {
         
         // Open Expanded comparison modal
         console.log('🔍 Clicking Expand Comparison View button...');
-        await page.click('#open-comparison-btn');
+        await page.$eval('#open-comparison-btn', el => el.click());
         await page.waitForSelector('#sim-comparison-modal', { visible: true, timeout: 3000 });
         
         // Take screenshot of expanded modal comparison (Tab 1: Side-by-Side)
@@ -101,7 +101,7 @@ async function runE2E() {
         
         // Test Tab 2: Interactive Visual Slider Comparison
         console.log('🔍 Switching to Tab 2: Interactive Visual Comparison...');
-        await page.click('#sim-tab-btn-slider');
+        await page.$eval('#sim-tab-btn-slider', el => el.click());
         
         // Mandatory settling delay (>800ms per E2E Animation Settling rule)
         console.log('⏳ Injecting mandatory 850ms settling delay for Tab 2 animation...');
@@ -136,7 +136,7 @@ async function runE2E() {
         console.log(`📸 Tab 2 (100% After) screenshot captured: ${sliderAfterScreenshot}`);
         
         // Return to Tab 1 before launching workbench
-        await page.click('#sim-tab-btn-sbs');
+        await page.$eval('#sim-tab-btn-sbs', el => el.click());
         await new Promise(resolve => setTimeout(resolve, 300));
         
         // Enter workbench dashboard via modal Launch button
@@ -211,7 +211,7 @@ async function runE2E() {
         
         // 1. Test Sidebar M logo link click back to landing
         console.log('🔄 Clicking sidebar M logo link to return to landing page...');
-        await page.click('.sidebar-logo-container a');
+        await page.$eval('.sidebar-logo-container a', el => el.click());
         await page.waitForSelector('#landing-view', { visible: true, timeout: 3000 });
         console.log('✅ Returned to landing page via logo link successfully!');
         
