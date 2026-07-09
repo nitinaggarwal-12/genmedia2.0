@@ -1008,9 +1008,10 @@
                 </div>
                 
                 <!-- Tab Navigation Header -->
-                <div style="display: flex; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+                <div style="display: flex; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem; flex-wrap: wrap;">
                     <button id="sim-tab-btn-sbs" onclick="switchSimModalTab('sbs')" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 800; font-size: 0.85rem; padding: 0.5rem 1.25rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; outline: none;">📊 Side-by-Side View</button>
                     <button id="sim-tab-btn-slider" onclick="switchSimModalTab('slider')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; font-weight: 700; font-size: 0.85rem; padding: 0.5rem 1.25rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; outline: none;">🌓 Interactive Visual Comparison</button>
+                    <button id="sim-tab-btn-studio" onclick="switchSimModalTab('studio')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; font-weight: 700; font-size: 0.85rem; padding: 0.5rem 1.25rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; outline: none;">🖥️ Adobe GenMedia Studio View</button>
                 </div>
                 
                 <div id="sim-tab-side-by-side" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
@@ -1124,7 +1125,7 @@
                     </div>
                     
                     <!-- Split Screen Canvas Box -->
-                    <div id="sim-visual-slider-box" style="position: relative; width: 100%; min-height: 540px; height: auto; background: #030712; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <div id="sim-visual-slider-box" style="position: relative; width: 100%; min-height: 660px; height: auto; background: #030712; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                         <!-- AFTER LAYER (Bottom / Full Width) -->
                         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 2.25rem; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, rgba(16,185,129,0.05) 0%, rgba(3,7,18,1) 60%);">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -1133,7 +1134,7 @@
                             </div>
                             
                             <!-- After Layer Hero Image -->
-                            <div style="position: relative; width: 100%; height: auto; aspect-ratio: 16 / 9; max-height: 250px; margin: 0.5rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(16, 185, 129, 0.4); flex-shrink: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center;">
+                            <div style="position: relative; width: 100%; height: 360px; margin: 0.5rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(16, 185, 129, 0.4); flex-shrink: 0; background: #090d16; display: flex; align-items: center; justify-content: center;">
                                 <img src="product_a_generated_hero.png" style="width: 100%; height: 100%; object-fit: contain; display: block;" alt="After Remediation Hero Asset">
                                 <span style="position: absolute; top: 8px; left: 8px; background: rgba(16,185,129,0.9); color: white; font-size: 0.55rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px;">✅ GXP CERTIFIED + SYNTHID SEAL</span>
                             </div>
@@ -1160,7 +1161,7 @@
                             </div>
                             
                             <!-- Before Layer Hero Image -->
-                            <div style="position: relative; width: 100%; height: auto; aspect-ratio: 16 / 9; max-height: 250px; margin: 0.5rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(239, 68, 68, 0.4); flex-shrink: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center;">
+                            <div style="position: relative; width: 100%; height: 360px; margin: 0.5rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(239, 68, 68, 0.4); flex-shrink: 0; background: #090d16; display: flex; align-items: center; justify-content: center;">
                                 <img src="product_a_clinical_hero.png" style="width: 100%; height: 100%; object-fit: contain; filter: brightness(0.8); display: block;" alt="Before Audit Hero Asset">
                                 <span style="position: absolute; top: 8px; left: 8px; background: rgba(239,68,68,0.85); color: white; font-size: 0.55rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px;">⚠️ UNAUTHORIZED RAW ASSET</span>
                             </div>
@@ -1204,41 +1205,131 @@
                     </div>
                 </div>
                 
+                <!-- TAB 3: ADOBE GENMEDIA STUDIO VIEW (INDIVIDUAL ASSET INSPECTOR) -->
+                <div id="sim-tab-studio-view" style="display: none; flex-direction: column; gap: 1.5rem;">
+                    <!-- Top Toggle Toolbar -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 0.75rem 1.25rem; border-radius: 10px; flex-wrap: wrap; gap: 0.75rem;">
+                        <div>
+                            <span style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">Adobe GenMedia Studio™ Individual Asset Inspector</span>
+                            <div style="font-size: 0.75rem; color: #64748b;">Examine uncropped 100% full-scale promotional assets and typography</div>
+                        </div>
+                        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                            <button id="studio-btn-before" onclick="switchStudioAsset('before')" style="background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #FCA5A5; font-size: 0.8rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; outline: none;">⚠️ Inspect Raw Before Asset (Full Size)</button>
+                            <button id="studio-btn-after" onclick="switchStudioAsset('after')" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.8rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; outline: none;">✅ Inspect GxP Certified After Asset (Full Size)</button>
+                        </div>
+                    </div>
+
+                    <!-- FULL SIZE BEFORE ASSET VIEW -->
+                    <div id="studio-asset-before" style="display: flex; flex-direction: column; gap: 1.25rem; background: #030712; border: 1px solid rgba(239,68,68,0.4); border-radius: 16px; padding: 2rem; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 0.85rem; font-weight: 800; color: #8EC5FC; letter-spacing: 1px;">PRODUCT-A BRIEFING (RAW COPY)</span>
+                                <span style="font-size: 0.7rem; background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4); padding: 0.2rem 0.6rem; border-radius: 20px; color: #EF4444; font-weight: 800;">⚠️ 4 Violations Found</span>
+                            </div>
+                            <span style="font-size: 0.75rem; color: #64748b;">Canvas Scale: 100% Widescreen Uncropped</span>
+                        </div>
+
+                        <!-- Massive Full-Size Uncropped Hero Image -->
+                        <div style="position: relative; width: 100%; height: 420px; background: #090d16; border-radius: 12px; overflow: hidden; border: 1px solid rgba(239,68,68,0.5); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                            <img src="product_a_clinical_hero.png" style="width: 100%; height: 100%; object-fit: contain; filter: brightness(0.85); display: block;" alt="Full Size Before Asset">
+                            <span style="position: absolute; top: 12px; left: 12px; background: rgba(239,68,68,0.9); color: white; font-size: 0.7rem; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: 6px; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">⚠️ UNAUTHORIZED RAW ASSET (UNCROPPED 100% SCALE)</span>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 900; color: #ffffff; margin: 0;">Breakthrough Survival in NSCLC</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; margin: 0; padding: 1rem 1.25rem; border-radius: 8px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);">
+                                Pembrolizumab increases overall survival rate to <strong style="color: #EF4444; font-weight: 900; font-size: 1.25rem; text-decoration: underline;">68%</strong> in first-line therapy.
+                            </p>
+                        </div>
+
+                        <div style="font-size: 0.8rem; color: #64748b; border-top: 1px dashed rgba(239,68,68,0.4); padding-top: 0.75rem;">
+                            <span style="color: #ef4444; font-weight: bold; background: rgba(239,68,68,0.2); padding: 0.15rem 0.5rem; border-radius: 4px;">[Overlap Collision]</span> *Warnings: Adverse events may occur. Contact physician immediately.
+                        </div>
+                    </div>
+
+                    <!-- FULL SIZE AFTER ASSET VIEW -->
+                    <div id="studio-asset-after" style="display: none; flex-direction: column; gap: 1.25rem; background: #030712; border: 1px solid rgba(16,185,129,0.5); border-radius: 16px; padding: 2rem; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 0.85rem; font-weight: 800; color: #00F2FE; letter-spacing: 1px;">PRODUCT-A CAMPAIGN (GX-CERTIFIED)</span>
+                                <span style="font-size: 0.7rem; background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.4); padding: 0.2rem 0.6rem; border-radius: 20px; color: #10B981; font-weight: 800;">✅ GxP Compliant Banner</span>
+                            </div>
+                            <span style="font-size: 0.75rem; color: #64748b;">Canvas Scale: 100% Widescreen Uncropped</span>
+                        </div>
+
+                        <!-- Massive Full-Size Uncropped Hero Image -->
+                        <div style="position: relative; width: 100%; height: 420px; background: #090d16; border-radius: 12px; overflow: hidden; border: 1px solid rgba(16,185,129,0.5); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                            <img src="product_a_generated_hero.png" style="width: 100%; height: 100%; object-fit: contain; display: block;" alt="Full Size After Asset">
+                            <span style="position: absolute; top: 12px; left: 12px; background: rgba(16,185,129,0.9); color: white; font-size: 0.7rem; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: 6px; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">✅ GXP CERTIFIED + SYNTHID SEAL (UNCROPPED 100% SCALE)</span>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 900; color: #ffffff; margin: 0;">Breakthrough Survival in NSCLC</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; margin: 0; padding: 1rem 1.25rem; border-radius: 8px; background: rgba(52,211,153,0.08); border: 1px solid rgba(16,185,129,0.3);">
+                                Pembrolizumab increases overall survival rate to <strong style="color: #34D399; font-weight: 900; font-size: 1.25rem;">65%<sup>[1]</sup></strong> in first-line therapy.
+                            </p>
+                            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.85rem 1.15rem; border-radius: 8px; font-size: 0.9rem; color: #fca5a5; line-height: 1.5;">
+                                <strong style="color: #f87171;">⚠️ Boxed Warning:</strong> Immune-mediated adverse reactions (pneumonitis, colitis, hepatitis). Monitor closely.
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.8rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;">
+                            <sup>[1]</sup> Keynote-607 overall clinical trial registration index benchmarks. Verified by local registry rules. <span style="color: #34D399; font-weight: bold;">[+16px Healed Layout Spacing]</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <script>
                     function switchSimModalTab(tab) {
                         const sbsTab = document.getElementById('sim-tab-side-by-side');
                         const sliderTab = document.getElementById('sim-tab-visual-slider');
+                        const studioTab = document.getElementById('sim-tab-studio-view');
                         const sbsBtn = document.getElementById('sim-tab-btn-sbs');
                         const sliderBtn = document.getElementById('sim-tab-btn-slider');
+                        const studioBtn = document.getElementById('sim-tab-btn-studio');
+                        
+                        const allBtns = [sbsBtn, sliderBtn, studioBtn];
+                        const allTabs = [sbsTab, sliderTab, studioTab];
+                        
+                        allTabs.forEach(t => { if (t) t.style.display = 'none'; });
+                        allBtns.forEach(b => {
+                            if (b) {
+                                b.style.background = 'rgba(255, 255, 255, 0.03)';
+                                b.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                b.style.color = '#94a3b8';
+                            }
+                        });
                         
                         if (tab === 'sbs') {
                             if (sbsTab) sbsTab.style.display = 'grid';
-                            if (sliderTab) sliderTab.style.display = 'none';
-                            if (sbsBtn) {
-                                sbsBtn.style.background = 'rgba(0, 242, 254, 0.15)';
-                                sbsBtn.style.borderColor = '#00F2FE';
-                                sbsBtn.style.color = '#00F2FE';
-                            }
-                            if (sliderBtn) {
-                                sliderBtn.style.background = 'rgba(255, 255, 255, 0.03)';
-                                sliderBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                                sliderBtn.style.color = '#94a3b8';
-                            }
+                            if (sbsBtn) { sbsBtn.style.background = 'rgba(0, 242, 254, 0.15)'; sbsBtn.style.borderColor = '#00F2FE'; sbsBtn.style.color = '#00F2FE'; }
                         } else if (tab === 'slider') {
-                            if (sbsTab) sbsTab.style.display = 'none';
                             if (sliderTab) sliderTab.style.display = 'flex';
-                            if (sliderBtn) {
-                                sliderBtn.style.background = 'rgba(0, 242, 254, 0.15)';
-                                sliderBtn.style.borderColor = '#00F2FE';
-                                sliderBtn.style.color = '#00F2FE';
-                            }
-                            if (sbsBtn) {
-                                sbsBtn.style.background = 'rgba(255, 255, 255, 0.03)';
-                                sbsBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                                sbsBtn.style.color = '#94a3b8';
-                            }
+                            if (sliderBtn) { sliderBtn.style.background = 'rgba(0, 242, 254, 0.15)'; sliderBtn.style.borderColor = '#00F2FE'; sliderBtn.style.color = '#00F2FE'; }
                             const rangeEl = document.getElementById('sim-visual-slider-range');
                             if (rangeEl) updateVisualSlider(rangeEl.value);
+                        } else if (tab === 'studio') {
+                            if (studioTab) studioTab.style.display = 'flex';
+                            if (studioBtn) { studioBtn.style.background = 'rgba(0, 242, 254, 0.15)'; studioBtn.style.borderColor = '#00F2FE'; studioBtn.style.color = '#00F2FE'; }
+                        }
+                    }
+                    
+                    function switchStudioAsset(mode) {
+                        const beforeView = document.getElementById('studio-asset-before');
+                        const afterView = document.getElementById('studio-asset-after');
+                        const beforeBtn = document.getElementById('studio-btn-before');
+                        const afterBtn = document.getElementById('studio-btn-after');
+                        
+                        if (mode === 'before') {
+                            if (beforeView) beforeView.style.display = 'flex';
+                            if (afterView) afterView.style.display = 'none';
+                            if (beforeBtn) { beforeBtn.style.background = 'rgba(239,68,68,0.2)'; beforeBtn.style.borderColor = '#EF4444'; beforeBtn.style.color = '#FCA5A5'; }
+                            if (afterBtn) { afterBtn.style.background = 'rgba(255,255,255,0.03)'; afterBtn.style.borderColor = 'rgba(255,255,255,0.1)'; afterBtn.style.color = '#94a3b8'; }
+                        } else {
+                            if (beforeView) beforeView.style.display = 'none';
+                            if (afterView) afterView.style.display = 'flex';
+                            if (afterBtn) { afterBtn.style.background = 'rgba(16,185,129,0.2)'; afterBtn.style.borderColor = '#10B981'; afterBtn.style.color = '#A7F3D0'; }
+                            if (beforeBtn) { beforeBtn.style.background = 'rgba(255,255,255,0.03)'; beforeBtn.style.borderColor = 'rgba(255,255,255,0.1)'; beforeBtn.style.color = '#94a3b8'; }
                         }
                     }
                     

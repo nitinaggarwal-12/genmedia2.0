@@ -135,6 +135,24 @@ async function runE2E() {
         await page.screenshot({ path: sliderAfterScreenshot });
         console.log(`📸 Tab 2 (100% After) screenshot captured: ${sliderAfterScreenshot}`);
         
+        // Test Tab 3: Adobe GenMedia Studio View (Individual Asset Inspector)
+        console.log('🔍 Switching to Tab 3: Adobe GenMedia Studio View...');
+        await page.$eval('#sim-tab-btn-studio', el => el.click());
+        await new Promise(resolve => setTimeout(resolve, 850)); // Mandatory settling delay (>800ms)
+        
+        const studioBeforeScreenshot = path.join(SCREENSHOT_DIR, '02f_modal_tab3_studio_before.png');
+        await page.screenshot({ path: studioBeforeScreenshot });
+        console.log(`📸 Tab 3 (Studio View - Raw Before Asset) screenshot captured: ${studioBeforeScreenshot}`);
+        
+        // Switch to GxP Certified After asset in Studio View
+        console.log('🔍 Clicking GxP Certified After Asset in Studio View...');
+        await page.$eval('#studio-btn-after', el => el.click());
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        const studioAfterScreenshot = path.join(SCREENSHOT_DIR, '02g_modal_tab3_studio_after.png');
+        await page.screenshot({ path: studioAfterScreenshot });
+        console.log(`📸 Tab 3 (Studio View - GxP Certified After Asset) screenshot captured: ${studioAfterScreenshot}`);
+        
         // Return to Tab 1 before launching workbench
         await page.$eval('#sim-tab-btn-sbs', el => el.click());
         await new Promise(resolve => setTimeout(resolve, 300));
