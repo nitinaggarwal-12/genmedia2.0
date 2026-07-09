@@ -1,0 +1,39 @@
+<svg viewBox="0 0 800 200" width="94%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pipeline Connections -->
+                        <path d="M 145,100 L 195,100" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <path d="M 335,100 L 385,100" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <path d="M 525,100 L 575,100" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"></path>
+                        
+                        <!-- Pipeline Nodes -->
+                        <!-- Step 1: User Request -->
+                        <g transform="translate(15, 65)">
+                            <rect width="130" height="70" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.5"></rect>
+                            <text x="65" y="28" font-family="var(--font-outfit)" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">1. User Request</text>
+                            <text x="65" y="44" font-family="var(--font-inter)" font-size="9" fill="#94A3B8" text-anchor="middle">"Add a Slack agent</text>
+                            <text x="65" y="56" font-family="var(--font-inter)" font-size="9" fill="#94A3B8" text-anchor="middle">to the Orchestrator"</text>
+                        </g>
+                        
+                        <!-- Step 2: LLM Parser -->
+                        <g transform="translate(195, 65)">
+                            <rect width="140" height="70" rx="8" fill="rgba(124, 58, 237, 0.1)" stroke="#7C3AED" stroke-width="1.5"></rect>
+                            <text x="70" y="28" font-family="var(--font-outfit)" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">2. Co-Pilot Parser</text>
+                            <text x="70" y="44" font-family="var(--font-inter)" font-size="9" fill="#E2E8F0" text-anchor="middle">Gemini 1.5 Pro extracts</text>
+                            <text x="70" y="56" font-family="var(--font-inter)" font-size="9" fill="#E2E8F0" text-anchor="middle">intent, nodes, &amp; edges</text>
+                        </g>
+                        
+                        <!-- Step 3: Surgical Patch Engine -->
+                        <g transform="translate(385, 65)">
+                            <rect width="140" height="70" rx="8" fill="rgba(13, 148, 136, 0.1)" stroke="#0D9488" stroke-width="1.5"></rect>
+                            <text x="70" y="28" font-family="var(--font-outfit)" font-size="11" font-weight="700" fill="#2DD4BF" text-anchor="middle">3. Surgical Patch Engine</text>
+                            <text x="70" y="44" font-family="var(--font-inter)" font-size="9" fill="#E2E8F0" text-anchor="middle">Computes XML diff &amp;</text>
+                            <text x="70" y="56" font-family="var(--font-inter)" font-size="9" fill="#E2E8F0" text-anchor="middle">updates node coordinates</text>
+                        </g>
+                        
+                        <!-- Step 4: Rendered Canvas -->
+                        <g transform="translate(575, 65)">
+                            <rect width="210" height="70" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.5"></rect>
+                            <text x="105" y="28" font-family="var(--font-outfit)" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">4. Dynamic SVG Render</text>
+                            <text x="105" y="44" font-family="var(--font-inter)" font-size="9" fill="#94A3B8" text-anchor="middle">Canvas animates new node inlet</text>
+                            <text x="105" y="56" font-family="var(--font-inter)" font-size="9" fill="#94A3B8" text-anchor="middle">&amp; locks to Compliance Ledger</text>
+                        </g>
+                    </svg>

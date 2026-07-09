@@ -1452,10 +1452,13 @@
                 <div style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.25rem;">
                     <span style="font-size: 0.58rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Active Portfolio</span>
                     <select id="portfolio-asset-selector" style="width: 100%; background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.72rem; padding: 0.5rem; font-weight: 700; cursor: pointer;">
-                        <option value="product-a" selected>Product-A (Pembrolizumab)</option>
-                        <option value="product-b">Product-B (Lenvatinib)</option>
-                        <option value="product-c">Product-C (Belzutifan)</option>
-                        <option value="product-d">Product-D (Sotatercept)</option>
+                        <option value="product-a" selected>Product-A (compound_alpha)</option>
+                        <option value="product-b">Product-B (compound_beta)</option>
+                        <option value="product-c">Product-C (compound_gamma)</option>
+                        <option value="product-d">Product-D (compound_delta)</option>
+                        <option value="product-e">Product-E (compound_epsilon)</option>
+                        <option value="product-f">Product-F (compound_zeta)</option>
+                        <option value="product-g">Product-G (compound_eta)</option>
                     </select>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
@@ -1898,8 +1901,8 @@
                                         <div style="display: flex; flex-direction: column; gap: 0.45rem; width: 100%;">
                                             <select id="url-preset-select" onchange="handlePresetSelectChange(this)" style="width: 100%; font-size: 0.68rem; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface-solid); color: var(--color-text-main); outline: none; font-weight: 600; cursor: pointer; box-sizing: border-box;">
                                                 <option value="" disabled selected>Select Prescribing Label...</option>
-                                                <option value="datasets/WELIREG_FDA_Approved_Label_2026.txt">WELIREG® FDA Label 2026 (HIF-2α Inh)</option>
-                                                <option value="datasets/KEYTRUDA_Prescribing_Information_NSCLC.txt">KEYTRUDA® NSCLC Prescribing Info</option>
+                                                <option value="datasets/WELIREG_FDA_Approved_Label_2026.txt">Product-C FDA Label 2026 (HIF-2α Inh)</option>
+                                                <option value="datasets/KEYTRUDA_Prescribing_Information_NSCLC.txt">Product-A NSCLC Prescribing Info</option>
                                                 <option value="datasets/LITESPARK-005_Trial_Data_Briefing.txt">LITESPARK-005 Trial Data (Briefing)</option>
                                                 <option value="CUSTOM">Input Custom Clinical URL...</option>
                                             </select>
@@ -1923,7 +1926,7 @@
                                     <div class="dock-panel" id="panel-briefs" style="display: none; flex-direction: column; gap: 0.4rem;">
                                         <p style="font-size: 0.62rem; color: var(--color-text-muted); margin: 0;">Select a pre-loaded, cryptographically verified clinical brief:</p>
                                         <div class="brief-item" style="padding: 0.5rem 0.65rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="loadPresetBrief('datasets/LITESPARK-005_Welireg_Briefing.json')">
-                                            <span style="font-size: 0.68rem; font-weight: 700; color: var(--color-text-main);">📄 LITESPARK-005 Welireg Briefing</span>
+                                            <span style="font-size: 0.68rem; font-weight: 700; color: var(--color-text-main);">📄 LITESPARK-005 Product-C Briefing</span>
                                             <span style="font-size: 0.52rem; background: rgba(16,185,129,0.12); color: #34d399; padding: 0.1rem 0.3rem; border-radius: 4px; font-weight: 800;">VERIFIED</span>
                                         </div>
                                     </div>
@@ -3230,9 +3233,13 @@
                 <div class="imagen-form-group">
                     <label>Active Clinical Brand</label>
                     <select id="imagen-brand-select" class="imagen-select">
-                        <option value="product_a">KEYTRUDA (Pembrolizumab)</option>
-                        <option value="product_b">LENVIMA (Lenvatinib)</option>
-                        <option value="product_c">WELIREG (Belzutifan)</option>
+                        <option value="product_a">Product-A (compound_alpha)</option>
+                        <option value="product_b">Product-B (compound_beta)</option>
+                        <option value="product_c">Product-C (compound_gamma)</option>
+                        <option value="product_d">Product-D (compound_delta)</option>
+                        <option value="product_e">Product-E (compound_epsilon)</option>
+                        <option value="product_f">Product-F (compound_zeta)</option>
+                        <option value="product_g">Product-G (compound_eta)</option>
                     </select>
                 </div>
                 

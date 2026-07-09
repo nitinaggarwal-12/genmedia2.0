@@ -2958,17 +2958,17 @@ const variantDatabase = {
         prompt: "A professional clinical medical photograph, doctor consulting with an adult patient in a modern bright oncology clinic, warm lighting, high-fidelity, photorealistic.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>KEYTRUDA (compound_alpha)</strong> in combination with pemetrexed and platinum chemotherapy for the first-line treatment of patients with metastatic nonsquamous non-small cell lung cancer (NSCLC).</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-A (compound_alpha)</strong> in combination with pemetrexed and platinum chemotherapy for the first-line treatment of patients with metastatic nonsquamous non-small cell lung cancer (NSCLC).</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the landmark KEYNOTE-189 Phase III trial, KEYTRUDA combination therapy demonstrated an <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-189-EFF')" title="Click to view MaterialReview record">Overall Response Rate (ORR) of 56% at Week 24</span>, compared to only 18.9% for chemotherapy alone. This represents a significant, clinically proven survival boundary shift.</p>
+                <p>In the landmark KEYNOTE-189 Phase III trial, Product-A combination therapy demonstrated an <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-189-EFF')" title="Click to view MaterialReview record">Overall Response Rate (ORR) of 56% at Week 24</span>, compared to only 18.9% for chemotherapy alone. This represents a significant, clinically proven survival boundary shift.</p>
             </div>
             
             <p>Furthermore, safety monitoring profiles remain highly manageable: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-189-SAF')" title="Click to view MaterialReview record">Grade 3/4 Immune-Mediated Adverse Reactions were observed in 10% of patients</span>, consistent with the established safety registry guidelines. Appropriate monitoring and supportive care are recommended.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: KEYTRUDA is indicated for first-line nonsquamous NSCLC based on KEYNOTE-189. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-KTS99</span>. Legal safety warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-A is indicated for first-line nonsquamous NSCLC based on KEYNOTE-189. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-KTS99</span>. Legal safety warnings apply.
             </p>
         `,
         claims: [
@@ -3001,17 +3001,17 @@ const variantDatabase = {
         prompt: "A modern clinical research laboratory setting, high-fidelity diagnostic charts on screen, advanced medical diagnostics, professional oncology scientific data visualization.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>LENVIMA (compound_beta)</strong> in combination with compound_alpha for the first-line treatment of adult patients with advanced renal cell carcinoma (RCC).</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-B (compound_beta)</strong> in combination with compound_alpha for the first-line treatment of adult patients with advanced renal cell carcinoma (RCC).</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the pivotal CLEAR / KEYNOTE-581 Phase III trial, LENVIMA in combination with compound_alpha demonstrated a remarkable, clinically superior <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-581-EFF')" title="Click to view MaterialReview record">Objective Response Rate (ORR) of 71%</span>, compared to 36.1% for sunitinib alone. This represents an unprecedented efficacy standard.</p>
+                <p>In the pivotal CLEAR / KEYNOTE-581 Phase III trial, Product-B in combination with compound_alpha demonstrated a remarkable, clinically superior <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-581-EFF')" title="Click to view MaterialReview record">Objective Response Rate (ORR) of 71%</span>, compared to 36.1% for sunitinib alone. This represents an unprecedented efficacy standard.</p>
             </div>
             
             <p>Safety parameters were carefully monitored throughout the study: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-KT-581-SAF')" title="Click to view MaterialReview record">Grade 3/4 Adverse Events occurred in 82% of patients</span>, requiring active clinical management, dose modifications, or supportive interventions. Standard clinical protocols must be observed.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: LENVIMA + KEYTRUDA combination for advanced RCC based on the CLEAR study. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LV581</span>. Full safety warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-B + Product-A combination for advanced RCC based on the CLEAR study. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LV581</span>. Full safety warnings apply.
             </p>
         `,
         claims: [
@@ -3044,17 +3044,17 @@ const variantDatabase = {
         prompt: "High-fidelity medical 3D rendering of renal cell cellular structures, molecular targeted oncology therapy visualization, ultra-premium cell biology illustration.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>WELIREG (compound_gamma)</strong>, a first-in-class oral HIF-2α inhibitor indicated for patients with advanced renal cell carcinoma (RCC) following progression on immune checkpoint and VEGF therapies.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-C (compound_gamma)</strong>, a first-in-class oral HIF-2α inhibitor indicated for patients with advanced renal cell carcinoma (RCC) following progression on immune checkpoint and VEGF therapies.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the landmark LITESPARK-005 trial, WELIREG demonstrated an <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WR-005-EFF')" title="Click to view MaterialReview record">Objective Response Rate (ORR) of 22%</span>, with significant and durable vessel regression. This represents a breakthrough therapy for highly pretreated advanced RCC.</p>
+                <p>In the landmark LITESPARK-005 trial, Product-C demonstrated an <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WR-005-EFF')" title="Click to view MaterialReview record">Objective Response Rate (ORR) of 22%</span>, with significant and durable vessel regression. This represents a breakthrough therapy for highly pretreated advanced RCC.</p>
             </div>
             
             <p>Safety and tolerability remain consistent with early-phase observations: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WR-005-SAF')" title="Click to view MaterialReview record">Grade 3/4 Adverse Events occurred in 30% of patients</span>, primarily presenting as anemia or hypoxia. Active patient monitoring is required.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: WELIREG advanced RCC oncology profile based on LITESPARK-005. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-WR005</span>. Full prescribing warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-C advanced RCC oncology profile based on LITESPARK-005. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-WR005</span>. Full prescribing warnings apply.
             </p>
         `,
         claims: [
@@ -3078,8 +3078,8 @@ const variantDatabase = {
     },
     4: {
         drug: "Product-D",
-        medication: "WINREVAIR",
-        subject: "Redefine Pulmonary Arterial Hypertension Outcomes: WINREVAIR (Sotatercept)",
+        medication: "Product-D",
+        subject: "Redefine Pulmonary Arterial Hypertension Outcomes: Product-D (compound_delta)",
         preheader: "Explore the landmark STELLAR trial data demonstrating exercise capacity improvement.",
         image: "./product_d_clinical_hero.png",
         trial: "STELLAR Phase III Trial (NCT04576169)",
@@ -3087,17 +3087,17 @@ const variantDatabase = {
         prompt: "A high-fidelity medical 3D rendering of cardiovascular arterial blood flow, pulmonary circulation visualization, ultra-premium medical illustration.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>WINREVAIR (Sotatercept)</strong>, a breakthrough activin receptor ligand trap indicated for the treatment of adults with pulmonary arterial hypertension (PAH) to increase exercise capacity and improve WHO functional class.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-D (compound_delta)</strong>, a breakthrough activin receptor ligand trap indicated for the treatment of adults with pulmonary arterial hypertension (PAH) to increase exercise capacity and improve WHO functional class.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the landmark STELLAR Phase III trial, WINREVAIR combination therapy demonstrated a highly significant, clinically proven <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WV-169-EFF')" title="Click to view MaterialReview record">increase of 41 meters in the 6-minute walk distance (6MWD)</span> at Week 24, compared to placebo.</p>
+                <p>In the landmark STELLAR Phase III trial, Product-D combination therapy demonstrated a highly significant, clinically proven <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WV-169-EFF')" title="Click to view MaterialReview record">increase of 41 meters in the 6-minute walk distance (6MWD)</span> at Week 24, compared to placebo.</p>
             </div>
             
             <p>Safety monitoring profiles remain highly manageable: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-WV-169-SAF')" title="Click to view MaterialReview record">Grade 3/4 Serious Adverse Events occurred in 15% of patients</span>, with primary presentations of mild thrombocytopenia or increased hemoglobin. Appropriate clinical monitoring is recommended.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: WINREVAIR is indicated for PAH functional class II-III based on the STELLAR trial. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-WV169</span>. Legal safety warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-D is indicated for PAH functional class II-III based on the STELLAR trial. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-WV169</span>. Legal safety warnings apply.
             </p>
         `,
         claims: [
@@ -3121,8 +3121,8 @@ const variantDatabase = {
     },
     5: {
         drug: "Product-E",
-        medication: "LYNPARZA",
-        subject: "Delay Progression in Advanced Cancers: LYNPARZA (Olaparib) PARP Inhibition",
+        medication: "Product-E",
+        subject: "Delay Progression in Advanced Cancers: Product-E (compound_epsilon) PARP Inhibition",
         preheader: "Explore the PROfound Phase III trial data in metastatic castration-resistant prostate cancer.",
         image: "./product_e_clinical_hero.png",
         trial: "PROfound Phase III Trial (NCT02986607)",
@@ -3130,17 +3130,17 @@ const variantDatabase = {
         prompt: "High-fidelity scientific rendering of double-strand DNA repair pathway, PARP enzyme inhibition, oncology target molecule illustration, premium visual.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>LYNPARZA (Olaparib)</strong>, a blockbuster PARP inhibitor co-developed and co-marketed by Global Pharma Enterprise and AstraZeneca, indicated for patients with homologous recombination repair (HRR) gene-mutated metastatic castration-resistant prostate cancer (mCRPC).</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-E (compound_epsilon)</strong>, a blockbuster PARP inhibitor co-developed and co-marketed by Global Pharma Enterprise and AstraZeneca, indicated for patients with homologous recombination repair (HRR) gene-mutated metastatic castration-resistant prostate cancer (mCRPC).</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the pivotal PROfound Phase III trial, LYNPARZA demonstrated a superior clinical profile with a median <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LP-607-EFF')" title="Click to view MaterialReview record">Radiographic PFS (rPFS) of 7.4 months</span>, compared to only 3.6 months for physician's choice therapy.</p>
+                <p>In the pivotal PROfound Phase III trial, Product-E demonstrated a superior clinical profile with a median <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LP-607-EFF')" title="Click to view MaterialReview record">Radiographic PFS (rPFS) of 7.4 months</span>, compared to only 3.6 months for physician's choice therapy.</p>
             </div>
             
             <p>Safety parameters were carefully monitored throughout the study: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LP-607-SAF')" title="Click to view MaterialReview record">Grade 3/4 Adverse Events (primarily Anemia) occurred in 21% of patients</span>. Standard clinical protocols and dose management guidelines must be observed.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: LYNPARZA is indicated for HRR-mutated mCRPC based on the PROfound study. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LP607</span>. Full prescribing warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-E is indicated for HRR-mutated mCRPC based on the PROfound study. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LP607</span>. Full prescribing warnings apply.
             </p>
         `,
         claims: [
@@ -3164,8 +3164,8 @@ const variantDatabase = {
     },
     6: {
         drug: "Product-F",
-        medication: "GARDASIL 9",
-        subject: "Prevent HPV-Related Cancers: GARDASIL 9 Immunization Standards",
+        medication: "Product-F",
+        subject: "Prevent HPV-Related Cancers: Product-F (compound_zeta) Immunization Standards",
         preheader: "Review clinical efficacy data demonstrating 97% protection against high-risk HPV types.",
         image: "./product_f_clinical_hero.png",
         trial: "Pivotal Efficacy Study (NCT00543543)",
@@ -3173,17 +3173,17 @@ const variantDatabase = {
         prompt: "A beautiful, premium scientific 3D illustration of antibody-antigen molecular binding, viral immunization, immunology high-fidelity rendering.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>GARDASIL 9 (HPV 9-valent Vaccine)</strong>, Global Pharma's world-leading vaccine indicated for active immunization against high-risk HPV types to prevent cervical, vulvar, vaginal, and anal cancers.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-F (compound_zeta)</strong>, Global Pharma's world-leading vaccine indicated for active immunization against high-risk HPV types to prevent cervical, vulvar, vaginal, and anal cancers.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In pivotal clinical trials, GARDASIL 9 demonstrated an outstanding <span class="verified-claim-highlight" onclick="highlightClaim('CLM-GD-543-EFF')" title="Click to view MaterialReview record">97.4% efficacy in preventing high-risk HPV types 31, 33, 45, 52, and 58</span> related cervical diseases.</p>
+                <p>In pivotal clinical trials, Product-F demonstrated an outstanding <span class="verified-claim-highlight" onclick="highlightClaim('CLM-GD-543-EFF')" title="Click to view MaterialReview record">97.4% efficacy in preventing high-risk HPV types 31, 33, 45, 52, and 58</span> related cervical diseases.</p>
             </div>
             
             <p>Safety parameters were carefully monitored across clinical cohorts: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-GD-543-SAF')" title="Click to view MaterialReview record">Local injection site reactions (pain/swelling) occurred in 80% of recipients</span>. These reactions were primarily mild-to-moderate, transient, and resolved quickly.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: GARDASIL 9 immunization profile based on pivotal efficacy trials. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-GD543</span>. Standard vaccine disclosures apply.
+                <strong>Clinical Indication Reference</strong>: Product-F immunization profile based on pivotal efficacy trials. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-GD543</span>. Standard vaccine disclosures apply.
             </p>
         `,
         claims: [
@@ -3207,8 +3207,8 @@ const variantDatabase = {
     },
     7: {
         drug: "Product-G",
-        medication: "LAGEVRIO",
-        subject: "Reduce Hospitalization Risk: LAGEVRIO (Molnupiravir) Oral Antiviral",
+        medication: "Product-G",
+        subject: "Reduce Hospitalization Risk: Product-G (compound_eta) Oral Antiviral",
         preheader: "Review the MOVe-OUT trial showing a 30% reduction in risk of hospitalization or death.",
         image: "./product_g_clinical_hero.png",
         trial: "MOVe-OUT Phase III Trial (NCT04575597)",
@@ -3216,17 +3216,17 @@ const variantDatabase = {
         prompt: "A premium 3D rendering of viral replication cycle, oral antiviral mechanism of action, molecular biology high-fidelity illustration.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>LAGEVRIO (Molnupiravir)</strong>, Global Pharma's oral antiviral indicated for the treatment of mild-to-moderate COVID-19 in high-risk adult patients.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>Product-G (compound_eta)</strong>, Global Pharma's oral antiviral indicated for the treatment of mild-to-moderate COVID-19 in high-risk adult patients.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
-                <p>In the pivotal MOVe-OUT Phase III trial, LAGEVRIO demonstrated a highly significant <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LG-597-EFF')" title="Click to view MaterialReview record">30% reduction in the risk of hospitalization or death</span> through Day 29 in the active cohort.</p>
+                <p>In the pivotal MOVe-OUT Phase III trial, Product-G demonstrated a highly significant <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LG-597-EFF')" title="Click to view MaterialReview record">30% reduction in the risk of hospitalization or death</span> through Day 29 in the active cohort.</p>
             </div>
             
-            <p>Safety parameters were carefully monitored across study groups: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LG-597-SAF')" title="Click to view MaterialReview record">Grade 3/4 Adverse Events (primarily mild diarrhea) occurred in 2% of patients</span>. Lagevrio demonstrated an excellent overall tolerability profile.</p>
+            <p>Safety parameters were carefully monitored across study groups: <span class="verified-claim-highlight" onclick="highlightClaim('CLM-LG-597-SAF')" title="Click to view MaterialReview record">Grade 3/4 Adverse Events (primarily mild diarrhea) occurred in 2% of patients</span>. Product-G demonstrated an excellent overall tolerability profile.</p>
             
             <p style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; line-height: 1.3;">
-                <strong>Clinical Indication Reference</strong>: LAGEVRIO antiviral profile based on the MOVe-OUT trial. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LG597</span>. Full prescribing safety warnings apply.
+                <strong>Clinical Indication Reference</strong>: Product-G antiviral profile based on the MOVe-OUT trial. Verified MaterialReview safety audit: <span style="font-weight: 600; color: var(--color-text-main);">Regulatory Compliance Vault Ref #V-2026-LG597</span>. Full prescribing safety warnings apply.
             </p>
         `,
         claims: [
@@ -3946,22 +3946,22 @@ window.openFda2253Modal = function() {
     const variantId = activeTab ? activeTab.id : 'variant-tab-1';
     
     // 1. Resolve drug metadata dynamically based on the active variant
-    let drugName = "KEYTRUDA®";
-    let establishedName = "pembrolizumab";
+    let drugName = "Product-A";
+    let establishedName = "compound_alpha";
     let appNo = "BLA 125156";
     let applicant = "Global Pharma Enterprise LLC";
     let address = "126 E. Lincoln Avenue, Rahway, NJ 07065";
     let tel = "(732) 594-4000";
     
     if (variantId === 'variant-tab-2' || variantId === 'variant-tab-belzugifan') {
-        drugName = "WELIREG®";
-        establishedName = "belzutifan";
+        drugName = "Product-C";
+        establishedName = "compound_gamma";
         appNo = "NDA 215383";
     } else if (variantId === 'variant-tab-3' || variantId === 'variant-tab-lenvatinib') {
-        drugName = "LENVIMA®";
-        establishedName = "lenvatinib";
+        drugName = "Product-B";
+        establishedName = "compound_beta";
         appNo = "NDA 206947";
-        applicant = "Eisai Inc. (Distributed by Global Pharma Enterprise)";
+        applicant = "Global Pharma Enterprise LLC";
         address = "100 Tice Boulevard, Woodcliff Lake, NJ 07677";
         tel = "(201) 692-1000";
     }
@@ -4692,8 +4692,8 @@ async function fetchAndRenderStrategicHeatmap() {
     
     // Preset files mapping to enable interactive triggerStrategicIngest on row click
     const presetMapping = {
-        'NSCLC': 'datasets/KEYTRUDA_Prescribing_Information_NSCLC.txt',
-        'RCC': 'datasets/WELIREG_FDA_Approved_Label_2026.txt',
+        'NSCLC': 'datasets/Product-A_Prescribing_Information_NSCLC.txt',
+        'RCC': 'datasets/Product-C_FDA_Approved_Label_2026.txt',
         'PFS': 'datasets/LITESPARK-005_Trial_Data_Briefing.txt'
     };
     
@@ -4967,15 +4967,15 @@ function initGovernanceLedgerNetwork() {
     if (variantNum === 1) {
         if (card2Title) card2Title.innerText = "Send to Camp-KT-189";
         if (card2Sub) card2Sub.innerText = "(NSCLC Vault)";
-        if (card3Sub) card3Sub.innerText = "(Variant 1 - Keytruda)";
+        if (card3Sub) card3Sub.innerText = "(Variant 1 - Product-A)";
     } else if (variantNum === 2) {
         if (card2Title) card2Title.innerText = "Send to Camp-LV-581";
         if (card2Sub) card2Sub.innerText = "(RCC Vault)";
-        if (card3Sub) card3Sub.innerText = "(Variant 2 - Lenvima)";
+        if (card3Sub) card3Sub.innerText = "(Variant 2 - Product-B)";
     } else if (variantNum === 3) {
         if (card2Title) card2Title.innerText = "Send to Camp-WR-005";
         if (card2Sub) card2Sub.innerText = "(RCC Vault)";
-        if (card3Sub) card3Sub.innerText = "(Variant 3 - Welireg)";
+        if (card3Sub) card3Sub.innerText = "(Variant 3 - Product-C)";
     }
     
     // Dynamically update the Left Sidebar "Phase 2 Creative Composer" summary card!
@@ -4992,11 +4992,11 @@ function initGovernanceLedgerNetwork() {
     let trialLabel = 'Trial\nParameters';
     
     if (variantNum === 2) {
-        assetsLabel = 'Lenvima\nAssets';
+        assetsLabel = 'Product-B\nAssets';
         claimsLabel = 'Verified\nCLEAR-581\nClaims';
         trialLabel = 'CLEAR\nTrial Data';
     } else if (variantNum === 3) {
-        assetsLabel = 'Welireg\nAssets';
+        assetsLabel = 'Product-C\nAssets';
         claimsLabel = 'Verified\nLITESPARK-005\nClaims';
         trialLabel = 'LITESPARK-005\nTrial Data';
     }
@@ -5038,18 +5038,18 @@ function initGovernanceLedgerNetwork() {
                 variantNum = 3;
             }
             
-            let drugName = "Keytruda (Product-A)";
+            let drugName = "Product-A";
             let trialName = "KEYNOTE-189 (NCT02578680)";
             let claimsText = "KEYNOTE-189 trial demonstrated double the overall survival rate compared to chemotherapy alone (22.0 months vs 10.7 months).";
             
             if (variantNum === 2) {
-                drugName = "Lenvima (Product-C)";
+                drugName = "Product-B";
                 trialName = "CLEAR / KEYNOTE-581 (NCT02811822)";
-                claimsText = "Lenvima in combination with Keytruda demonstrated a 71% Objective Response Rate (ORR) compared to sunitinib alone.";
+                claimsText = "Product-B in combination with Product-A demonstrated a 71% Objective Response Rate (ORR) compared to sunitinib alone.";
             } else if (variantNum === 3) {
-                drugName = "Welireg (Product-B)";
+                drugName = "Product-C";
                 trialName = "LITESPARK-005 (NCT04195750)";
-                claimsText = "Welireg demonstrated a 22% Objective Response Rate (ORR) in patients with advanced renal cell carcinoma.";
+                claimsText = "Product-C demonstrated a 22% Objective Response Rate (ORR) in patients with advanced renal cell carcinoma.";
             }
             
             let nodeData = {
@@ -5399,7 +5399,7 @@ window.startInteractiveTour = function() {
                 element: '.heatmap-table tbody tr:first-child', // NSCLC Row
                 popover: {
                     title: 'Step 1: Ingest Clinical Trial Brief 📊',
-                    description: 'This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Keytruda clinical trial briefings!',
+                    description: 'This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Product-A clinical trial briefings!',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close'] // Hide next button to force click!
@@ -5533,11 +5533,11 @@ function generateFallbackDataset() {
     const statuses = ['COMPLIANT', 'AUTO_HEALED', 'BLOCKED'];
     const weights = [0.75, 0.18, 0.07];
     const projects = {
-        'Product-A': ['Global Pharma Gemini Enterprise', 'Keynote Global Launch'],
-        'Product-B': ['Eisai Lenvima Launch', 'Clear Trial HCP Portal'],
-        'Product-C': ['Welireg Patient Portal'],
-        'Product-D': ['Winrevair Global Launch'],
-        'Product-E': ['Lynparza Ovarian Ad']
+        'Product-A': ['Global Pharma Enterprise Campaign', 'Keynote Global Launch'],
+        'Product-B': ['Global Pharma Launch', 'Clear Trial HCP Portal'],
+        'Product-C': ['Patient Portal Program'],
+        'Product-D': ['Global Launch Campaign'],
+        'Product-E': ['Ovarian Ad Campaign']
     };
     
     const now = new Date();

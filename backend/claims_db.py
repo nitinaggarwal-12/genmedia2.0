@@ -158,10 +158,10 @@ def seed_analytics_data(conn):
     
     brand_projects = {
         "Product-A": ["Global Pharma Gemini Enterprise", "Keynote Global Launch", "Keynote-189 Efficacy Ad", "TNBC Awareness Campaign"],
-        "Product-B": ["Eisai Lenvima Launch", "Clear Trial HCP Portal", "RCC Dual Therapy Grid"],
-        "Product-C": ["Litespark Advanced RCC Ad", "Welireg Patient Portal"],
-        "Product-D": ["Sotatercept PAH Efficacy", "Winrevair Global Launch"],
-        "Product-E": ["Lynparza Ovarian Ad", "Lynparza Prostate Portal"]
+        "Product-B": ["Global Pharma Launch", "Clear Trial HCP Portal", "RCC Dual Therapy Grid"],
+        "Product-C": ["Litespark Advanced RCC Ad", "Patient Portal Program"],
+        "Product-D": ["PAH Efficacy Campaign", "Global Launch Program"],
+        "Product-E": ["Ovarian Ad Campaign", "Prostate Portal Program"]
     }
     
     now = datetime.now(timezone.utc)
@@ -259,22 +259,22 @@ def seed_claims(conn):
             "area": "Oncology (VHL disease, Advanced Renal Cell Carcinoma)"
         },
         "Product-D": {
-            "name": "Product-D (Sotatercept)",
+            "name": "Product-D (compound_delta)",
             "trials": ["STELLAR", "PULSAR", "SPECTRUM"],
             "area": "Pulmonary (Pulmonary Arterial Hypertension)"
         },
         "Product-E": {
-            "name": "Product-E (Olaparib)",
+            "name": "Product-E (compound_epsilon)",
             "trials": ["PROfound", "SOLO-1", "OlympiAD", "PaOLA-1"],
             "area": "Oncology (Ovarian Cancer, Prostate Cancer, TNBC)"
         },
         "Product-F": {
-            "name": "Product-F (Gardasil 9)",
+            "name": "Product-F (compound_zeta)",
             "trials": ["Protocol-001", "Protocol-002", "Pivotal Efficacy Study"],
             "area": "Vaccines (HPV Prevention)"
         },
         "Product-G": {
-            "name": "Product-G (Molnupiravir)",
+            "name": "Product-G (compound_eta)",
             "trials": ["MOVe-OUT", "MOVe-AHEAD"],
             "area": "Infectious Disease (COVID-19 Therapeutic)"
         }
@@ -308,13 +308,13 @@ def seed_claims(conn):
         
         # Product-B
         ("CLM-KT-581-EFF", "Product-B", "CLEAR / KEYNOTE-581 study (NCT02811822)", "Objective Response Rate (ORR)", "71%", 
-         "Product-B (Lenvima) Efficacy: 71% Objective Response Rate (ORR) in CLEAR trial.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-LV581"),
+         "Product-B Efficacy: 71% Objective Response Rate (ORR) in CLEAR trial.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-LV581"),
         ("CLM-KT-581-SAF", "Product-B", "CLEAR Adverse Events (NCT02811822)", "Grade 3/4 Adverse Events", "82%", 
          "Product-B Safety Profile: 82% Grade 3/4 Adverse Events observed in CLEAR study.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-LV581"),
          
         # Product-C
         ("CLM-WR-005-EFF", "Product-C", "LITESPARK-005 study (NCT04195750)", "Objective Response Rate (ORR)", "22%", 
-         "Product-C (Welireg) Efficacy: 22% Objective Response Rate (ORR) in LITESPARK-005 study.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-WR005"),
+         "Product-C Efficacy: 22% Objective Response Rate (ORR) in LITESPARK-005 study.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-WR005"),
         ("CLM-WR-005-SAF", "Product-C", "LITESPARK-005 Adverse Events (NCT04195750)", "Grade 3/4 Adverse Events", "30%", 
          "Product-C Safety Profile: 30% Grade 3/4 Adverse Events in LITESPARK-005 study.", "v1.0", "Regulatory Compliance Vault Ref #V-2026-WR005"),
          

@@ -1,0 +1,295 @@
+<svg viewBox="0 0 1000 1000" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background-color: #0B0F19;">
+  <defs>
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"></path>
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="c-grad-orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9F43"></stop>
+      <stop offset="100%" stop-color="#FF5252"></stop>
+    </linearGradient>
+    <linearGradient id="c-grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C6FF"></stop>
+      <stop offset="100%" stop-color="#0072FF"></stop>
+    </linearGradient>
+    <linearGradient id="c-grad-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9D50BB"></stop>
+      <stop offset="100%" stop-color="#6E48AA"></stop>
+    </linearGradient>
+    <linearGradient id="c-grad-gray" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#374151"></stop>
+      <stop offset="100%" stop-color="#1F2937"></stop>
+    </linearGradient>
+    <linearGradient id="c-grad-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11998e"></stop>
+      <stop offset="100%" stop-color="#38ef7d"></stop>
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="c-glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+    </filter>
+    <filter id="c-glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+    </filter>
+    <filter id="c-glow-teal" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="c-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569"></path>
+    </marker>
+    <marker id="c-arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7C3AED"></path>
+    </marker>
+    <marker id="c-arrow-teal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0D9488"></path>
+    </marker>
+    <marker id="c-arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#D79B00"></path>
+    </marker>
+    <marker id="c-arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#DC2626"></path>
+    </marker>
+    <marker id="c-arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38BDF8"></path>
+    </marker>
+  </defs>
+
+  <!-- Background Grid -->
+  <rect width="1000" height="1000" fill="url(#grid)" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+
+  <!-- Header Title Block -->
+  <text x="40" y="45" font-family="Outfit" font-size="20" font-weight="bold" fill="#F8FAFC">Google Cloud Well-Architected R&amp;D Clinical Dossier (eCTD)</text>
+  <text x="40" y="67" font-family="Inter" font-size="11" fill="#94A3B8">Reference Architecture for Automated, Compliant, and Self-Healing Submission Pipelines</text>
+
+  <!-- COLUMN 1: Security & Operations (WAFR Pillars) -->
+  <g transform="translate(40, 105)" id="node_cloud_kms___iam" style="cursor: grab;">
+    <rect width="180" height="55" rx="8" fill="#111827" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3,3" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#C084FC" text-anchor="middle">Cloud KMS &amp; IAM</text>
+    <text x="90" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">CMEK Encryption &amp; CFR Part 11</text>
+  </g>
+
+  <g transform="translate(33, 316)" id="node_clinical_dossier" style="cursor: grab;">
+    <rect width="180" height="180" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1" opacity="0.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="30" font-family="Outfit" font-size="13" font-weight="bold" fill="#F8FAFC" text-anchor="middle">Clinical Dossier</text>
+    <text x="90" y="48" font-family="Outfit" font-size="11" font-weight="bold" fill="#38BDF8" text-anchor="middle">eCTD Workspace</text>
+    <line x1="20" y1="65" x2="160" y2="65" stroke="#334155" stroke-width="1"></line>
+    <circle cx="35" cy="85" r="4" fill="#FF9F43"></circle>
+    <text x="48" y="88" font-family="Inter" font-size="9" fill="#94A3B8">Ingestion &amp; Storage</text>
+    <circle cx="35" cy="105" r="4" fill="#0072FF"></circle>
+    <text x="48" y="108" font-family="Inter" font-size="9" fill="#94A3B8">AI Search &amp; Publish</text>
+    <circle cx="35" cy="125" r="4" fill="#9D50BB"></circle>
+    <text x="48" y="128" font-family="Inter" font-size="9" fill="#94A3B8">Agentic Writing</text>
+    <circle cx="35" cy="145" r="4" fill="#0D9488"></circle>
+    <text x="48" y="148" font-family="Inter" font-size="9" fill="#94A3B8">Validation &amp; Audit</text>
+  </g>
+
+  <g transform="translate(40, 645)" id="node_cloud_logging___ops" style="cursor: grab;">
+    <rect width="180" height="55" rx="8" fill="#111827" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="3,3" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#2DD4BF" text-anchor="middle">Cloud Logging &amp; Ops</text>
+    <text x="90" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Audit Trails &amp; Integrity Alerts</text>
+  </g>
+
+  <!-- COLUMN 2: Clinical Repositories (Reliability Pillar) -->
+  <g transform="translate(64, 197)" id="node__3__cloud_storage__cmek_" style="cursor: grab;">
+    <rect width="200" height="55" rx="8" fill="url(#c-grad-orange)" stroke="#D79B00" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="100" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[3] Cloud Storage (CMEK)</text>
+    <text x="100" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#FFE0B2" text-anchor="middle">Raw Trial Data &amp; CSR Ingest</text>
+  </g>
+
+  <g transform="translate(260, 315)" id="node__4__cloud_spanner_db" style="cursor: grab;">
+    <rect width="200" height="75" rx="8" fill="url(#c-grad-orange)" stroke="#D79B00" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <ellipse cx="100" cy="8" rx="98" ry="6" fill="#FFB74D" opacity="0.4"></ellipse>
+    <text x="100" y="35" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[4] Cloud Spanner DB</text>
+    <text x="100" y="53" font-family="Inter" font-size="8" font-style="italic" fill="#FFE0B2" text-anchor="middle">CDISC SDTM/ADaM Registry</text>
+  </g>
+
+  <!-- COLUMN 3: Ingestion, Gateway, Orchestrator (Core Flow) -->
+  <g transform="translate(687, 16)" id="node__1__clinical_ingestion_ui" style="cursor: grab;">
+    <rect width="220" height="55" rx="8" fill="url(#c-grad-orange)" stroke="#D79B00" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="110" y="22" font-family="Outfit" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[1] Clinical Ingestion UI</text>
+    <text x="110" y="38" font-family="Inter" font-size="9" font-style="italic" fill="#FFE0B2" text-anchor="middle">Protocol &amp; CSR Ingest Portal</text>
+  </g>
+
+  <g transform="translate(387, 112)" id="node__2__apigee___iap_gateway" style="cursor: grab;">
+    <rect width="240" height="60" rx="8" fill="#1E293B" stroke="#D79B00" stroke-width="2.5" filter="url(#c-glow-blue)" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="120" y="25" font-family="Outfit" font-size="11" font-weight="bold" fill="#F8FAFC" text-anchor="middle">[2] Apigee &amp; IAP Gateway</text>
+    <text x="120" y="42" font-family="Inter" font-size="9" font-style="italic" fill="#94A3B8" text-anchor="middle">Zero-Trust &amp; PHI Redaction</text>
+  </g>
+
+  <g transform="translate(822, 101)" id="node__2a__cloud_armor__waf_" style="cursor: grab;">
+    <rect width="200" height="55" rx="8" fill="url(#c-grad-orange)" stroke="#D79B00" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="100" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[2a] Cloud Armor (WAF)</text>
+    <text x="100" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#FFE0B2" text-anchor="middle">DDoS &amp; HIPAA Protection</text>
+  </g>
+
+  <g transform="translate(432, 219)" id="node__5__vertex_ai_vector_search" style="cursor: grab;">
+    <rect width="220" height="55" rx="8" fill="url(#c-grad-blue)" stroke="#6C8EBF" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="110" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[5] Vertex AI Vector Search</text>
+    <text x="110" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#E0F2FE" text-anchor="middle">FDA &amp; ICH Guidance RAG</text>
+  </g>
+
+  <g transform="translate(490, 315)" id="node__7__master_dossier_orchestrator" style="cursor: grab;">
+    <rect width="240" height="60" rx="8" fill="#F8CECC" stroke="#B85450" stroke-width="2" filter="url(#c-glow-purple)" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="120" y="25" font-family="Outfit" font-size="11" font-weight="bold" fill="#7C2D12" text-anchor="middle">[7] Master Dossier Orchestrator</text>
+    <text x="120" y="42" font-family="Inter" font-size="9" font-style="italic" fill="#7F1D1D" text-anchor="middle">Gemini 2.5 Pro (Clinical Writer)</text>
+  </g>
+
+  <g transform="translate(260, 640)" id="node__10__vertex_ai_dossier_auditor___xml_validator" style="cursor: grab;">
+    <rect width="510" height="65" rx="8" fill="#111827" stroke="#0D9488" stroke-width="2.5" filter="url(#c-glow-teal)" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="255" y="26" font-family="Outfit" font-size="12" font-weight="bold" fill="#2DD4BF" text-anchor="middle">[10] Vertex AI Dossier Auditor &amp; XML Validator</text>
+    <text x="255" y="46" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Cross-Module Semantic Audit, CDISC Data Integrity, &amp; eCTD Backbone Validation</text>
+  </g>
+
+  <g transform="translate(395, 750)" id="node__11__apigee_submission_publisher" style="cursor: grab;">
+    <rect width="240" height="55" rx="8" fill="url(#c-grad-blue)" stroke="#6C8EBF" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="120" y="22" font-family="Outfit" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[11] Apigee Submission Publisher</text>
+    <text x="120" y="38" font-family="Inter" font-size="9" font-style="italic" fill="#E0F2FE" text-anchor="middle">Assembles &amp; Seals eCTD XML Sequence</text>
+  </g>
+
+  <!-- COLUMN 4: Medical Writing Tools & Module Writers (Performance Pillar) -->
+  <g transform="translate(760, 200)" id="node__6__vertex_ai_agent_designer" style="cursor: grab;">
+    <rect width="200" height="55" rx="8" fill="url(#c-grad-purple)" stroke="#9673A6" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="100" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[6] Vertex AI Agent Designer</text>
+    <text x="100" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#F3E8FF" text-anchor="middle">ICH CTD Outlines &amp; Templates</text>
+  </g>
+
+  <g transform="translate(760, 315)" id="node__8__cloud_run__serverless_mcp_" style="cursor: grab;">
+    <rect width="200" height="55" rx="8" fill="url(#c-grad-purple)" stroke="#9673A6" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="100" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[8] Cloud Run (Serverless MCP)</text>
+    <text x="100" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#F3E8FF" text-anchor="middle">Biostatistical &amp; CDISC Tool Hub</text>
+  </g>
+
+  <g transform="translate(780, 420)" id="node__8b__vertex_ai_clinical_chart_gen" style="cursor: grab;">
+    <rect width="180" height="60" rx="8" fill="url(#c-grad-purple)" stroke="#9673A6" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="25" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[8b] Vertex AI Clinical Chart Gen</text>
+    <text x="90" y="42" font-family="Inter" font-size="8" font-style="italic" fill="#F3E8FF" text-anchor="middle">Kaplan-Meier &amp; Safety Graphics</text>
+  </g>
+
+  <g transform="translate(260, 540)" id="node__8a__cloud_pub_sub___eventarc" style="cursor: grab;">
+    <rect width="200" height="55" rx="8" fill="#111827" stroke="#6C8EBF" stroke-width="1.5" stroke-dasharray="5,5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="100" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#38BDF8" text-anchor="middle">[8a] Cloud Pub/Sub &amp; Eventarc</text>
+    <text x="100" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Parallel Module Event Router</text>
+  </g>
+
+  <g transform="translate(490, 430)" id="node__9a__module_2_writer" style="cursor: grab;">
+    <rect width="160" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="80" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[9a] Module 2 Writer</text>
+    <text x="80" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Clinical Summary (Gemini 2.5)</text>
+  </g>
+
+  <g transform="translate(490, 510)" id="node__9b__module_3_writer" style="cursor: grab;">
+    <rect width="160" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="80" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[9b] Module 3 Writer</text>
+    <text x="80" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Quality / CMC (Gemini 2.5)</text>
+  </g>
+
+  <g transform="translate(760, 530)" id="node__9c__module_4_5_writer" style="cursor: grab;">
+    <rect width="180" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[9c] Module 4/5 Writer</text>
+    <text x="90" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">Study Reports (Gemini 2.5)</text>
+  </g>
+
+  <!-- ROW 8: Target Connectors -->
+  <g transform="translate(100, 870)" id="node__12a__veeva_vault_rim" style="cursor: grab;">
+    <rect width="180" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[12a] Veeva Vault RIM</text>
+    <text x="90" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">(Submissions &amp; Registrations)</text>
+  </g>
+
+  <g transform="translate(310, 870)" id="node__12b__enterprise_edms" style="cursor: grab;">
+    <rect width="180" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[12b] Enterprise EDMS</text>
+    <text x="90" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">(Documentum / OpenText)</text>
+  </g>
+
+  <g transform="translate(520, 870)" id="node__12c__fda_esg_portal" style="cursor: grab;">
+    <rect width="180" height="50" rx="6" fill="url(#c-grad-green)" stroke="#82B366" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[12c] FDA ESG Portal</text>
+    <text x="90" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#E8F5E9" text-anchor="middle">eCTD Modules 1-5 Submission</text>
+  </g>
+
+  <g transform="translate(730, 870)" id="node__12d__cloud_storage_archive" style="cursor: grab;">
+    <rect width="180" height="50" rx="6" fill="url(#c-grad-gray)" stroke="#666666" stroke-width="1" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="20" font-family="Outfit" font-size="10" font-weight="bold" fill="#E2E8F0" text-anchor="middle">[12d] Cloud Storage Archive</text>
+    <text x="90" y="35" font-family="Inter" font-size="8" font-style="italic" fill="#94A3B8" text-anchor="middle">CFR Part 11 WORM Retention</text>
+  </g>
+
+  <!-- NEW NODE: Clinical Cache -->
+  <g transform="translate(240, 433)" id="node_clinical_cache" style="cursor: grab;">
+    <rect width="180" height="55" rx="8" fill="url(#c-grad-orange)" stroke="#D79B00" stroke-width="1.5" style="stroke-width: 1.5; stroke-dasharray: none;"></rect>
+    <text x="90" y="22" font-family="Outfit" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">[7a] Clinical Cache</text>
+    <text x="90" y="38" font-family="Inter" font-size="8" font-style="italic" fill="#FFE0B2" text-anchor="middle">Low-Latency Session State</text>
+  </g>
+
+  <!-- CONNECTIONS (PATHS) -->
+  <path d="M 797,71 L 507,112" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 507,172 L 542,219" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 542,274 L 610,315" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Apigee - Cloud Armor Link -->
+  <path d="M 627,137 L 822,126" fill="none" stroke="#D79B00" stroke-width="1.5" marker-end="url(#c-arrow-orange)"></path>
+  <path d="M 822,136 L 627,147" fill="none" stroke="#D79B00" stroke-width="1.5" marker-end="url(#c-arrow-orange)"></path>
+
+  <!-- Security Policy Enforcement -->
+  <path d="M 387,142 L 220,135" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#c-arrow-purple)"></path>
+
+  <!-- Cloud Storage to Vector Search / Orchestrator -->
+  <path d="M 264,224 L 432,246" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Spanner CDISC Link -->
+  <path d="M 460,352 L 490,352" fill="none" stroke="#64748B" stroke-width="1.5"></path>
+  <text x="475" y="342" font-family="Inter" font-size="8" fill="#94A3B8" text-anchor="middle">CDISC Database Link</text>
+
+  <!-- Vector Search to Agent Designer -->
+  <path d="M 652,246 L 760,227" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Orchestrator to Cloud Run -->
+  <path d="M 730,345 L 760,345" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Cloud Run to Chart Gen -->
+  <path d="M 860,370 L 860,420" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Chart Gen to Agent Designer -->
+  <path d="M 860,420 L 860,255 L 780,255" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Asynchronous Event Router -->
+  <path d="M 960,342 C 990,342 990,567 460,567" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#c-arrow-blue)"></path>
+
+  <!-- Event-Triggered Orchestration -->
+  <path d="M 360,540 L 360,380 L 490,380" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#c-arrow-blue)"></path>
+
+  <!-- Pub/Sub to Auditor -->
+  <path d="M 360,595 L 360,640" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Module Writers to Auditor -->
+  <path d="M 490,455 L 440,455 L 440,640" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 490,535 L 440,535 L 440,640" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 850,580 L 850,620 L 620,620 L 620,640" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Auditor to Publisher -->
+  <path d="M 515,705 L 515,750" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Ops Audit Stream -->
+  <path d="M 260,672 L 220,672" fill="none" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#c-arrow-teal)"></path>
+
+  <!-- Egress Fan-Out -->
+  <path d="M 515,805 L 515,845 L 190,845 L 190,870" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 515,805 L 515,845 L 400,845 L 400,870" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 515,805 L 515,845 L 610,845 L 610,870" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+  <path d="M 515,805 L 515,845 L 820,845 L 820,870" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+
+  <!-- Red Dashed Self-Healing Loop [10a] -->
+  <path d="M 770,672 L 910,672 L 910,255" fill="none" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#c-arrow-red)"></path>
+  <text x="925" y="460" font-family="Inter" font-size="9" font-weight="bold" fill="#DC2626" transform="rotate(-90 925 460)" text-anchor="middle">[10a] Google-Native Self-Healing Loop</text>
+
+  <!-- Connection: Master Orchestrator to Clinical Cache -->
+  <path d="M 610,375 L 610,404 L 330,404 L 330,433" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#c-arrow)"></path>
+</svg>
