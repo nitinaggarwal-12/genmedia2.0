@@ -1,0 +1,20 @@
+GLOBAL PHARMA CLINICAL TRIAL BRIEFING & TELEMETRY MANIFEST
+STUDY PROTOCOL: LITESPARK-005 (NCT04195750)
+THERAPEUTIC AREA: Oncology / Advanced Renal Cell Carcinoma (RCC)
+INVESTIGATOR SUMMARY: HIF-2α Inhibition in Pretreated Advanced RCC
+
+1. EXECUTIVE SUMMARY & STUDY DESIGN
+LITESPARK-005 is a randomized, open-label Phase III study evaluating Product-C (compound_gamma), a first-in-class HIF-2α inhibitor, versus everolimus in patients with advanced RCC who progressed after immune checkpoint and anti-angiogenic therapies.
+
+2. KEY EFFICACY ENDPOINTS
+- Primary Endpoint (PFS): Statistically significant reduction in risk of disease progression or death (HR 0.75; 95% CI: 0.63, 0.90; p=0.0008).
+- Key Secondary Endpoint (ORR): Confirmed Objective Response Rate of 22% in the Product-C arm vs 3.5% in the control arm.
+- Duration of Response (DoR): Median DoR was not reached in the Product-C arm, with 67% of responders maintaining response at 12 months.
+
+3. SAFETY REGISTRY SUMMARY (VAULT REF #V-2026-WR005)
+- Overall Tolerability: Treatment-related Grade 3/4 Adverse Events occurred in 30% of patients.
+- Most Frequent Adverse Reactions: Anemia (severe, requiring erythropoiesis-stimulating agents or transfusion) and hypoxia (requiring oxygen therapy).
+- Discontinuation Rate: Only 6% of patients discontinued Product-C due to adverse reactions, highlighting long-term outpatient tolerability.
+
+4. COMPLIANCE & PROMOTIONAL GUIDELINES
+When ingesting this briefing into the GenMedia Creative Studio, the Master Orchestrator Agent must enforce a mandatory 1:1 pairing between the 22% ORR efficacy hook and Boxed Warnings for anemia/hypoxia.

@@ -1127,6 +1127,24 @@ async function saveAndValidateEdits() {
                 <p style="margin-top: 0.4rem; font-size: 0.75rem;">Compliance card restored to full safety and regulatory alignment.</p>
             `);
             
+            if (window.analyticsData && Array.isArray(window.analyticsData)) {
+                window.analyticsData.unshift({
+                    campaign_id: `CAMP-HEAL-${Date.now().toString().slice(-4)}`,
+                    project_name: `Direct Edit Compliance Correction`,
+                    brand: 'PRODUCT-A',
+                    indication: 'Oncology / Specialty',
+                    status: 'AUTO_HEALED',
+                    latency_ms: 1450,
+                    violations_count: 1,
+                    violation_details: ["Rule 3.1: Unapproved Efficacy Hook Claim"],
+                    tokens_used: 32000,
+                    cost_usd: 0.22,
+                    savings_usd: 500.00,
+                    timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19)
+                });
+                if (typeof applyFilters === 'function') applyFilters();
+            }
+            
             await sleep(1500);
             canvas.classList.remove("heal-glow");
         } else {
@@ -3471,7 +3489,13 @@ window.openImagenModal = function() {
         const currentData = variantDatabase[currentActiveVariant];
         if (currentData) {
             document.getElementById('imagen-prompt-input').value = currentData.prompt;
-            document.getElementById('imagen-brand-select').value = currentData.drug.toLowerCase().replace(' + product_a', '');
+            const brandVal = currentData.drug.toLowerCase().replace(' + product_a', '').replace('-', '_');
+            const brandSel = document.getElementById('imagen-brand-select');
+            if (brandSel) brandSel.value = brandVal;
+            const modelSel = document.getElementById('imagen-model-select');
+            if (modelSel) modelSel.value = currentData.model || "imagen-3-clinical";
+            const styleSel = document.getElementById('imagen-style-select');
+            if (styleSel) styleSel.value = currentData.style || "clinical-realism";
         }
         modal.classList.add('active');
         
@@ -3507,6 +3531,25 @@ window.initImagenVariantSelectors = function() {
             appendConsoleLine('system', `🖼️ Selected image generation target: ${selectedVariantsCount} variant(s).`);
         });
     });
+
+    const modelSelect = document.getElementById('imagen-model-select');
+    if (modelSelect) {
+        modelSelect.addEventListener('change', function() {
+            if (variantDatabase[currentActiveVariant]) {
+                variantDatabase[currentActiveVariant].model = this.value;
+                appendConsoleLine('system', `⚙️ Generative model set to: ${this.value}`);
+            }
+        });
+    }
+    const styleSelect = document.getElementById('imagen-style-select');
+    if (styleSelect) {
+        styleSelect.addEventListener('change', function() {
+            if (variantDatabase[currentActiveVariant]) {
+                variantDatabase[currentActiveVariant].style = this.value;
+                appendConsoleLine('system', `🎨 Visual style preset set to: ${this.value}`);
+            }
+        });
+    }
 
     // Bind click listeners for the new Aspect Ratio buttons
     const aspectButtons = document.querySelectorAll('#imagen-aspect-row .imagen-variant-btn');
@@ -3617,12 +3660,32 @@ window.generateImagenAsset = function() {
             // Save the newly generated image directly into the state database!
             if (variantDatabase[targetVariant]) {
                 variantDatabase[targetVariant].image = data.image_url;
+                variantDatabase[targetVariant].model = modelName;
+                variantDatabase[targetVariant].style = stylePreset;
                 
                 // Keep the prompt on record
                 variantDatabase[targetVariant].prompt = data.final_prompt;
                 
                 // Persist locally
                 localStorage.setItem('maestro_variant_' + targetVariant + '_image', data.image_url);
+                
+                if (window.analyticsData && Array.isArray(window.analyticsData)) {
+                    window.analyticsData.unshift({
+                        campaign_id: `CAMP-GEN-${Date.now().toString().slice(-4)}`,
+                        project_name: `${brand.toUpperCase().replace('_', '-')} Visual Synthesis`,
+                        brand: brand.toUpperCase().replace('_', '-'),
+                        indication: 'Oncology / Specialty',
+                        status: 'COMPLIANT',
+                        latency_ms: 1120,
+                        violations_count: 0,
+                        violation_details: [],
+                        tokens_used: 24500,
+                        cost_usd: 0.18,
+                        savings_usd: 150.00,
+                        timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19)
+                    });
+                    if (typeof applyFilters === 'function') applyFilters();
+                }
                 
                 // Automatically load and focus the target variant tab with the new visual!
                 loadVariant(targetVariant);
@@ -3716,6 +3779,9 @@ window.exportComplianceVaultPackageContentStudio = async function() {
                 );
             } else {
                 showToastAlert(`Approved Campaign Variant successfully exported to Regulatory Compliance Vault! Doc ID: ${data.veeva_doc_id}`);
+            }
+            if (typeof exportComplianceVaultPackage === 'function') {
+                exportComplianceVaultPackage();
             }
         }
     } catch (error) {
@@ -4007,7 +4073,10 @@ window.openFda2253Modal = function() {
     document.getElementById('fda-box7-type').innerText = formType;
     
     // Generate a secure, deterministic SHA-256 hash for the transmittal seal
-    const simulatedHash = 'sha256:d84f' + Math.random().toString(16).substring(2, 12) + 'd84f93e982fa8839cb88849c2a11b88e83f0a91e';
+    let simulatedHash = 'sha256:d84f' + Math.random().toString(16).substring(2, 12) + 'd84f93e982fa8839cb88849c2a11b88e83f0a91e';
+    if (window.timeTravelEvents && window.timeTravelEvents.length > 0 && window.timeTravelEvents[0].hash) {
+        simulatedHash = window.timeTravelEvents[0].hash;
+    }
     document.getElementById('fda-box7-hash').innerText = simulatedHash;
     
     // 5. Pre-populate Box 8 Signature

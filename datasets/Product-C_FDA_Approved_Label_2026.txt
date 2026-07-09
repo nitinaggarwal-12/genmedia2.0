@@ -1,0 +1,19 @@
+GLOBAL PHARMA ENTERPRISE LLC - FDA APPROVED PRESCRIBING LABEL 2026
+PRODUCT-C (compound_gamma) tablets, for oral use
+Initial U.S. Approval: 2021 | Indication: Advanced Renal Cell Carcinoma (LITESPARK-005 Study)
+
+1. INDICATIONS AND USAGE
+Product-C is a hypoxia-inducible factor-2 alpha (HIF-2α) inhibitor indicated for the treatment of adult patients with advanced renal cell carcinoma (RCC) following progression on a programmed death receptor-1 (PD-1) or programmed death-ligand 1 (PD-L1) inhibitor and a vascular endothelial growth factor tyrosine kinase inhibitor (VEGF-TKI).
+
+2. CLINICAL TRIAL RESULTS (LITESPARK-005, NCT04195750)
+In the pivotal Phase III LITESPARK-005 clinical study (N=746), Product-C demonstrated superior Progression-Free Survival (PFS) and Objective Response Rate compared to everolimus.
+- Objective Response Rate (ORR): 22% (95% CI: 18, 27) for Product-C compared to 3.5% for everolimus (p<0.00001).
+- Durable tumor regression and vessel reduction observed across pretreated clinical cohorts.
+
+3. WARNINGS AND PRECAUTIONS (MATERIAL REVIEW SAFETY VAULT REF #V-2026-WR005)
+- Anemia & Hypoxia: Grade 3/4 adverse events occurred in 30% of patients, primarily manifesting as severe anemia requiring transfusion or hypoxia requiring supplemental oxygen.
+- Monitor hemoglobin and pulse oximetry levels prior to initiation of Product-C and periodically throughout treatment.
+- Embryo-Fetal Toxicity: Can cause fetal harm. Advise females of reproductive potential of potential risk and to use effective contraception.
+
+4. REGULATORY GOVERNANCE & FORM FDA 2253 COMPLIANCE
+Promotional assets referencing LITESPARK-005 efficacy (22% ORR) must explicitly pair claims with safety disclosures regarding Grade 3/4 anemia and hypoxia under Form FDA 2253 requirements.

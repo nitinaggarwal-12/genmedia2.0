@@ -1,0 +1,19 @@
+GLOBAL PHARMA ENTERPRISE LLC - CLINICAL PRESCRIBING INFORMATION
+PRODUCT-A (compound_alpha) injection, for intravenous use
+Initial U.S. Approval: 2014 | Indication: First-Line Metastatic Non-Squamous NSCLC (KEYNOTE-189 Trial)
+
+1. INDICATIONS AND USAGE
+Product-A is an immune checkpoint inhibitor indicated in combination with pemetrexed and platinum chemotherapy, for the first-line treatment of patients with metastatic nonsquamous non-small cell lung cancer (NSCLC), with no EGFR or ALK genomic tumor aberrations.
+
+2. CLINICAL TRIAL EXPERIENCE (KEYNOTE-189, NCT02578680)
+In the landmark Phase III KEYNOTE-189 clinical trial (N=616), patients randomized to Product-A combination therapy demonstrated a statistically significant improvement in Overall Survival (OS) compared to placebo plus chemotherapy (HR 0.49; 95% CI: 0.38, 0.64; p<0.0001).
+- Overall Response Rate (ORR) at Week 24: 56% in the Product-A combination arm vs 18.9% in the control arm.
+- Median Progression-Free Survival (PFS): 8.8 months vs 4.9 months.
+
+3. WARNINGS AND PRECAUTIONS (MATERIAL REVIEW SAFETY VAULT REF #V-2026-KTS99)
+- Immune-Mediated Adverse Reactions: Grade 3/4 immune-mediated adverse reactions occurred in 10% of patients receiving Product-A, including pneumonitis, colitis, hepatitis, endocrinopathies, and nephritis.
+- Early identification and management are essential. Administer corticosteroids for Grade 2 or higher immune-mediated reactions.
+- Monitor liver enzymes, renal function, and thyroid function at baseline and periodically during treatment.
+
+4. REGULATORY GOVERNANCE & FORM FDA 2253 COMPLIANCE
+All promotional and clinical communications must strictly reflect the verified 56% ORR and include the 10% Grade 3/4 safety disclosure per Form FDA 2253 transmittal guidelines.
