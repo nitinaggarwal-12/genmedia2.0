@@ -81,6 +81,22 @@ def init_db():
         timestamp TEXT NOT NULL
     )
     """)
+    
+    # 5. Create Session Audit Ledger Table (Time Travel Engine)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS session_audit_ledger (
+        event_id TEXT PRIMARY KEY,
+        session_id TEXT NOT NULL,
+        timestamp TEXT NOT NULL,
+        event_type TEXT NOT NULL,
+        variant_num INTEGER NOT NULL,
+        brand TEXT NOT NULL,
+        prompt_input TEXT,
+        agent_rationale TEXT,
+        snapshot_json TEXT NOT NULL,
+        verification_hash TEXT NOT NULL
+    )
+    """)
     conn.commit()
     
     # Check approved_claims count and seed if empty
@@ -615,6 +631,61 @@ def register_vault_export(project_name: str, medication: str) -> dict:
         "verification_hash": v_hash,
         "last_updated": timestamp
     }
+
+def record_time_travel_event(session_id: str, event_type: str, variant_num: int, brand: str, prompt_input: str, agent_rationale: str, snapshot_json: str) -> dict:
+    """Records an immutable historical event snapshot into the session audit ledger."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    import uuid
+    event_id = f"EVT-{uuid.uuid4().hex[:8].upper()}"
+    timestamp = datetime.now(timezone.utc).isoformat()
+    payload = f"{event_id}|{session_id}|{timestamp}|{event_type}|{variant_num}|{snapshot_json}"
+    v_hash = generate_hash(payload)
+    
+    cursor.execute("""
+        INSERT INTO session_audit_ledger 
+        (event_id, session_id, timestamp, event_type, variant_num, brand, prompt_input, agent_rationale, snapshot_json, verification_hash)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (event_id, session_id, timestamp, event_type, variant_num, brand, prompt_input, agent_rationale, snapshot_json, v_hash))
+    
+    conn.commit()
+    conn.close()
+    return {
+        "status": "SUCCESS",
+        "event_id": event_id,
+        "session_id": session_id,
+        "timestamp": timestamp,
+        "verification_hash": v_hash
+    }
+
+def get_time_travel_history(session_id: str) -> list:
+    """Retrieves chronological event history and immutable snapshots for a given session."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT event_id, session_id, timestamp, event_type, variant_num, brand, prompt_input, agent_rationale, snapshot_json, verification_hash
+        FROM session_audit_ledger
+        WHERE session_id = ?
+        ORDER BY timestamp ASC
+    """, (session_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    
+    history = []
+    for r in rows:
+        history.append({
+            "event_id": r["event_id"],
+            "session_id": r["session_id"],
+            "timestamp": r["timestamp"],
+            "event_type": r["event_type"],
+            "variant_num": r["variant_num"],
+            "brand": r["brand"],
+            "prompt_input": r["prompt_input"],
+            "agent_rationale": r["agent_rationale"],
+            "snapshot_json": r["snapshot_json"],
+            "verification_hash": r["verification_hash"]
+        })
+    return history
 
 # Ensure the database is initialized when imported
 init_db()

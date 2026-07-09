@@ -1167,6 +1167,9 @@ async function saveAndValidateEdits() {
             if (typeof addLedgerEntry === 'function') {
                 addLedgerEntry(medName, campName, manualHash);
             }
+            if (typeof recordTimeTravelEvent === 'function') {
+                recordTimeTravelEvent("COPY_AUDIT_SYNC", "Manual or automated copy edit submitted", "MLR Judge and Layout Agent re-verified copy and layout compliance.");
+            }
         }
     } catch (error) {
         console.error("Error validating edits:", error);
@@ -3349,6 +3352,10 @@ window.loadVariant = function(variantNum) {
     // Log active variant load in Console
     logConsoleLine("Master_Orchestrator_Agent", `Variant ${variantNum} (${variantData.drug}) loaded successfully. Active ComplianceVault Promomats registry connected.`);
     
+    if (typeof recordTimeTravelEvent === 'function') {
+        recordTimeTravelEvent("LOAD_VARIANT", `Switched to Variant ${variantNum}`, `Loaded workspace state for ${variantData.drug} (${variantData.campaign})`);
+    }
+    
     // Dynamic Agent Orchestration Card Update!
     const orchDesc = document.getElementById('orchestration-agent-desc');
     if (orchDesc) {
@@ -3627,6 +3634,10 @@ window.generateImagenAsset = function() {
                 }
                 
                 logConsoleLine("Master_Orchestrator_Agent", `Variant ${targetVariant} asset updated and synced to the compliance ledger.`);
+                
+                if (typeof recordTimeTravelEvent === 'function') {
+                    recordTimeTravelEvent("IMAGE_SYNTHESIS", data.final_prompt, `Synthesized brand-compliant clinical hero asset: ${data.filename} via ${data.model_used}`);
+                }
                 
                 // Show premium toast notification!
                 showToast(
@@ -6407,4 +6418,154 @@ window.startLandingSimulation = function() {
     
     executeNextStep();
 };
+
+
+// ==========================================
+// IMMUTABLE TIME TRAVEL & SESSION REPLAY ENGINE
+// ==========================================
+window.activeSessionId = "session_" + Math.random().toString(36).substring(2, 10);
+let selectedTimeTravelSnapshot = null;
+
+function recordTimeTravelEvent(eventType, promptInput, agentRationale) {
+    if (!window.variantDatabase || !window.activeVariantNum) return;
+    const variantObj = window.variantDatabase[window.activeVariantNum];
+    if (!variantObj) return;
+    
+    // Create an immutable clone of the active variant state
+    const snapshotObj = JSON.parse(JSON.stringify(variantObj));
+    const snapshotJson = JSON.stringify(snapshotObj);
+    
+    // Asynchronously record to backend ledger without blocking UI
+    fetch(`${BACKEND_URL}/api/time-travel/record`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            session_id: window.activeSessionId,
+            event_type: eventType,
+            variant_num: window.activeVariantNum,
+            brand: variantObj.brand || "product_a",
+            prompt_input: promptInput || "",
+            agent_rationale: agentRationale || "",
+            snapshot_json: snapshotJson
+        })
+    }).then(res => res.json()).then(data => {
+        if (data.status === "SUCCESS") {
+            console.log(`⏱️ [Time Travel Ledger] Recorded immutable event ${data.event_id} (${eventType}) | Hash: ${data.verification_hash}`);
+        }
+    }).catch(err => {
+        console.warn("⏱️ [Time Travel Ledger] Offline/silenced recording:", err.message);
+    });
+}
+
+function openTimeTravelDrawer() {
+    const modal = document.getElementById('time-travel-modal');
+    const sessionIdEl = document.getElementById('tt-active-session-id');
+    if (sessionIdEl) sessionIdEl.innerText = window.activeSessionId.toUpperCase();
+    if (modal) {
+        modal.style.display = 'flex';
+        loadTimeTravelHistory();
+    }
+}
+
+function closeTimeTravelDrawer() {
+    const modal = document.getElementById('time-travel-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function loadTimeTravelHistory() {
+    const track = document.getElementById('tt-timeline-track');
+    const counter = document.getElementById('tt-step-counter');
+    if (!track) return;
+    
+    track.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; align-self: center;">⏳ Loading session event trajectory...</div>`;
+    
+    fetch(`${BACKEND_URL}/api/time-travel/history/${window.activeSessionId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "SUCCESS" && data.history && data.history.length > 0) {
+                if (counter) counter.innerText = `Showing ${data.history.length} Event Checkpoints`;
+                track.innerHTML = "";
+                data.history.forEach((evt, idx) => {
+                    const timeStr = new Date(evt.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    const card = document.createElement('div');
+                    card.style.cssText = `background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem 1rem; min-width: 180px; display: flex; flex-direction: column; justify-content: space-between; gap: 0.5rem; cursor: pointer; transition: all 0.2s; position: relative;`;
+                    card.onmouseover = () => { card.style.background = 'rgba(168,85,247,0.15)'; card.style.borderColor = '#C084FC'; };
+                    card.onmouseout = () => { card.style.background = 'rgba(255,255,255,0.03)'; card.style.borderColor = 'rgba(255,255,255,0.1)'; };
+                    card.onclick = () => selectTimeTravelEvent(evt, card);
+                    
+                    let badgeColor = "#00F2FE";
+                    if (evt.event_type.includes("IMAGE")) badgeColor = "#a855f7";
+                    else if (evt.event_type.includes("AUDIT")) badgeColor = "#34D399";
+                    else if (evt.event_type.includes("COPY") || evt.event_type.includes("EDIT")) badgeColor = "#FBBF24";
+                    
+                    card.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: #94a3b8; font-family: monospace;">
+                            <span>#${idx + 1}</span>
+                            <span>${timeStr}</span>
+                        </div>
+                        <div style="font-weight: 800; font-size: 0.82rem; color: ${badgeColor};">${evt.event_type}</div>
+                        <div style="font-size: 0.7rem; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;">
+                            ${evt.agent_rationale || "State update checkpoint"}
+                        </div>
+                    `;
+                    track.appendChild(card);
+                });
+            } else {
+                if (counter) counter.innerText = `Showing 0 Events`;
+                track.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; align-self: center;">No time-travel events recorded in this session yet. Generate an image or switch variants to start the ledger!</div>`;
+            }
+        }).catch(err => {
+            track.innerHTML = `<div style="color: #ef4444; font-size: 0.85rem; align-self: center;">Error loading history: ${err.message}</div>`;
+        });
+}
+
+function selectTimeTravelEvent(evt, cardEl) {
+    const allCards = document.querySelectorAll('#tt-timeline-track > div');
+    allCards.forEach(c => c.style.boxShadow = 'none');
+    if (cardEl) cardEl.style.boxShadow = '0 0 15px #C084FC';
+    
+    selectedTimeTravelSnapshot = evt.snapshot_json;
+    
+    const titleEl = document.getElementById('tt-detail-title');
+    const ratEl = document.getElementById('tt-detail-rationale');
+    const timeEl = document.getElementById('tt-detail-time');
+    const hashEl = document.getElementById('tt-detail-hash');
+    const prevEl = document.getElementById('tt-detail-preview-box');
+    const btnEl = document.getElementById('tt-restore-btn');
+    
+    if (titleEl) titleEl.innerText = `${evt.event_type} (Variant ${evt.variant_num})`;
+    if (ratEl) ratEl.innerText = evt.agent_rationale || "User or agent triggered state change.";
+    if (timeEl) timeEl.innerText = new Date(evt.timestamp).toLocaleString();
+    if (hashEl) hashEl.innerText = evt.verification_hash;
+    
+    try {
+        const parsed = JSON.parse(evt.snapshot_json);
+        if (prevEl) prevEl.innerText = JSON.stringify(parsed, null, 2);
+    } catch(e) {
+        if (prevEl) prevEl.innerText = evt.snapshot_json;
+    }
+    
+    if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.style.opacity = "1";
+    }
+}
+
+function restoreSelectedTimeTravelSnapshot() {
+    if (!selectedTimeTravelSnapshot || !window.variantDatabase || !window.activeVariantNum) return;
+    try {
+        const restoredObj = JSON.parse(selectedTimeTravelSnapshot);
+        window.variantDatabase[window.activeVariantNum] = restoredObj;
+        
+        if (typeof window.loadVariant === 'function') {
+            window.loadVariant(window.activeVariantNum);
+        }
+        
+        closeTimeTravelDrawer();
+        logConsoleLine("Time_Travel_Engine", `⏪ Replay successful! Restored Variant ${window.activeVariantNum} to historical snapshot.`);
+        showToast("Time Travel Complete", `Successfully restored your workbench to historical state (Variant ${window.activeVariantNum}).`, "success");
+    } catch(e) {
+        console.error("Error restoring snapshot:", e);
+    }
+}
 

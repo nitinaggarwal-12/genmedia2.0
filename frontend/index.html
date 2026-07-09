@@ -2387,7 +2387,7 @@
                                     <!-- Submission & Delivery Channels -->
                                     <div class="cdo-metric-card" style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; background: rgba(0,0,0,0.15); flex-shrink: 0;">
                                         <span class="gauge-label" style="font-size: 0.55rem;">SUBMISSION & DELIVERY</span>
-                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; margin-top: 0.15rem;">
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.4rem; margin-top: 0.15rem;">
                                             <div style="background: rgba(0,0,0,0.12); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.4rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-align: center; position: relative; cursor: pointer;" onclick="exportComplianceVaultPackage()">
                                                 <span style="font-size: 1rem;">📤</span>
                                                 <span style="font-size: 0.55rem; font-weight: 700; color: var(--color-text-main); line-height: 1.1;">Export to PromoMats</span>
@@ -2406,8 +2406,14 @@
                                                 <span style="font-size: 0.5rem; color: var(--color-text-muted);" id="submission-card-3-subtitle">(Variant 1)</span>
                                                 <span style="position: absolute; top: 3px; right: 3px; background: rgba(16,185,129,0.15); color: #34d399; width: 10px; height: 10px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.45rem;">✓</span>
                                             </div>
+                                            <div style="background: rgba(168,85,247,0.12); border: 1px solid #C084FC; border-radius: 6px; padding: 0.4rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-align: center; position: relative; cursor: pointer;" onclick="openTimeTravelDrawer()">
+                                                <span style="font-size: 1rem;">⏱️</span>
+                                                <span style="font-size: 0.55rem; font-weight: 700; color: #E9D5FF; line-height: 1.1;">Time Travel Ledger</span>
+                                                <span style="font-size: 0.5rem; color: #C084FC;">(Session Replay)</span>
+                                                <span style="position: absolute; top: 3px; right: 3px; background: rgba(168,85,247,0.25); color: #E9D5FF; width: 10px; height: 10px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.45rem;">★</span>
+                                            </div>
                                         </div>
-                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem;">
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.4rem;">
                                             <div style="background: rgba(0,0,0,0.1); border: 1px solid var(--border-color); padding: 0.25rem; border-radius: 4px; font-size: 0.52rem; font-weight: 700; color: var(--color-text-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.2rem;">
                                                 <span style="color: #34d399;">✓</span> FDA Transmittal
                                             </div>
@@ -2416,6 +2422,9 @@
                                             </div>
                                             <div style="background: rgba(0,0,0,0.1); border: 1px solid var(--border-color); padding: 0.25rem; border-radius: 4px; font-size: 0.52rem; font-weight: 700; color: var(--color-text-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.2rem;">
                                                 <span style="color: #34d399;">✓</span> FDA Transmittal
+                                            </div>
+                                            <div style="background: rgba(168,85,247,0.1); border: 1px solid #C084FC; padding: 0.25rem; border-radius: 4px; font-size: 0.52rem; font-weight: 700; color: #E9D5FF; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.2rem;">
+                                                <span style="color: #C084FC;">★</span> Immutable Ledger
                                             </div>
                                         </div>
                                     </div>
@@ -2436,6 +2445,64 @@
                 </div>
             </div>
                 
+            </div>
+            
+            <!-- TIME TRAVEL SCRUBBER DRAWER / MODAL -->
+            <div id="time-travel-modal" class="landing-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 7, 18, 0.85); z-index: 12000; align-items: flex-end; justify-content: center; backdrop-filter: blur(12px); box-sizing: border-box; padding: 1.5rem;">
+                <div class="landing-modal-content" style="background: #0B0F19; border: 1px solid rgba(168,85,247,0.4); border-radius: 16px 16px 0 0; width: 95%; max-width: 1300px; padding: 2rem; position: relative; box-shadow: 0 -20px 50px rgba(168,85,247,0.25); display: flex; flex-direction: column; gap: 1.25rem; font-family: 'Inter', sans-serif; max-height: 80vh; overflow-y: auto;">
+                    <!-- Close button -->
+                    <button onclick="closeTimeTravelDrawer()" style="position: absolute; top: 1.25rem; right: 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 2.25rem; height: 2.25rem; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <h3 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #ffffff; letter-spacing: -0.02rem;">⏱️ Immutable Time Travel & Session Replay Ledger</h3>
+                                <span style="background: rgba(168,85,247,0.2); border: 1px solid #C084FC; color: #E9D5FF; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px; text-transform: uppercase;">GxP Event-Sourced</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #94a3b8; margin: 0.25rem 0 0 0;">Time-travel through every prompt input, agent action, and immutable asset snapshot. Click any checkpoint to instantly restore your workbench to that exact historical state.</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.75rem; color: #64748b;">ACTIVE SESSION ID</div>
+                            <div id="tt-active-session-id" style="font-size: 0.9rem; font-weight: 800; color: #C084FC; font-family: monospace;">SESSION_ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <!-- Scrubber Timeline Bar -->
+                    <div style="background: rgba(3,7,18,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">CHRONOLOGICAL TIMELINE SCRUBBER</span>
+                            <span id="tt-step-counter" style="font-size: 0.75rem; font-weight: 800; color: #34D399;">Showing 0 Events</span>
+                        </div>
+                        <div id="tt-timeline-track" style="display: flex; gap: 0.75rem; overflow-x: auto; padding: 0.5rem 0; min-height: 140px; align-items: stretch;">
+                            <!-- Dynamically populated event cards -->
+                            <div style="color: #64748b; font-size: 0.85rem; align-self: center;">⏳ Loading session event trajectory...</div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Event Details Box -->
+                    <div id="tt-event-details-box" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="font-size: 0.75rem; font-weight: 800; color: #C084FC; text-transform: uppercase;">EVENT METADATA & AGENT RATIONALE</div>
+                            <div id="tt-detail-title" style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">Select an event checkpoint above</div>
+                            <div id="tt-detail-rationale" style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; background: rgba(0,0,0,0.3); border-left: 3px solid #C084FC; padding: 0.75rem; border-radius: 0 6px 6px 0;">No event selected.</div>
+                            <div style="display: flex; gap: 1rem; font-size: 0.75rem; color: #64748b; font-family: monospace; flex-wrap: wrap;">
+                                <div>TIMESTAMP: <span id="tt-detail-time" style="color: #94a3b8;">--</span></div>
+                                <div>PROVABLE HASH: <span id="tt-detail-hash" style="color: #34D399;">--</span></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 1rem; border-left: 1px solid rgba(255,255,255,0.08); padding-left: 1.5rem;">
+                            <div style="width: 100%; text-align: right;">
+                                <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem;">IMMUTABLE STATE PREVIEW</div>
+                                <div id="tt-detail-preview-box" style="font-size: 0.75rem; color: #38bdf8; background: rgba(0,242,254,0.05); border: 1px dashed rgba(0,242,254,0.3); padding: 0.6rem; border-radius: 6px; text-align: left; max-height: 100px; overflow-y: auto; font-family: monospace;">
+                                    {"state": "unloaded"}
+                                </div>
+                            </div>
+                            <button id="tt-restore-btn" onclick="restoreSelectedTimeTravelSnapshot()" disabled style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 30px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(168,85,247,0.4); opacity: 0.5; outline: none; display: flex; align-items: center; gap: 0.5rem;">
+                                <span>⏪ RESTORE WORKBENCH TO THIS HISTORICAL STATE</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Hidden Legacy Tab Contents (Kept in DOM to satisfy D3 graph and ledger selectors in app.js!) -->

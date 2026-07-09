@@ -91,6 +91,16 @@ class ImageGenerationInput(BaseModel):
     style_preset: Optional[str] = "clinical-realism"
     model_name: Optional[str] = None
 
+# Pydantic schema for Time Travel audit recording
+class TimeTravelRecordInput(BaseModel):
+    session_id: str
+    event_type: str
+    variant_num: int
+    brand: str
+    prompt_input: Optional[str] = ""
+    agent_rationale: Optional[str] = ""
+    snapshot_json: str
+
 # Pydantic schema for saving Draw.io diagrams
 class SaveDiagramInput(BaseModel):
     xml: str
@@ -1418,6 +1428,46 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
         print("❌ Image generation error:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Image Generation Failed: {str(e)}")
+
+
+@app.post("/api/time-travel/record")
+def record_time_travel_endpoint(input_data: TimeTravelRecordInput):
+    """
+    Records an immutable historical snapshot into the session audit ledger for Time Travel replay.
+    """
+    try:
+        from claims_db import record_time_travel_event
+        result = record_time_travel_event(
+            session_id=input_data.session_id,
+            event_type=input_data.event_type,
+            variant_num=input_data.variant_num,
+            brand=input_data.brand,
+            prompt_input=input_data.prompt_input or "",
+            agent_rationale=input_data.agent_rationale or "",
+            snapshot_json=input_data.snapshot_json
+        )
+        return result
+    except Exception as e:
+        import traceback
+        print("❌ Time travel record error:", str(e))
+        print(traceback.format_exc())
+        return {"status": "ERROR", "message": str(e)}
+
+
+@app.get("/api/time-travel/history/{session_id}")
+def get_time_travel_history_endpoint(session_id: str):
+    """
+    Retrieves chronological event history and immutable snapshots for a given session.
+    """
+    try:
+        from claims_db import get_time_travel_history
+        history = get_time_travel_history(session_id)
+        return {"status": "SUCCESS", "session_id": session_id, "history": history}
+    except Exception as e:
+        import traceback
+        print("❌ Time travel history fetch error:", str(e))
+        print(traceback.format_exc())
+        return {"status": "ERROR", "message": str(e), "history": []}
 
 
 @app.post("/api/save-diagram")
