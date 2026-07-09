@@ -160,6 +160,55 @@ async function runE2E() {
         await page.screenshot({ path: dashboardScreenshot });
         console.log(`📸 Entered dashboard screenshot captured: ${dashboardScreenshot}`);
         
+        // 3. Test Time Travel Ledger in Creative Composer Workbench
+        console.log('🚀 Navigating to Creative Composer Workbench (Variant 1)...');
+        await page.evaluate(() => {
+            if (typeof window.switchPhase === 'function') window.switchPhase(1);
+            if (typeof window.loadVariant === 'function') window.loadVariant(1);
+        });
+        await new Promise(resolve => setTimeout(resolve, 850)); // Mandatory settling delay (>800ms)
+        
+        // Take screenshot of Composer Workbench
+        const composerScreenshot = path.join(SCREENSHOT_DIR, '04_composer_workbench.png');
+        await page.screenshot({ path: composerScreenshot });
+        console.log(`📸 Composer Workbench screenshot captured: ${composerScreenshot}`);
+        
+        // Open Time Travel Scrubber Drawer
+        console.log('⏱️ Clicking Time Travel Ledger button...');
+        await page.evaluate(() => {
+            if (typeof window.openTimeTravelDrawer === 'function') window.openTimeTravelDrawer();
+        });
+        await new Promise(resolve => setTimeout(resolve, 850)); // Mandatory settling delay for modal (>800ms)
+        
+        // Take screenshot of open Time Travel Drawer
+        const ttDrawerScreenshot = path.join(SCREENSHOT_DIR, '05_time_travel_drawer_open.png');
+        await page.screenshot({ path: ttDrawerScreenshot });
+        console.log(`📸 Time Travel Scrubber Drawer screenshot captured: ${ttDrawerScreenshot}`);
+        
+        // Click an event card if present in timeline track
+        console.log('🔍 Checking Time Travel event cards and scrubber...');
+        const eventCount = await page.evaluate(() => {
+            const cards = document.querySelectorAll('#tt-timeline-track > div');
+            if (cards.length > 0 && typeof cards[0].click === 'function') {
+                cards[0].click();
+            }
+            return cards.length;
+        });
+        console.log(`[E2E evaluate] Total Time Travel event cards found in scrubber: ${eventCount}`);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Take screenshot of selected event details
+        const ttSelectedScreenshot = path.join(SCREENSHOT_DIR, '05b_time_travel_event_selected.png');
+        await page.screenshot({ path: ttSelectedScreenshot });
+        console.log(`📸 Time Travel selected event screenshot captured: ${ttSelectedScreenshot}`);
+        
+        // Close Time Travel Drawer
+        console.log('✕ Closing Time Travel Drawer...');
+        await page.evaluate(() => {
+            if (typeof window.closeTimeTravelDrawer === 'function') window.closeTimeTravelDrawer();
+        });
+        await new Promise(resolve => setTimeout(resolve, 400));
+        
         // 1. Test Sidebar M logo link click back to landing
         console.log('🔄 Clicking sidebar M logo link to return to landing page...');
         await page.click('.sidebar-logo-container a');
