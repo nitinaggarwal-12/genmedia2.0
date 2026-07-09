@@ -1314,8 +1314,7 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
                     prompt=final_prompt,
                     config=types.GenerateImagesConfig(
                         number_of_images=1,
-                        aspect_ratio=aspect_ratio,
-                        negative_prompt=negative_prompt
+                        aspect_ratio=aspect_ratio
                     )
                 )
                 if not response.generated_images or len(response.generated_images) == 0:
@@ -1357,8 +1356,7 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
                     prompt=final_prompt,
                     config=types.GenerateImagesConfig(
                         number_of_images=1,
-                        aspect_ratio=aspect_ratio,
-                        negative_prompt=negative_prompt
+                        aspect_ratio=aspect_ratio
                     )
                 )
                 if not response.generated_images or len(response.generated_images) == 0:
