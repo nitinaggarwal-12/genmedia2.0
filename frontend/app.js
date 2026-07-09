@@ -3130,7 +3130,7 @@ const variantDatabase = {
         prompt: "High-fidelity scientific rendering of double-strand DNA repair pathway, PARP enzyme inhibition, oncology target molecule illustration, premium visual.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>LYNPARZA (Olaparib)</strong>, a blockbuster PARP inhibitor co-developed and co-marketed by Merck and AstraZeneca, indicated for patients with homologous recombination repair (HRR) gene-mutated metastatic castration-resistant prostate cancer (mCRPC).</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>LYNPARZA (Olaparib)</strong>, a blockbuster PARP inhibitor co-developed and co-marketed by Global Pharma Enterprise and AstraZeneca, indicated for patients with homologous recombination repair (HRR) gene-mutated metastatic castration-resistant prostate cancer (mCRPC).</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
@@ -3173,7 +3173,7 @@ const variantDatabase = {
         prompt: "A beautiful, premium scientific 3D illustration of antibody-antigen molecular binding, viral immunization, immunology high-fidelity rendering.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>GARDASIL 9 (HPV 9-valent Vaccine)</strong>, Merck's world-leading vaccine indicated for active immunization against high-risk HPV types to prevent cervical, vulvar, vaginal, and anal cancers.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>GARDASIL 9 (HPV 9-valent Vaccine)</strong>, Global Pharma's world-leading vaccine indicated for active immunization against high-risk HPV types to prevent cervical, vulvar, vaginal, and anal cancers.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
@@ -3216,7 +3216,7 @@ const variantDatabase = {
         prompt: "A premium 3D rendering of viral replication cycle, oral antiviral mechanism of action, molecular biology high-fidelity illustration.",
         html: `
             <p>Dear Global Pharma Clinical Marketing Team,</p>
-            <p>We are proud to present the clinical communication toolkit for <strong>LAGEVRIO (Molnupiravir)</strong>, Merck's oral antiviral indicated for the treatment of mild-to-moderate COVID-19 in high-risk adult patients.</p>
+            <p>We are proud to present the clinical communication toolkit for <strong>LAGEVRIO (Molnupiravir)</strong>, Global Pharma's oral antiviral indicated for the treatment of mild-to-moderate COVID-19 in high-risk adult patients.</p>
             
             <div style="margin: 1.25rem 0; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body-darker); border-left: 4px solid var(--color-primary);">
                 <p style="font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 0.35rem;">🚀 Landmark Clinical Indicator</p>
@@ -3949,7 +3949,7 @@ window.openFda2253Modal = function() {
     let drugName = "KEYTRUDA®";
     let establishedName = "pembrolizumab";
     let appNo = "BLA 125156";
-    let applicant = "Merck Sharp & Dohme LLC";
+    let applicant = "Global Pharma Enterprise LLC";
     let address = "126 E. Lincoln Avenue, Rahway, NJ 07065";
     let tel = "(732) 594-4000";
     
@@ -3961,7 +3961,7 @@ window.openFda2253Modal = function() {
         drugName = "LENVIMA®";
         establishedName = "lenvatinib";
         appNo = "NDA 206947";
-        applicant = "Eisai Inc. (Distributed by Merck)";
+        applicant = "Eisai Inc. (Distributed by Global Pharma Enterprise)";
         address = "100 Tice Boulevard, Woodcliff Lake, NJ 07677";
         tel = "(201) 692-1000";
     }
@@ -5533,7 +5533,7 @@ function generateFallbackDataset() {
     const statuses = ['COMPLIANT', 'AUTO_HEALED', 'BLOCKED'];
     const weights = [0.75, 0.18, 0.07];
     const projects = {
-        'Product-A': ['Merck Gemini Enterprise', 'Keynote Global Launch'],
+        'Product-A': ['Global Pharma Gemini Enterprise', 'Keynote Global Launch'],
         'Product-B': ['Eisai Lenvima Launch', 'Clear Trial HCP Portal'],
         'Product-C': ['Welireg Patient Portal'],
         'Product-D': ['Winrevair Global Launch'],

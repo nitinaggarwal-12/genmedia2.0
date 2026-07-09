@@ -135,8 +135,8 @@ async function runE2E() {
         await page.screenshot({ path: sliderAfterScreenshot });
         console.log(`📸 Tab 2 (100% After) screenshot captured: ${sliderAfterScreenshot}`);
         
-        // Test Tab 3: Adobe GenMedia Studio View (Individual Asset Inspector)
-        console.log('🔍 Switching to Tab 3: Adobe GenMedia Studio View...');
+        // Test Tab 3: Full-Scale Asset Inspector (Studio View)
+        console.log('🔍 Switching to Tab 3: Full-Scale Asset Inspector (Studio View)...');
         await page.$eval('#sim-tab-btn-studio', el => el.click());
         await new Promise(resolve => setTimeout(resolve, 850)); // Mandatory settling delay (>800ms)
         

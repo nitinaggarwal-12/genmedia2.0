@@ -157,7 +157,7 @@ def seed_analytics_data(conn):
     ]
     
     brand_projects = {
-        "Product-A": ["Merck Gemini Enterprise", "Keynote Global Launch", "Keynote-189 Efficacy Ad", "TNBC Awareness Campaign"],
+        "Product-A": ["Global Pharma Gemini Enterprise", "Keynote Global Launch", "Keynote-189 Efficacy Ad", "TNBC Awareness Campaign"],
         "Product-B": ["Eisai Lenvima Launch", "Clear Trial HCP Portal", "RCC Dual Therapy Grid"],
         "Product-C": ["Litespark Advanced RCC Ad", "Welireg Patient Portal"],
         "Product-D": ["Sotatercept PAH Efficacy", "Winrevair Global Launch"],
