@@ -5795,7 +5795,7 @@ window.startInteractiveTour = function() {
                 element: '.sidebar-logo-container',
                 popover: {
                     title: 'GenMedia Guided Tour 🚀',
-                    description: 'This interactive tour will guide you step-by-step through our end-to-end clinical compliance loop. Click **Next** to begin.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/01_persona_executive_commercial_command.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Command Center"></div>This interactive tour will guide you step-by-step through our end-to-end clinical compliance loop. Click **Next** to begin.',
                     side: 'right',
                     align: 'start',
                     showButtons: ['next', 'close']
@@ -5805,7 +5805,7 @@ window.startInteractiveTour = function() {
                 element: '.heatmap-table tbody tr:first-child', // NSCLC Row
                 popover: {
                     title: 'Step 1: Ingest Clinical Trial Brief 📊',
-                    description: 'This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Product-A clinical trial briefings!',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/02_persona_clinical_development_ingest.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Clinical Ingest"></div>This heatmap tracks competitor oncology claims. **Click on the NSCLC row** to simulate ingesting Product-A clinical trial briefings!',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close'] // Hide next button to force click!
@@ -5815,7 +5815,7 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-2',
                 popover: {
                     title: 'Step 2: Harvesting & Grounding 📥',
-                    description: 'Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the left sidebar to view the draft campaign assets!',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/03_persona_brand_marketing_composer.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Creative Composer"></div>Maestro is reading the briefing, harvesting approved claims, and matching them against the claims registry. Now, **click on the "Creative Composer" button** in the left sidebar to view the draft campaign assets!',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close'] // Hide next button to force click!
@@ -5865,7 +5865,7 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-3', // Governance Ledger button
                 popover: {
                     title: 'Step 7: Self-Healed & Secured! 🛡️',
-                    description: 'GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the left sidebar to lock in our security seal.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/04_persona_mlr_legal_regulatory_governance.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Governance Ledger"></div>GenMedia\'s agents detected the compliance violation and automatically auto-healed the copy! Now, **click the "Governance Ledger" button** in the left sidebar to lock in our security seal.',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close']
@@ -5885,7 +5885,7 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-4',
                 popover: {
                     title: 'Step 9: Medical Affairs & HEOR Hub 🔬',
-                    description: 'Our scientific & market access pillar! **Click the "4. Medical / HEOR Hub" button** in the left sidebar to parse non-promotional congress abstracts (`ESMO 2026`) and model 3-year hospital budget impact curves (`-$121.3M saved`).',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/05_persona_medical_affairs_msl_studio.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Medical Affairs & HEOR Hub"></div>Our scientific & market access pillar! **Click the "4. Medical / HEOR Hub" button** in the left sidebar to parse non-promotional congress abstracts (`ESMO 2026`) and model 3-year hospital budget impact curves (`-$121.3M saved`).',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close']
@@ -5895,7 +5895,7 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-5',
                 popover: {
                     title: 'Step 10: Global Localization Studio 🌐',
-                    description: 'Our country affiliate adaptation pillar! **Click the "5. Localization Studio" button** in the left sidebar to anchor parent-child PromoMats lineages (`#V-2026-KT089-PMDA`) and run dual-pane AI translations with statutory regional disclaimers.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/07_persona_global_localization_affiliates.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Localization Studio"></div>Our country affiliate adaptation pillar! **Click the "5. Localization Studio" button** in the left sidebar to anchor parent-child PromoMats lineages (`#V-2026-KT089-PMDA`) and run dual-pane AI translations with statutory regional disclaimers.',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close']
@@ -5905,7 +5905,7 @@ window.startInteractiveTour = function() {
                 element: '#global-nav-btn-6',
                 popover: {
                     title: 'Step 11: PV & Agency Watchtower 🚨',
-                    description: 'Our post-market & procurement pillar! **Click the "6. PV & Agency Watch" button** in the left sidebar to monitor post-market adverse event registries, simulate global safety quarantines, and audit MarTech agency retainer savings (`$1.42M+ avoided`).',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/08_persona_pharmacovigilance_drug_safety.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="PV & Agency Watchtower"></div>Our post-market & procurement pillar! **Click the "6. PV & Agency Watch" button** in the left sidebar to monitor post-market adverse event registries, simulate global safety quarantines, and audit MarTech agency retainer savings (`$1.42M+ avoided`).',
                     side: 'right',
                     align: 'center',
                     showButtons: ['close']
@@ -5915,7 +5915,7 @@ window.startInteractiveTour = function() {
                 element: '#phase-6-view',
                 popover: {
                     title: 'Step 12: Guided Tour Complete! 🎉',
-                    description: 'You have completed the comprehensive tour across all **10 Merck Persona Pillars** and 7 workbench viewports! You are now fully equipped to orchestrate, audit, and self-heal enterprise clinical marketing at scale.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/10_persona_enterprise_it_time_travel_fda.png" style="width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); display: block; max-height: 170px; object-fit: cover;" alt="Time Travel Scrubber"></div>You have completed the comprehensive tour across all **10 Merck Persona Pillars** and 7 workbench viewports! You are now fully equipped to orchestrate, audit, and self-heal enterprise clinical marketing at scale.',
                     side: 'bottom',
                     align: 'center',
                     showButtons: ['close']
