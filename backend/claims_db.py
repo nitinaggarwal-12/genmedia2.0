@@ -447,11 +447,15 @@ def get_active_standards(category: str) -> dict:
         
     return result
 
-def register_new_standard_version(rule_id: str, category: str, rule_name: str, rule_value: Any, version_label: str, change_description: str, author: str) -> dict:
+def register_new_standard_version(rule_id: str, category: str, rule_name: str, rule_value: Any, version_label: str, change_description: str, author: str, expected_previous_version: str = None) -> dict:
     """
     Registers a new version of a compliance standard rule, generating a secure cryptographic hash.
+    Enforces W3C Optimistic Concurrency Control (OCC) if expected_previous_version is supplied.
     """
     import json
+    if expected_previous_version and expected_previous_version != get_active_standards_version():
+        raise ValueError(f"OCC Conflict: Expected previous version '{expected_previous_version}' does not match active version '{get_active_standards_version()}'")
+        
     conn = get_db_connection()
     cursor = conn.cursor()
     

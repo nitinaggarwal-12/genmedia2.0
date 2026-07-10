@@ -1,8 +1,8 @@
 // Maestro — Frontend Canvas & Agent Orchestration Client
 
-const BACKEND_URL = window.location.port === '3000' ? 'http://localhost:8000' : window.location.origin;
+const BACKEND_URL = window.location.port === '3000' ? `${window.location.protocol}//${window.location.hostname}:8000` : window.location.origin;
 const WS_URL = window.location.port === '3000' 
-    ? 'ws://localhost:8000/ws/logs' 
+    ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:8000/ws/logs` 
     : (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/logs';
 
 let socket = null;
@@ -3268,6 +3268,9 @@ const variantDatabase = {
     }
 };
 
+// Explicitly attach to window object for global availability and Time Travel checks
+window.variantDatabase = variantDatabase;
+
 // Load saved generated images from localStorage on page boot!
 for (let i = 1; i <= 3; i++) {
     const savedImage = localStorage.getItem('maestro_variant_' + i + '_image');
@@ -3279,6 +3282,7 @@ for (let i = 1; i <= 3; i++) {
 // Toggle between variant tabs (Adobe ContentStudio Style)
 window.loadVariant = function(variantNum) {
     currentActiveVariant = variantNum;
+    window.activeVariantNum = variantNum;
     localStorage.setItem('maestro_active_variant', variantNum);
     
     // Update URL hash for routing
@@ -3381,6 +3385,11 @@ window.loadVariant = function(variantNum) {
     
     // Dynamic compliance shield update!
     updateComplianceShield(variantData.compliance_violations || []);
+    
+    // Ensure Studio View asset inspector stays synchronized if active
+    if (typeof switchStudioAsset === 'function' && document.getElementById('sim-comparison-modal') && document.getElementById('sim-comparison-modal').style.display !== 'none') {
+        switchStudioAsset('after');
+    }
     
     // Hide the placeholder, reveal the composer sheet
     document.getElementById('canvas-placeholder').style.display = 'none';
@@ -3685,8 +3694,18 @@ window.generateImagenAsset = function() {
                 // Keep the prompt on record
                 variantDatabase[targetVariant].prompt = data.final_prompt;
                 
-                // Persist locally
-                localStorage.setItem('maestro_variant_' + targetVariant + '_image', data.image_url);
+                // Persist locally with QuotaExceeded protection
+                try {
+                    if (data.image_url && data.image_url.startsWith('data:') && data.image_url.length > 100000) {
+                        console.warn("[Maestro Storage] Base64 image payload too large for localStorage quota. Storing path fallback.");
+                        localStorage.setItem('maestro_variant_' + targetVariant + '_image', data.filename || './product_a_clinical_hero.png');
+                    } else {
+                        localStorage.setItem('maestro_variant_' + targetVariant + '_image', data.image_url);
+                    }
+                } catch (storeErr) {
+                    console.error("[Maestro Storage] QuotaExceededError on localStorage. Saving fallback path:", storeErr);
+                    localStorage.setItem('maestro_variant_' + targetVariant + '_image', './product_a_clinical_hero.png');
+                }
                 
                 if (window.analyticsData && Array.isArray(window.analyticsData)) {
                     window.analyticsData.unshift({
@@ -4715,15 +4734,14 @@ window.switchPhase = function(phaseNum) {
     else if (phaseNum === 1) activeContainerId = 'phase-1-view';
     else if (phaseNum === 2) activeContainerId = 'phase-2-view';
     else if (phaseNum === 3) activeContainerId = 'phase-3-view';
+    else if (phaseNum === 4) activeContainerId = 'phase-4-view';
+    else if (phaseNum === 5) activeContainerId = 'phase-5-view';
+    else if (phaseNum === 6) activeContainerId = 'phase-6-view';
     
     const activeContainer = document.getElementById(activeContainerId);
     if (activeContainer) {
-        if (phaseNum === 1) {
-            activeContainer.style.display = 'flex'; // Phase 1 is a flex layout with vertical sidebar!
-        } else if (phaseNum === 2) {
-            activeContainer.style.display = 'flex'; // Phase 2 is a flex layout with vertical sidebar!
-        } else if (phaseNum === 3) {
-            activeContainer.style.display = 'flex'; // Phase 3 is a flex layout with vertical sidebar!
+        if (phaseNum >= 1 && phaseNum <= 6) {
+            activeContainer.style.display = 'flex'; // Flex layout with sidebar
         } else {
             activeContainer.style.display = 'flex'; // Default flex
         }
@@ -5304,6 +5322,9 @@ function updateHashFromState() {
     else if (currentActivePhase === 1) route = '/ingest';
     else if (currentActivePhase === 2) route = `/composer/variant/${currentActiveVariant}`;
     else if (currentActivePhase === 3) route = `/governance/variant/${currentActiveVariant}`;
+    else if (currentActivePhase === 4) route = '/medical-heor';
+    else if (currentActivePhase === 5) route = '/localization';
+    else if (currentActivePhase === 6) route = '/pharmacovigilance';
     
     isRoutingInProgress = true;
     window.location.hash = route;
@@ -5348,12 +5369,309 @@ function handleHashRoute() {
                 currentActivePhase = 3;
                 window.switchPhase(3);
                 window.loadVariant(variantNum);
+            } else if (hash.startsWith('#/medical-heor') || hash.startsWith('#/medical')) {
+                currentActivePhase = 4;
+                window.switchPhase(4);
+            } else if (hash.startsWith('#/localization') || hash.startsWith('#/affiliate')) {
+                currentActivePhase = 5;
+                window.switchPhase(5);
+            } else if (hash.startsWith('#/pharmacovigilance') || hash.startsWith('#/pv') || hash.startsWith('#/agency')) {
+                currentActivePhase = 6;
+                window.switchPhase(6);
             }
         }
     } finally {
         setTimeout(() => { isRoutingInProgress = false; }, 80);
     }
 }
+
+// --- PHASE 4: MEDICAL AFFAIRS & HEOR HELPER FUNCTIONS ---
+window.parseMslAbstract = function() {
+    const selectEl = document.getElementById('msl-abstract-select');
+    const outputEl = document.getElementById('msl-abstract-output');
+    if (!selectEl || !outputEl) return;
+    
+    const val = selectEl.value;
+    outputEl.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; padding: 1rem; text-align: center;">⏳ Extracting non-promotional endpoints and fair-balance attestation...</div>`;
+    
+    setTimeout(() => {
+        let title = "ESMO 2026: LITESPARK-005 Quality of Life (QoL) Sub-Analysis";
+        let drug = "Product-C (Belzutifan)";
+        let efficacy = "22% ORR with delayed time to deterioration in physical functioning (HR 0.54; 95% CI, 0.41-0.72).";
+        let safety = "Grade 3/4 Adverse Events observed in 30% of patients, predominantly hypoxia (15%) and anemia (22%). Fair-balance monitoring required.";
+        let seal = "#MSL-2026-QOL005";
+        
+        if (val.includes('KEYNOTE-189')) {
+            title = "ASCO 2026: KEYNOTE-189 5-Year Overall Survival Update";
+            drug = "Product-A (Pembrolizumab + Chemo)";
+            efficacy = "5-year OS rate doubled at 19.4% vs 11.3% for chemotherapy alone (HR 0.60; 95% CI, 0.50-0.72).";
+            safety = "Grade 3/4 Immune-Mediated Adverse Reactions in 10% of patients. Long-term safety registry shows no new safety signals.";
+            seal = "#MSL-2026-OS189";
+        } else if (val.includes('STELLAR')) {
+            title = "AHA 2026: STELLAR PAH Hemodynamic Profiles & 6MWD Trajectories";
+            drug = "Product-D (Sotatercept)";
+            efficacy = "41.0-meter improvement in 6-minute walk distance (p<0.001) with 84% reduction in risk of clinical worsening.";
+            safety = "Serious Adverse Events in 15% of patients (epistaxis, telangiectasia). Complete non-promotional medical disclosure included.";
+            seal = "#MSL-2026-STELLAR";
+        }
+        
+        outputEl.innerHTML = `
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.65rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.85rem; font-weight: 800; color: #00F2FE;">${title}</span>
+                    <span style="font-size: 0.6rem; background: rgba(0, 242, 254, 0.12); color: #00F2FE; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: 800;">MSL GxP SCREENED</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: white;">Compound Focus:</strong> ${drug}<br>
+                    <strong style="color: #34D399;">Scientific Takeaway:</strong> ${efficacy}<br>
+                    <strong style="color: #FBBF24;">Fair-Balance Profile:</strong> ${safety}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.5rem; font-size: 0.65rem; color: #94a3b8; font-family: monospace;">
+                    <span>Attestation Seal: ${seal}</span>
+                    <span>Ready for P2P Medical Exchange</span>
+                </div>
+            </div>
+        `;
+        logConsoleLine("Medical_Affairs_Agent", `✅ Successfully parsed non-promotional scientific deck: ${title}. Fair-balance seal ${seal} locked.`);
+    }, 450);
+};
+
+window.updateHeorSlider = function(val) {
+    const labelEl = document.getElementById('heor-cohort-display');
+    if (labelEl) labelEl.innerText = `${parseInt(val).toLocaleString()} Patients`;
+};
+
+window.calculateHeorImpact = function() {
+    const sliderEl = document.getElementById('heor-cohort-slider');
+    const costEl = document.getElementById('heor-cost-input');
+    const outputEl = document.getElementById('heor-results-box');
+    if (!sliderEl || !costEl || !outputEl) return;
+    
+    const cohort = parseInt(sliderEl.value) || 2500;
+    const annualCost = parseFloat(costEl.value) || 125000;
+    
+    const grossCost = cohort * annualCost;
+    const erSavingsPerPatient = 48500; // Estimated savings from avoided ER admissions & ICU stays
+    const totalSavings = cohort * erSavingsPerPatient;
+    const netCost = Math.max(0, grossCost - totalSavings);
+    const icer = Math.round(netCost / (cohort * 2.4)); // assuming +2.4 QALYs
+    
+    outputEl.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.85rem; border-radius: 8px;">
+                <div style="font-size: 0.62rem; color: #a7f3d0; text-transform: uppercase; font-weight: 800;">3-Year Gross Budget Impact</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #34D399; margin-top: 0.2rem;">$${(grossCost / 1000000).toFixed(1)}M</div>
+            </div>
+            <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); padding: 0.85rem; border-radius: 8px;">
+                <div style="font-size: 0.62rem; color: #bae6fd; text-transform: uppercase; font-weight: 800;">Net Budget after ER/ICU Avoidance</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8; margin-top: 0.2rem;">$${(netCost / 1000000).toFixed(1)}M <span style="font-size: 0.65rem; color: #34D399;">(-$${(totalSavings/1000000).toFixed(1)}M Saved)</span></div>
+            </div>
+            <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid rgba(168, 85, 247, 0.2); padding: 0.85rem; border-radius: 8px;">
+                <div style="font-size: 0.62rem; color: #e9d5ff; text-transform: uppercase; font-weight: 800;">Cost-Effectiveness (ICER)</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #c084fc; margin-top: 0.2rem;">$${icer.toLocaleString()} / QALY</div>
+                <div style="font-size: 0.62rem; color: #cbd5e1;">Well below $150,000 WTP threshold</div>
+            </div>
+            <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.2); padding: 0.85rem; border-radius: 8px;">
+                <div style="font-size: 0.62rem; color: #fef08a; text-transform: uppercase; font-weight: 800;">Formulary Placement</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #FBBF24; margin-top: 0.2rem;">Tier 2 Preferred Specialty</div>
+                <div style="font-size: 0.62rem; color: #cbd5e1;">NICE / CMS Formulations Approved</div>
+            </div>
+        </div>
+    `;
+    logConsoleLine("HEOR_Market_Access_Agent", `📊 Budget Impact modeled for ${cohort.toLocaleString()} patients. Net cost-effectiveness: $${icer.toLocaleString()}/QALY.`);
+};
+
+// --- PHASE 5: GLOBAL LOCALIZATION & AFFILIATE ADAPTATION HELPER FUNCTIONS ---
+window.anchorLocalizationLineage = function() {
+    const masterEl = document.getElementById('localization-master-select');
+    const regionEl = document.getElementById('localization-region-select');
+    const outputEl = document.getElementById('localization-lineage-output');
+    if (!masterEl || !regionEl || !outputEl) return;
+    
+    const masterVal = masterEl.value;
+    const regionVal = regionEl.value;
+    
+    outputEl.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; padding: 1rem; text-align: center;">⏳ Spawning Veeva PromoMats child record and anchoring cryptographic lineage seal...</div>`;
+    
+    setTimeout(() => {
+        let parentDocId = "#V-2026-KT089-US";
+        let childDocId = "#V-2026-KT089-" + regionVal;
+        let drugName = "Product-A (Pembrolizumab)";
+        let statutoryRules = "Mandatory Black Triangle ▼ monitoring symbol required by EMA Article 23.";
+        
+        if (masterVal.includes('CLEAR')) {
+            parentDocId = "#V-2026-LV581-US";
+            childDocId = "#V-2026-LV581-" + regionVal;
+            drugName = "Product-B (Lenvatinib)";
+        } else if (masterVal.includes('LITESPARK')) {
+            parentDocId = "#V-2026-WR005-US";
+            childDocId = "#V-2026-WR005-" + regionVal;
+            drugName = "Product-C (Belzutifan)";
+        }
+        
+        if (regionVal === 'PMDA') statutoryRules = "PMDA Form 4 required: explicit Japanese adverse event reporting contact desk mandatory.";
+        else if (regionVal === 'MHRA') statutoryRules = "MHRA Guidance: UK-specific pricing/reimbursed status disclaimer required.";
+        else if (regionVal === 'ANVISA') statutoryRules = "ANVISA RDC Resolution 96: mandatory Portuguese safety insert anchor required.";
+        
+        outputEl.innerHTML = `
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.65rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.85rem; font-weight: 800; color: #00F2FE;">Parent-Child Lineage Linked (${regionVal})</span>
+                    <span style="font-size: 0.6rem; background: rgba(56, 189, 248, 0.12); color: #38BDF8; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: 800;">PROMOTIONAL ANCHOR LOCKED</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: white;">Global Parent Anchor:</strong> ${parentDocId} (${drugName})<br>
+                    <strong style="color: #38BDF8;">Spawned Child Record:</strong> ${childDocId} [Status: In Affiliate Review]<br>
+                    <strong style="color: #FBBF24;">Statutory Mandate:</strong> ${statutoryRules}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.5rem; font-size: 0.65rem; color: #94a3b8; font-family: monospace;">
+                    <span>Lineage Hash: sha256:77a0bc983e1c24...</span>
+                    <span>Ready for AI Regional Translation</span>
+                </div>
+            </div>
+        `;
+        logConsoleLine("Localization_Affiliate_Agent", `🌱 Spawned child record ${childDocId} from parent anchor ${parentDocId}. Statutory jurisdiction (${regionVal}) rules loaded.`);
+    }, 400);
+};
+
+window.translateAffiliateCopy = function() {
+    const langEl = document.getElementById('localization-lang-select');
+    const boxEl = document.getElementById('localization-translation-box');
+    if (!langEl || !boxEl) return;
+    
+    const lang = langEl.value;
+    boxEl.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; padding: 1.5rem; text-align: center; width: 100%;">⏳ Synthesizing localized copy via Gemini & applying statutory affiliate disclaimers...</div>`;
+    
+    setTimeout(() => {
+        let transTitle = "Objetif de Réponse Globale (ORR) de 56% à la semaine 24";
+        let transBody = "Dans l'essai pivot KEYNOTE-189, l'association Product-A a démontré une supériorité cliniquement prouvée par rapport à la chimiothérapie seule.";
+        let statWarning = "▼ Ce médicament fait l'objet d'une surveillance supplémentaire. Déclarez immédiatement tout effet indésirable suspecté aux autorités de santé (ANSM).";
+        
+        if (lang === 'Japanese') {
+            transTitle = "第24週における全奏効率（ORR）56％を達成";
+            transBody = "主要第III相臨床試験KEYNOTE-189において、Product-A併用療法は化学療法単独群と比較して有意な全生存期間の延長を示しました。";
+            statWarning = "【警告】本剤の投与は緊急時に十分に対応できる医療施設において、がん化学療法に十分な知識・経験を持つ医師のもとで行うこと。（PMDA様式4準拠）";
+        } else if (lang === 'German') {
+            transTitle = "Gesamtansprechrate (ORR) von 56% in Woche 24";
+            transBody = "In der Zulassungsstudie KEYNOTE-189 verdoppelte die Produkt-A-Kombinationstherapie die Überlebensraten im Vergleich zur Monochimiotherapie.";
+            statWarning = "▼ Dieses Arzneimittel unterliegt einer zusätzlichen Überwachung. Fachinformation (SmPC) und G-BA Beschlüsse beachten.";
+        } else if (lang === 'Spanish') {
+            transTitle = "Tasa de Respuesta Objetiva (ORR) del 56% a las 24 semanas";
+            transBody = "En el estudio clínico de referencia KEYNOTE-189, la terapia combinada con Producto-A demostró un cambio estadísticamente superior en supervivencia global.";
+            statWarning = "Advertencia COFEPRIS / ANVISA: Medicamento de alta especialidad. Su venta requiere receta médica y monitoreo de reacciones adversas de Grado 3/4.";
+        }
+        
+        boxEl.innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%;">
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="font-size: 0.65rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase;">Source (English US Core Dossier)</div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: white;">Overall Response Rate (ORR) of 56% at Week 24</div>
+                    <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.5;">In the landmark KEYNOTE-189 Phase III trial, Product-A combination therapy demonstrated significant survival superiority over chemotherapy alone.</div>
+                </div>
+                <div style="background: rgba(13, 148, 136, 0.08); border: 1px solid rgba(13, 148, 136, 0.3); border-radius: 8px; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.65rem; color: #5eead4; font-weight: 800; text-transform: uppercase;">Target (${lang} Affiliate Output)</span>
+                        <span style="font-size: 0.55rem; background: rgba(20, 184, 166, 0.2); color: #2dd4bf; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800;">AUTO-LOCALIZED</span>
+                    </div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: #2dd4bf;">${transTitle}</div>
+                    <div style="font-size: 0.78rem; color: white; line-height: 1.5;">${transBody}</div>
+                    <div style="margin-top: 0.35rem; background: rgba(239, 68, 68, 0.12); border-left: 3px solid #ef4444; padding: 0.5rem 0.65rem; border-radius: 4px; font-size: 0.72rem; color: #fca5a5; font-weight: 700;">
+                        ${statWarning}
+                    </div>
+                </div>
+            </div>
+        `;
+        logConsoleLine("Localization_Affiliate_Agent", `🗣️ Translated core copy to ${lang} with statutory jurisdiction disclaimers automatically applied.`);
+    }, 500);
+};
+
+// --- PHASE 6: PHARMACOVIGILANCE & PROCUREMENT WATCHTOWER HELPER FUNCTIONS ---
+window.triggerPvSafetySignal = function() {
+    const outputEl = document.getElementById('pv-signal-output');
+    if (!outputEl) return;
+    
+    outputEl.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; padding: 1rem; text-align: center;">⏳ Broadcasting urgent FDA / EMA safety signal update across global promotional registry...</div>`;
+    
+    setTimeout(() => {
+        outputEl.innerHTML = `
+            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.9rem; font-weight: 800; color: #fca5a5;">🚨 URGENT PV BROADCAST: Safety Parameter Shift (Product-B)</span>
+                    <span style="font-size: 0.6rem; background: #ef4444; color: white; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 800;">GLOBAL QUARANTINE ACTIVE</span>
+                </div>
+                <div style="font-size: 0.78rem; color: #fecaca; line-height: 1.5;">
+                    <strong style="color: white;">PV Signal Source:</strong> Post-Market Surveillance Registry Ref #PV-2026-LV89<br>
+                    <strong style="color: #FBBF24;">Parameter Shift:</strong> Grade 3/4 Adverse Events revised from 82% to 84% based on 3-year post-approval real-world cohort.<br>
+                    <strong style="color: #38BDF8;">Automated System Action:</strong> 14 global promotional assets flagged. Self-Healing Layout Token Agent triggered to update clinical disclaimers automatically across all live channels.
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(239, 68, 68, 0.2); padding-top: 0.5rem; font-size: 0.65rem; color: #fca5a5; font-family: monospace;">
+                    <span>Audit Seal: sha256:PV8910AB3...</span>
+                    <span>100% PV Closed-Loop Attestation</span>
+                </div>
+            </div>
+        `;
+        logConsoleLine("Pharmacovigilance_Safety_Agent", `🚨 Broadcast safety signal PV-2026-LV89 across all active variants. Self-healing pipeline initiated.`);
+    }, 450);
+};
+
+window.generateProcurementReport = function() {
+    const boxEl = document.getElementById('procurement-output-box');
+    if (!boxEl) return;
+    
+    boxEl.innerHTML = `<div style="color: #64748b; font-size: 0.85rem; padding: 1.25rem; text-align: center;">⏳ Reconciling MarTech agency SOW invoices and calculating production savings...</div>`;
+    
+    setTimeout(() => {
+        boxEl.innerHTML = `
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.9rem; font-weight: 800; color: #34D399;">💰 Executive Agency SOW Reconciliation & Savings Ledger</span>
+                    <span style="font-size: 0.6rem; background: rgba(52, 211, 153, 0.15); color: #34D399; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 800;">FINANCE CERTIFIED</span>
+                </div>
+                
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; color: #cbd5e1;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--color-text-muted); text-align: left;">
+                            <th style="padding: 0.5rem 0;">Agency Partner</th>
+                            <th>Retainer Scope</th>
+                            <th style="text-align: right;">Legacy Cycle Time</th>
+                            <th style="text-align: right;">Maestro AI Cycle Time</th>
+                            <th style="text-align: right; color: #34D399;">Cost Avoidance ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 0.6rem 0; font-weight: 700; color: white;">WPP Health (Keytruda Core)</td>
+                            <td>Global Digital Banner Localization</td>
+                            <td style="text-align: right; color: #ef4444;">28 Business Days</td>
+                            <td style="text-align: right; color: #38bdf8; font-weight: 800;">4.2 Minutes</td>
+                            <td style="text-align: right; font-weight: 800; color: #34D399;">$680,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 0.6rem 0; font-weight: 700; color: white;">Omnicom (Lenvima Suite)</td>
+                            <td>Congress & HCP Portal Adaptation</td>
+                            <td style="text-align: right; color: #ef4444;">35 Business Days</td>
+                            <td style="text-align: right; color: #38bdf8; font-weight: 800;">6.5 Minutes</td>
+                            <td style="text-align: right; font-weight: 800; color: #34D399;">$420,000</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.6rem 0; font-weight: 700; color: white;">Publicis (Welireg Hub)</td>
+                            <td>PromoMats Regulatory Formatting</td>
+                            <td style="text-align: right; color: #ef4444;">21 Business Days</td>
+                            <td style="text-align: right; color: #38bdf8; font-weight: 800;">3.8 Minutes</td>
+                            <td style="text-align: right; font-weight: 800; color: #34D399;">$320,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.6rem; font-size: 0.72rem;">
+                    <span style="color: var(--color-text-muted);">Total YTD Agency Production Savings Avoided:</span>
+                    <span style="font-size: 1.1rem; font-weight: 800; color: #34D399;">$1,420,500 <span style="font-size: 0.62rem; color: #a7f3d0;">(-92% Cost Avoided)</span></span>
+                </div>
+            </div>
+        `;
+        logConsoleLine("Procurement_Agency_Agent", `📊 Generated SOW reconciliation report. YTD agency savings certified: $1,420,500.`);
+    }, 450);
+};
 
 // 3. Bind to Browser History Navigation events
 window.addEventListener('hashchange', () => {
@@ -6307,6 +6625,27 @@ window.closeSimComparisonModal = function() {
     if (modal) modal.style.display = 'none';
 };
 
+// 🌟 GLOBAL MODAL ESCAPE KEY & CLICK-OUTSIDE DISMISSAL PROTECTION
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'image-studio-modal'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.style.display !== 'none') {
+                el.style.display = 'none';
+            }
+        });
+    }
+});
+
+window.addEventListener('click', (e) => {
+    ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'image-studio-modal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && e.target === el) {
+            el.style.display = 'none';
+        }
+    });
+});
+
 let isLandingSimRunning = false;
 window.startLandingSimulation = function() {
     if (isLandingSimRunning) return;
@@ -6515,8 +6854,13 @@ window.activeSessionId = "session_" + Math.random().toString(36).substring(2, 10
 let selectedTimeTravelSnapshot = null;
 
 function recordTimeTravelEvent(eventType, promptInput, agentRationale) {
-    if (!window.variantDatabase || !window.activeVariantNum) return;
-    const variantObj = window.variantDatabase[window.activeVariantNum];
+    const db = window.variantDatabase || (typeof variantDatabase !== 'undefined' ? variantDatabase : null);
+    console.log(`⏱️ [Time Travel Triggered] eventType: ${eventType}, activeVariantNum: ${window.activeVariantNum}, dbPresent: ${!!db}`);
+    if (!db || !window.activeVariantNum) {
+        console.warn("⏱️ [Time Travel Aborted] Missing variantDatabase or activeVariantNum:", window.activeVariantNum);
+        return;
+    }
+    const variantObj = db[window.activeVariantNum];
     if (!variantObj) return;
     
     // Create an immutable clone of the active variant state
@@ -6640,10 +6984,15 @@ function selectTimeTravelEvent(evt, cardEl) {
 }
 
 function restoreSelectedTimeTravelSnapshot() {
-    if (!selectedTimeTravelSnapshot || !window.variantDatabase || !window.activeVariantNum) return;
+    const db = window.variantDatabase || (typeof variantDatabase !== 'undefined' ? variantDatabase : null);
+    if (!selectedTimeTravelSnapshot || !db || !window.activeVariantNum) return;
     try {
         const restoredObj = JSON.parse(selectedTimeTravelSnapshot);
-        window.variantDatabase[window.activeVariantNum] = restoredObj;
+        if (!restoredObj || typeof restoredObj !== 'object' || !restoredObj.html) {
+            throw new Error("Invalid snapshot payload structure: missing core HTML canvas state.");
+        }
+        db[window.activeVariantNum] = restoredObj;
+        if (window.variantDatabase) window.variantDatabase[window.activeVariantNum] = restoredObj;
         
         if (typeof window.loadVariant === 'function') {
             window.loadVariant(window.activeVariantNum);
@@ -6654,6 +7003,10 @@ function restoreSelectedTimeTravelSnapshot() {
         showToast("Time Travel Complete", `Successfully restored your workbench to historical state (Variant ${window.activeVariantNum}).`, "success");
     } catch(e) {
         console.error("Error restoring snapshot:", e);
+        logConsoleLine("Time_Travel_Engine", `❌ Replay failed: ${e.message}`);
+        if (typeof showToast === 'function') {
+            showToast("Time Travel Error", `Failed to restore snapshot: ${e.message}`, "error");
+        }
     }
 }
 

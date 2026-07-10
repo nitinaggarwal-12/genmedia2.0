@@ -248,6 +248,7 @@ class PromoteStandardInput(BaseModel):
     change_description: str
     author: str
     prompt: Optional[str] = None # Optional natural language prompt to compile rule
+    expected_previous_version: Optional[str] = None # For Optimistic Concurrency Control (OCC)
 
 @app.get("/api/standards")
 def get_standards_endpoint():
@@ -358,7 +359,7 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
             raise HTTPException(status_code=500, detail=f"Rule compilation failed: {str(e)}")
             
     try:
-        # Register the new rule version
+        # Register the new rule version with OCC enforcement
         reg_result = register_new_standard_version(
             rule_id=rule_id,
             category=category,
@@ -366,7 +367,8 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
             rule_value=rule_value,
             version_label=version_label,
             change_description=change_description,
-            author=author
+            author=author,
+            expected_previous_version=input_data.expected_previous_version
         )
         
         # After updating standards, dynamically refresh our orchestrator sub-agents
@@ -605,6 +607,7 @@ async def ingest_dataset_endpoint(filename: str):
             
         # Dynamically synchronize claims graph database to match the ingested drug trial!
         medication = brief_data.get("Medication", "Unknown")
+        orchestrator.claims_subagent.active_medication = medication
         if "Product-C" in medication:
             orchestrator.claims_subagent.material_review_db["product_a_efficacy"] = {
                 "claim_id": "CLM-WR-005-EFF",
@@ -1055,6 +1058,7 @@ async def process_extracted_text(extracted_text: str, source_filename: str, log_
         draft_html = draft_html.split("```")[1].split("```")[0].strip()
         
     medication = brief_data.get("Medication", "Product-A")
+    orchestrator.claims_subagent.active_medication = medication
     
     # Dynamic Claims Graph Database Sync based on medication name!
     if "Product-C" in medication or "compound_gamma" in extracted_text.lower() or "welireg" in medication.lower() or "belzutifan" in medication.lower():
@@ -1943,4 +1947,4 @@ app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 if __name__ == "__main__":
     import uvicorn
     # Start the server on localhost:8000
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

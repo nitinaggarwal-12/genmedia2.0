@@ -221,6 +221,7 @@ class SemanticClaimsGraphAgent:
 
     def sync_memory_db_from_sqlite(self, medication: str):
         """Syncs the in-memory material_review_db from the SQLite approved_claims database."""
+        self.active_medication = medication
         db_claims = get_claims_by_medication(medication)
         
         # Reset current state
@@ -256,8 +257,8 @@ class SemanticClaimsGraphAgent:
     def update_efficacy_label_webhooks(self, new_value: str, active_version: str = "Week 48") -> Dict[str, Any]:
         # Call SQLite approved_claims update directly
         sync_result = update_claim_value("CLM-KT-189-EFF", new_value, active_version)
-        # Re-sync local memory DB
-        self.sync_memory_db_from_sqlite("Product-A")
+        # Re-sync local memory DB preserving active medication context
+        self.sync_memory_db_from_sqlite(getattr(self, "active_medication", "Product-A"))
         return sync_result
 
     async def validate_claims_in_html(self, html_content: str, log_callback, medication: str = None, model_profile: str = "cost_optimized") -> Tuple[bool, str, List[Dict[str, Any]]]:
@@ -336,7 +337,7 @@ class SemanticClaimsGraphAgent:
         # Check efficacy in HTML
         efficacy_pct = active_efficacy.replace("%", "").strip()
         if efficacy_pct not in html_content:
-            matches = re.findall(r'(\d+)\s*%', html_content)
+            matches = re.findall(r'(\d+(?:\.\d+)?)\s*%', html_content)
             if matches:
                 is_compliant = False
                 audit_logs.append({
@@ -348,7 +349,7 @@ class SemanticClaimsGraphAgent:
                     "verification_hash": efficacy_hash,
                     "action": "AUTO-REPAIR TRIGGERED"
                 })
-                modified_html = re.sub(rf'{matches[0]}\s*%', active_efficacy, modified_html)
+                modified_html = re.sub(rf'{re.escape(matches[0])}\s*%', active_efficacy, modified_html)
                 modified_html = re.sub(r'Week \d+|v\d+\.\d+', active_version, modified_html)
         else:
             audit_logs.append({
@@ -367,7 +368,7 @@ class SemanticClaimsGraphAgent:
         
         safety_pct = active_safety.replace("%", "").strip()
         if safety_pct not in html_content:
-            matches = re.findall(r'(\d+)\s*%\s*(?:grade|adverse|safety|reactions|immune)', html_content.lower())
+            matches = re.findall(r'(\d+(?:\.\d+)?)\s*%\s*(?:grade|adverse|safety|reactions|immune|diarrhea|anemia)', html_content.lower())
             if matches:
                 is_compliant = False
                 audit_logs.append({
@@ -379,7 +380,7 @@ class SemanticClaimsGraphAgent:
                     "verification_hash": safety_hash,
                     "action": "AUTO-REPAIR TRIGGERED"
                 })
-                modified_html = re.sub(rf'{matches[0]}\s*%', active_safety, modified_html)
+                modified_html = re.sub(rf'{re.escape(matches[0])}\s*%', active_safety, modified_html)
         else:
             audit_logs.append({
                 "claim_id": safety_data.get("claim_id", "CLM-SAF"),
