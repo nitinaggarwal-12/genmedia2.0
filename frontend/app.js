@@ -5714,6 +5714,7 @@ function initOnboardingTour() {
         showProgress: true,
         animate: true,
         allowClose: true,
+        popoverClass: 'driverjs-theme',
         nextBtnText: 'Next ➔',
         prevBtnText: '⇠ Previous',
         doneBtnText: 'Done ✓',
@@ -5723,7 +5724,7 @@ function initOnboardingTour() {
                 element: '.brand-info',
                 popover: {
                     title: 'Welcome to GenMedia!',
-                    description: 'This is your agentic marketing workbench built to automate downstream marketing asset creation, layout compliance, and regulatory grounding.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/01_persona_executive_commercial_command.png" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,242,254,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.6); display: block; max-height: 170px; object-fit: cover;" alt="Command Center"></div>This is your agentic marketing workbench built to automate downstream marketing asset creation, layout compliance, and regulatory grounding.',
                     side: 'bottom',
                     align: 'start'
                 }
@@ -5732,7 +5733,7 @@ function initOnboardingTour() {
                 element: '.heatmap-table tbody tr:first-child',
                 popover: {
                     title: 'Trigger Strategic Ingestion',
-                    description: 'Click on any row in this heatmap (like NSCLC or RCC) to instantly trigger a strategic ingest, scan local datasets, and load the clinical campaign brief!',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/02_persona_clinical_development_ingest.png" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,242,254,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.6); display: block; max-height: 170px; object-fit: cover;" alt="Clinical Ingest"></div>Click on any row in this heatmap (like NSCLC or RCC) to instantly trigger a strategic ingest, scan local datasets, and load the clinical campaign brief!',
                     side: 'right',
                     align: 'center'
                 }
@@ -5741,7 +5742,7 @@ function initOnboardingTour() {
                 element: '#header-workflow-nav',
                 popover: {
                     title: 'Dynamic Workflow Navigation',
-                    description: 'This navigator guides you through the phases of clinical campaign orchestration: Command Center, Clinical Ingest, Creative Composer, and the Governance Ledger.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/03_persona_brand_marketing_composer.png" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,242,254,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.6); display: block; max-height: 170px; object-fit: cover;" alt="Workflow Navigation"></div>This navigator guides you through the phases of clinical campaign orchestration: Command Center, Clinical Ingest, Creative Composer, and the Governance Ledger.',
                     side: 'bottom',
                     align: 'center'
                 }
@@ -5750,7 +5751,7 @@ function initOnboardingTour() {
                 element: '.btn-guide-trigger',
                 popover: {
                     title: 'Maestro User Guide',
-                    description: 'Need help? Click the User Guide button at any time to open the comprehensive system architecture, dataflow diagrams, and detailed workflow guides.',
+                    description: '<div style="margin-bottom: 0.65rem;"><img src="screenshots/04_persona_mlr_legal_regulatory_governance.png" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,242,254,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.6); display: block; max-height: 170px; object-fit: cover;" alt="User Guide"></div>Need help? Click the User Guide button at any time to open the comprehensive system architecture, dataflow diagrams, and detailed workflow guides.',
                     side: 'bottom',
                     align: 'end'
                 }
@@ -5789,6 +5790,7 @@ window.startInteractiveTour = function() {
         showProgress: false,
         animate: true,
         allowClose: true,
+        popoverClass: 'driverjs-theme',
         opacity: 0.75,
         steps: [
             {

@@ -34,6 +34,73 @@
             line-height: 1.6;
         }
 
+        /* ==========================================================================
+           ✨ ULTRA-PREMIUM SHINY 3D ANIMATED SNAPSHOT CARDS (`user_guide.html`)
+           ========================================================================== */
+
+        @keyframes floatSnapshot3D {
+            0% {
+                transform: translateY(0px) perspective(1200px) rotateX(0deg);
+                box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.75), 0 0 25px rgba(0, 242, 254, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            }
+            50% {
+                transform: translateY(-5px) perspective(1200px) rotateX(0.8deg);
+                box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 242, 254, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                transform: translateY(0px) perspective(1200px) rotateX(0deg);
+                box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.75), 0 0 25px rgba(0, 242, 254, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        @keyframes borderNeonPulse {
+            0% { border-color: rgba(0, 242, 254, 0.4); }
+            50% { border-color: rgba(168, 85, 247, 0.65); }
+            100% { border-color: rgba(0, 242, 254, 0.4); }
+        }
+
+        .snapshot-card-3d {
+            margin: 2rem 0 !important;
+            border: 1px solid rgba(0, 242, 254, 0.45) !important;
+            border-radius: 18px !important;
+            overflow: hidden !important;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.88) 0%, rgba(3, 7, 18, 0.96) 100%) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            animation: floatSnapshot3D 5s ease-in-out infinite, borderNeonPulse 4s infinite !important;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            position: relative !important;
+        }
+
+        .snapshot-card-3d:hover {
+            transform: translateY(-8px) scale(1.015) perspective(1200px) rotateX(1.8deg) !important;
+            border-color: rgba(0, 242, 254, 0.85) !important;
+            box-shadow: 0 35px 70px -12px rgba(0, 0, 0, 0.95), 0 0 60px rgba(0, 242, 254, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.4) !important;
+        }
+
+        .snapshot-card-3d img {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .snapshot-card-3d:hover img {
+            transform: scale(1.02) !important;
+        }
+
+        .snapshot-card-3d .snapshot-footer {
+            padding: 0.85rem 1.35rem !important;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+            font-size: 0.84rem !important;
+            color: #E2E8F0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            font-family: var(--font-outfit), 'Inter', sans-serif !important;
+        }
+
         /* HEADER STYLING */
         .guide-header {
             background: linear-gradient(135deg, #F1F5F9 0%, #FFFFFF 100%);
@@ -509,9 +576,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/01_persona_executive_commercial_command.png" style="width: 100%; height: auto; display: block;" alt="Executive Command Center">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Phase 0 Command Center & Executive KPI Analytics</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -704,9 +771,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/02_persona_clinical_development_ingest.png" style="width: 100%; height: auto; display: block;" alt="Clinical Ingest Studio">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Phase 1 Clinical Ingest & Multimodal Claims Graph</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -763,9 +830,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/03_persona_brand_marketing_composer.png" style="width: 100%; height: auto; display: block;" alt="Creative Composer Studio">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Phase 2 Creative Composer with Imagen 3 Full-Bleed Hero</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -817,9 +884,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/04_persona_mlr_legal_regulatory_governance.png" style="width: 100%; height: auto; display: block;" alt="MLR Regulatory Shield">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Phase 3 MLR Regulatory Governance Shield & OCC ETag Protection</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -861,9 +928,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/09_persona_procurement_agency_operations.png" style="width: 100%; height: auto; display: block;" alt="Integrations & Agency Operations">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Integrations & MarTech SOW Retainer Reconciliation</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -905,15 +972,15 @@
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
-                    <div style="border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                    <div class="snapshot-card-3d">
                         <img src="screenshots/05_persona_medical_affairs_msl_studio.png" style="width: 100%; height: auto; display: block;" alt="MSL Studio">
-                        <div style="padding: 0.65rem 1rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.78rem; color: var(--color-text-muted);">
+                        <div class="snapshot-footer">
                             <span>📸 <strong>Step 04.1:</strong> MSL Congress Abstract Harvest & GxP Seal</span>
                         </div>
                     </div>
-                    <div style="border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                    <div class="snapshot-card-3d">
                         <img src="screenshots/06_persona_heor_market_access_dossier.png" style="width: 100%; height: auto; display: block;" alt="HEOR Dossier">
-                        <div style="padding: 0.65rem 1rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.78rem; color: var(--color-text-muted);">
+                        <div class="snapshot-footer">
                             <span>📸 <strong>Step 04.2:</strong> HEOR Hospital Budget Impact & ICER Curves</span>
                         </div>
                     </div>
@@ -954,9 +1021,9 @@
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/07_persona_global_localization_affiliates.png" style="width: 100%; height: auto; display: block;" alt="Localization Studio">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Phase 5 Localization Studio & PromoMats Parent-Child Lineage</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
@@ -998,15 +1065,15 @@
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
-                    <div style="border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                    <div class="snapshot-card-3d">
                         <img src="screenshots/08_persona_pharmacovigilance_drug_safety.png" style="width: 100%; height: auto; display: block;" alt="PV Safety Radar">
-                        <div style="padding: 0.65rem 1rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.78rem; color: var(--color-text-muted);">
+                        <div class="snapshot-footer">
                             <span>📸 <strong>Step 06.1:</strong> PV Post-Market Radar & Global Quarantine Shift</span>
                         </div>
                     </div>
-                    <div style="border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                    <div class="snapshot-card-3d">
                         <img src="screenshots/09_persona_procurement_agency_operations.png" style="width: 100%; height: auto; display: block;" alt="Procurement SOW">
-                        <div style="padding: 0.65rem 1rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.78rem; color: var(--color-text-muted);">
+                        <div class="snapshot-footer">
                             <span>📸 <strong>Step 06.2:</strong> MarTech Agency Retainer SOW Cost Avoidance</span>
                         </div>
                     </div>
@@ -1116,9 +1183,9 @@
                     <li>Compare the hash on your exported HTML file with the ledger entry—if they match, the asset is 100% genuine and grounded.</li>
                 </ul>
 
-                <div style="margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #030712; box-shadow: var(--shadow-md);">
+                <div class="snapshot-card-3d">
                     <img src="screenshots/10_persona_enterprise_it_time_travel_fda.png" style="width: 100%; height: auto; display: block;" alt="Time Travel Scrubber">
-                    <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <div class="snapshot-footer">
                         <span>📸 <strong>Verified Snapshot:</strong> Enterprise IT Time Travel Scrubber & Cryptographic SHA-256 Ledger</span>
                         <span style="font-family: monospace; font-size: 0.72rem; color: var(--color-primary);">Retina 2x Verified</span>
                     </div>
