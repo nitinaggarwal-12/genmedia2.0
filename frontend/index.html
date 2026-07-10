@@ -2577,7 +2577,324 @@
                 </div>
             </div>
                 
+            <!-- PHASE 4: MEDICAL AFFAIRS & HEOR / PAYER ACCESS HUB -->
+            <div class="phase-container" id="phase-4-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
+                <!-- Header Banner -->
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 2rem;">🔬</span>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">04. MEDICAL AFFAIRS & HEOR / PAYER ACCESS HUB</h2>
+                                <span style="background: rgba(0, 242, 254, 0.12); color: #00F2FE; border: 1px solid rgba(0, 242, 254, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Non-Promotional Scientific & Economic Grounding</span>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Strictly separated from promotional copy: generate unbiased MSL scientific exchange decks and model HEOR hospital budget impact curves.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.6rem; align-items: center;">
+                        <button class="btn btn-secondary" onclick="switchPhase(0)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Command Center</button>
+                        <button class="btn btn-primary" onclick="parseMslAbstract()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Quick Extract Abstract</button>
+                    </div>
+                </div>
+
+                <!-- 2-Column Grid for Medical vs HEOR -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
+                    <!-- Panel 1: MSL Scientific Exchange & Congress Abstract Studio -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">📄</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">MSL Congress Abstract & Fair-Balance Parser</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(52,211,153,0.2);">P2P Medical Exchange</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            Medical Science Liaisons (MSLs) require non-promotional scientific summaries with complete safety disclosures and zero promotional adjectives. Select a congress abstract package below to extract fair-balance scientific points:
+                        </p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Congress Clinical Briefing:</label>
+                            <select id="msl-abstract-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
+                                <option value="ESMO_LITESPARK_005">ESMO 2026: LITESPARK-005 Quality of Life (QoL) Sub-Analysis (Belzutifan in RCC)</option>
+                                <option value="ASCO_KEYNOTE_189">ASCO 2026: KEYNOTE-189 5-Year Overall Survival Update (Pembrolizumab in NSCLC)</option>
+                                <option value="AHA_STELLAR_PAH">AHA 2026: STELLAR PAH Hemodynamic Profiles & 6MWD Trajectories (Sotatercept)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="parseMslAbstract()" style="background: linear-gradient(135deg, var(--color-primary) 0%, #0d9488 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);">
+                            <span>⚡ Harvest Non-Promotional Takeaways & Attest Fair-Balance</span>
+                        </button>
+
+                        <div id="msl-abstract-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Click above to parse abstract takeaways and lock non-promotional attestation seal.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: HEOR Payer Value Dossier & Budget Impact Calculator -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">📈</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">HEOR Budget Impact & Formulary Access Matrix</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #38BDF8; background: rgba(56,189,248,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(56,189,248,0.2);">CMS / NICE Model</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            Model hospital budget impact, cost per QALY gained, and formulary tier recommendations anchored in Real-World Evidence (RWE) outcomes:
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; background: var(--bg-surface-solid); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Patient Cohort Size:</label>
+                                    <span id="heor-cohort-display" style="font-size: 0.78rem; font-weight: 800; color: var(--color-primary);">2,500 Patients</span>
+                                </div>
+                                <input type="range" id="heor-cohort-slider" min="500" max="10000" step="250" value="2500" oninput="updateHeorSlider(this.value)" style="accent-color: var(--color-primary); cursor: pointer;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Annual Cost / Patient ($):</label>
+                                <input type="number" id="heor-cost-input" value="125000" style="padding: 0.45rem 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none;">
+                            </div>
+                        </div>
+
+                        <button onclick="calculateHeorImpact()" style="background: linear-gradient(135deg, #38BDF8 0%, #0284C7 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);">
+                            <span>📊 Calculate 3-Year Hospital Budget Impact & ICER Curves</span>
+                        </button>
+
+                        <div id="heor-results-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Adjust parameters and click above to run health economic outcomes simulation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- PHASE 5: GLOBAL LOCALIZATION & AFFILIATE ADAPTATION STUDIO -->
+            <div class="phase-container" id="phase-5-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
+                <!-- Header Banner -->
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 2rem;">🌐</span>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">05. GLOBAL LOCALIZATION & AFFILIATE ADAPTATION STUDIO</h2>
+                                <span style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Veeva PromoMats Parent-Child Lineage</span>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Adapt approved global master dossiers to local country health authorities (`EMA`, `PMDA`, `MHRA`, `ANVISA`) while preserving cryptographic audit trails.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.6rem; align-items: center;">
+                        <button class="btn btn-secondary" onclick="switchPhase(4)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Medical/HEOR Hub</button>
+                        <button class="btn btn-primary" onclick="translateAffiliateCopy()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Quick AI Translation</button>
+                    </div>
+                </div>
+
+                <!-- 2-Column Grid for Lineage Anchor vs AI Translator -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
+                    <!-- Panel 1: Parent-Child Lineage Tree & Veeva PromoMats Anchor Selector -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">🌱</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Parent-Child Dossier Lineage Anchor</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #C084FC; background: rgba(192,132,252,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(192,132,252,0.2);">PromoMats Vault Link</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            Global core dossiers must act as immutable parent anchors. When local affiliates adapt copy for local health authorities, child records inherit the parent's efficacy verification while enforcing regional statutory inserts:
+                        </p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Global Master Core Dossier:</label>
+                            <select id="localization-master-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
+                                <option value="KEYNOTE_189_MASTER">KEYNOTE-189 Global Master Core Dossier (NSCLC - Product-A / Pembrolizumab)</option>
+                                <option value="CLEAR_581_MASTER">CLEAR Phase III Master Core Dossier (RCC - Product-B / Lenvatinib)</option>
+                                <option value="LITESPARK_005_MASTER">LITESPARK-005 Core Clinical Package (Advanced RCC - Product-C / Belzutifan)</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Target Affiliate Jurisdiction:</label>
+                            <select id="localization-region-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
+                                <option value="EMA">🇪🇺 EMA (Europe - Mandatory Black Triangle ▼ Monitoring)</option>
+                                <option value="PMDA">🇯🇵 PMDA (Japan - Statutory Form 4 AE Contact Desk)</option>
+                                <option value="MHRA">🇬🇧 MHRA (United Kingdom - NHS Reimbursed Status Disclosure)</option>
+                                <option value="ANVISA">🇧🇷 ANVISA (Brazil - RDC Resolution 96 Portuguese Insert)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="anchorLocalizationLineage()" style="background: linear-gradient(135deg, #C084FC 0%, #9333EA 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(192, 132, 252, 0.25);">
+                            <span>🌱 Anchor & Spawn PromoMats Child Lineage Record</span>
+                        </button>
+
+                        <div id="localization-lineage-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Select master dossier & target jurisdiction above to link parent-child audit trail.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Real-Time AI Multi-Language & Regional Compliance Translator -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">🗣️</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">AI Regional Translator & Statutory Shield</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #2DD4BF; background: rgba(45,212,191,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(45,212,191,0.2);">Gemini 2.0 Flash</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            Translate promotional copy into local affiliate languages instantly while auto-injecting statutory regional disclaimers required by local medical advertising laws:
+                        </p>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Affiliate Language & Statutory Target:</label>
+                            <select id="localization-lang-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
+                                <option value="French">French (France - EMA / ANSM Statutory Black Triangle ▼)</option>
+                                <option value="Japanese">Japanese (Japan - PMDA Form 4 Emergency Contact Desk)</option>
+                                <option value="German">German (Germany - G-BA / BfArM SmPC Mandates)</option>
+                                <option value="Spanish">Spanish (Spain / LatAm - COFEPRIS / ANVISA High Specialty Prescription Warning)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="translateAffiliateCopy()" style="background: linear-gradient(135deg, #2DD4BF 0%, #0D9488 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(45, 212, 191, 0.25);">
+                            <span>⚡ Translate Copy & Auto-Inject Statutory Regional Disclaimers</span>
+                        </button>
+
+                        <div id="localization-translation-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Select language and click above to generate dual-pane localized output with statutory shield.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 6: PHARMACOVIGILANCE & PROCUREMENT WATCHTOWER -->
+            <div class="phase-container" id="phase-6-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
+                <!-- Header Banner -->
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <span style="font-size: 2rem;">🚨</span>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">06. PHARMACOVIGILANCE & AGENCY PROCUREMENT WATCHTOWER</h2>
+                                <span style="background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Closed-Loop Safety Signal & MarTech SOW Audit</span>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Monitor global post-market safety signals (`Grade 3/4 AEs`) across patient registries and reconcile agency retainer cost avoidance (`$1.42M+ Saved`).</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.6rem; align-items: center;">
+                        <button class="btn btn-secondary" onclick="switchPhase(5)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Localization Studio</button>
+                        <button class="btn btn-primary" onclick="triggerPvSafetySignal()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Simulate PV Alert</button>
+                    </div>
+                </div>
+
+                <!-- 2-Column Grid for PV Radar vs Agency Procurement -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
+                    <!-- Panel 1: Pharmacovigilance Safety Signal Radar & Webhook Broadcast Matrix -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">📡</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Global Post-Market Safety Surveillance Radar</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #FCA5A5; background: rgba(239,68,68,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(239,68,68,0.2);">PV Registry Active</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            When an adverse event parameter shifts in post-market registries, PV safety officers must instantly broadcast a global quarantine across all promotional campaigns:
+                        </p>
+                        
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; color: #cbd5e1; background: var(--bg-surface-solid); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
+                            <thead>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--color-text-muted); text-align: left; background: rgba(255,255,255,0.02);">
+                                    <th style="padding: 0.6rem 0.75rem;">Product & Trial</th>
+                                    <th>Observed AE Parameter</th>
+                                    <th>Baseline Registry Value</th>
+                                    <th style="text-align: right; padding-right: 0.75rem;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-A (KEYNOTE-189)</td>
+                                    <td>Immune-Mediated Reactions</td>
+                                    <td style="font-weight: 800; color: #34D399;">10% Grade 3/4</td>
+                                    <td style="text-align: right; padding-right: 0.75rem; color: #34D399;">● GxP Compliant</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-B (CLEAR Trial)</td>
+                                    <td>Grade 3/4 Adverse Events</td>
+                                    <td style="font-weight: 800; color: #FBBF24;">82% Grade 3/4</td>
+                                    <td style="text-align: right; padding-right: 0.75rem; color: #FBBF24;">● Monitoring Active</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-C (LITESPARK-005)</td>
+                                    <td>Hypoxia / Anemia</td>
+                                    <td style="font-weight: 800; color: #34D399;">30% Grade 3/4</td>
+                                    <td style="text-align: right; padding-right: 0.75rem; color: #34D399;">● GxP Compliant</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <button onclick="triggerPvSafetySignal()" style="background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">
+                            <span>🚨 Simulate Urgent FDA Safety Signal Webhook & Global Quarantine</span>
+                        </button>
+
+                        <div id="pv-signal-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Click above to simulate real-time PV safety signal shift & auto-healing broadcast.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Procurement & Agency Operations Analytics Deck -->
+                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="font-size: 1.25rem;">💰</span>
+                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Agency Retainer & MSA Cost Avoidance Deck</h3>
+                            </div>
+                            <span style="font-size: 0.62rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(52,211,153,0.2);">Finance Certified</span>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                            Strategic sourcing leads track production cycle-time compression (`42 days -> 6 minutes`) and reconcile agency retainer SOW invoices across global ad partners (`WPP`, `Omnicom`, `Publicis`):
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Agency Fees Avoided YTD</div>
+                                <div style="font-size: 1.15rem; font-weight: 800; color: #34D399; margin-top: 0.2rem;">$1,420,500</div>
+                                <div style="font-size: 0.58rem; color: #34d399; margin-top: 0.15rem;">● +42% vs SOW Budget Target</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Cycle Time Compression</div>
+                                <div style="font-size: 1.15rem; font-weight: 800; color: #38BDF8; margin-top: 0.2rem;">6.2 Minutes</div>
+                                <div style="font-size: 0.58rem; color: #38bdf8; margin-top: 0.15rem;">● -99.8% vs 42-Day Agency Bench</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
+                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Retainer SOW Efficiency</div>
+                                <div style="font-size: 1.15rem; font-weight: 800; color: #C084FC; margin-top: 0.2rem;">94.5% High-Value</div>
+                                <div style="font-size: 0.58rem; color: #c084fc; margin-top: 0.15rem;">● 0% Production Grunt Work</div>
+                            </div>
+                        </div>
+
+                        <button onclick="generateProcurementReport()" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">
+                            <span>📊 Generate Executive Agency SOW Reconciliation Report</span>
+                        </button>
+
+                        <div id="procurement-output-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
+                                Click above to reconcile agency partner SOW invoices and certified savings ledger.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- Closes #tab-workbench -->
             
             <!-- TIME TRAVEL SCRUBBER DRAWER / MODAL -->
             <div id="time-travel-modal" class="landing-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 7, 18, 0.85); z-index: 12000; align-items: flex-end; justify-content: center; backdrop-filter: blur(12px); box-sizing: border-box; padding: 1.5rem;">
@@ -2937,323 +3254,7 @@
                     }
                 </style>
 
-            <!-- PHASE 4: MEDICAL AFFAIRS & HEOR / PAYER ACCESS HUB -->
-            <div class="phase-container" id="phase-4-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
-                <!-- Header Banner -->
-                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
-                    <div style="display: flex; align-items: center; gap: 0.85rem;">
-                        <span style="font-size: 2rem;">🔬</span>
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">04. MEDICAL AFFAIRS & HEOR / PAYER ACCESS HUB</h2>
-                                <span style="background: rgba(0, 242, 254, 0.12); color: #00F2FE; border: 1px solid rgba(0, 242, 254, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Non-Promotional Scientific & Economic Grounding</span>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Strictly separated from promotional copy: generate unbiased MSL scientific exchange decks and model HEOR hospital budget impact curves.</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 0.6rem; align-items: center;">
-                        <button class="btn btn-secondary" onclick="switchPhase(0)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Command Center</button>
-                        <button class="btn btn-primary" onclick="parseMslAbstract()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Quick Extract Abstract</button>
-                    </div>
-                </div>
-
-                <!-- 2-Column Grid for Medical vs HEOR -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
-                    <!-- Panel 1: MSL Scientific Exchange & Congress Abstract Studio -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">📄</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">MSL Congress Abstract & Fair-Balance Parser</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(52,211,153,0.2);">P2P Medical Exchange</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            Medical Science Liaisons (MSLs) require non-promotional scientific summaries with complete safety disclosures and zero promotional adjectives. Select a congress abstract package below to extract fair-balance scientific points:
-                        </p>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Congress Clinical Briefing:</label>
-                            <select id="msl-abstract-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                                <option value="ESMO_LITESPARK_005">ESMO 2026: LITESPARK-005 Quality of Life (QoL) Sub-Analysis (Belzutifan in RCC)</option>
-                                <option value="ASCO_KEYNOTE_189">ASCO 2026: KEYNOTE-189 5-Year Overall Survival Update (Pembrolizumab in NSCLC)</option>
-                                <option value="AHA_STELLAR_PAH">AHA 2026: STELLAR PAH Hemodynamic Profiles & 6MWD Trajectories (Sotatercept)</option>
-                            </select>
-                        </div>
-
-                        <button onclick="parseMslAbstract()" style="background: linear-gradient(135deg, var(--color-primary) 0%, #0d9488 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);">
-                            <span>⚡ Harvest Non-Promotional Takeaways & Attest Fair-Balance</span>
-                        </button>
-
-                        <div id="msl-abstract-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Click above to parse abstract takeaways and lock non-promotional attestation seal.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel 2: HEOR Payer Value Dossier & Budget Impact Calculator -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">📈</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">HEOR Budget Impact & Formulary Access Matrix</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #38BDF8; background: rgba(56,189,248,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(56,189,248,0.2);">CMS / NICE Model</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            Model hospital budget impact, cost per QALY gained, and formulary tier recommendations anchored in Real-World Evidence (RWE) outcomes:
-                        </p>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; background: var(--bg-surface-solid); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Patient Cohort Size:</label>
-                                    <span id="heor-cohort-display" style="font-size: 0.78rem; font-weight: 800; color: var(--color-primary);">2,500 Patients</span>
-                                </div>
-                                <input type="range" id="heor-cohort-slider" min="500" max="10000" step="250" value="2500" oninput="updateHeorSlider(this.value)" style="accent-color: var(--color-primary); cursor: pointer;">
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Annual Cost / Patient ($):</label>
-                                <input type="number" id="heor-cost-input" value="125000" style="padding: 0.45rem 0.65rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none;">
-                            </div>
-                        </div>
-
-                        <button onclick="calculateHeorImpact()" style="background: linear-gradient(135deg, #38BDF8 0%, #0284C7 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);">
-                            <span>📊 Calculate 3-Year Hospital Budget Impact & ICER Curves</span>
-                        </button>
-
-                        <div id="heor-results-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Adjust parameters and click above to run health economic outcomes simulation.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PHASE 5: GLOBAL LOCALIZATION & AFFILIATE ADAPTATION STUDIO -->
-            <div class="phase-container" id="phase-5-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
-                <!-- Header Banner -->
-                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
-                    <div style="display: flex; align-items: center; gap: 0.85rem;">
-                        <span style="font-size: 2rem;">🌐</span>
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">05. GLOBAL LOCALIZATION & AFFILIATE ADAPTATION STUDIO</h2>
-                                <span style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Veeva PromoMats Parent-Child Lineage</span>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Adapt approved global master dossiers to local country health authorities (`EMA`, `PMDA`, `MHRA`, `ANVISA`) while preserving cryptographic audit trails.</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 0.6rem; align-items: center;">
-                        <button class="btn btn-secondary" onclick="switchPhase(4)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Medical/HEOR Hub</button>
-                        <button class="btn btn-primary" onclick="translateAffiliateCopy()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Quick AI Translation</button>
-                    </div>
-                </div>
-
-                <!-- 2-Column Grid for Lineage Anchor vs AI Translator -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
-                    <!-- Panel 1: Parent-Child Lineage Tree & Veeva PromoMats Anchor Selector -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">🌱</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Parent-Child Dossier Lineage Anchor</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #C084FC; background: rgba(192,132,252,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(192,132,252,0.2);">PromoMats Vault Link</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            Global core dossiers must act as immutable parent anchors. When local affiliates adapt copy for local health authorities, child records inherit the parent's efficacy verification while enforcing regional statutory inserts:
-                        </p>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Global Master Core Dossier:</label>
-                            <select id="localization-master-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                                <option value="KEYNOTE_189_MASTER">KEYNOTE-189 Global Master Core Dossier (NSCLC - Product-A / Pembrolizumab)</option>
-                                <option value="CLEAR_581_MASTER">CLEAR Phase III Master Core Dossier (RCC - Product-B / Lenvatinib)</option>
-                                <option value="LITESPARK_005_MASTER">LITESPARK-005 Core Clinical Package (Advanced RCC - Product-C / Belzutifan)</option>
-                            </select>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Target Affiliate Jurisdiction:</label>
-                            <select id="localization-region-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                                <option value="EMA">🇪🇺 EMA (Europe - Mandatory Black Triangle ▼ Monitoring)</option>
-                                <option value="PMDA">🇯🇵 PMDA (Japan - Statutory Form 4 AE Contact Desk)</option>
-                                <option value="MHRA">🇬🇧 MHRA (United Kingdom - NHS Reimbursed Status Disclosure)</option>
-                                <option value="ANVISA">🇧🇷 ANVISA (Brazil - RDC Resolution 96 Portuguese Insert)</option>
-                            </select>
-                        </div>
-
-                        <button onclick="anchorLocalizationLineage()" style="background: linear-gradient(135deg, #C084FC 0%, #9333EA 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(192, 132, 252, 0.25);">
-                            <span>🌱 Anchor & Spawn PromoMats Child Lineage Record</span>
-                        </button>
-
-                        <div id="localization-lineage-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Select master dossier & target jurisdiction above to link parent-child audit trail.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel 2: Real-Time AI Multi-Language & Regional Compliance Translator -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">🗣️</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">AI Regional Translator & Statutory Shield</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #2DD4BF; background: rgba(45,212,191,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(45,212,191,0.2);">Gemini 2.0 Flash</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            Translate promotional copy into local affiliate languages instantly while auto-injecting statutory regional disclaimers required by local medical advertising laws:
-                        </p>
-
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Select Affiliate Language & Statutory Target:</label>
-                            <select id="localization-lang-select" style="padding: 0.65rem 0.85rem; background: var(--bg-surface-solid); border: 1px solid var(--border-color); border-radius: 8px; color: var(--color-text-main); font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                                <option value="French">French (France - EMA / ANSM Statutory Black Triangle ▼)</option>
-                                <option value="Japanese">Japanese (Japan - PMDA Form 4 Emergency Contact Desk)</option>
-                                <option value="German">German (Germany - G-BA / BfArM SmPC Mandates)</option>
-                                <option value="Spanish">Spanish (Spain / LatAm - COFEPRIS / ANVISA High Specialty Prescription Warning)</option>
-                            </select>
-                        </div>
-
-                        <button onclick="translateAffiliateCopy()" style="background: linear-gradient(135deg, #2DD4BF 0%, #0D9488 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(45, 212, 191, 0.25);">
-                            <span>⚡ Translate Copy & Auto-Inject Statutory Regional Disclaimers</span>
-                        </button>
-
-                        <div id="localization-translation-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Select language and click above to generate dual-pane localized output with statutory shield.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PHASE 6: PHARMACOVIGILANCE & PROCUREMENT WATCHTOWER -->
-            <div class="phase-container" id="phase-6-view" style="display: none; flex-direction: column; flex: 1; min-height: 0; width: 100%; padding: 1.5rem; box-sizing: border-box; overflow-y: auto; gap: 1.5rem;">
-                <!-- Header Banner -->
-                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); flex-shrink: 0;">
-                    <div style="display: flex; align-items: center; gap: 0.85rem;">
-                        <span style="font-size: 2rem;">🚨</span>
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0; font-family: 'Outfit'; color: var(--color-text-main);">06. PHARMACOVIGILANCE & AGENCY PROCUREMENT WATCHTOWER</h2>
-                                <span style="background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 0.6rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px;">Closed-Loop Safety Signal & MarTech SOW Audit</span>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Monitor global post-market safety signals (`Grade 3/4 AEs`) across patient registries and reconcile agency retainer cost avoidance (`$1.42M+ Saved`).</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 0.6rem; align-items: center;">
-                        <button class="btn btn-secondary" onclick="switchPhase(5)" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; cursor: pointer;">⬅ Localization Studio</button>
-                        <button class="btn btn-primary" onclick="triggerPvSafetySignal()" style="padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 800; border-radius: 8px; cursor: pointer;">⚡ Simulate PV Alert</button>
-                    </div>
-                </div>
-
-                <!-- 2-Column Grid for PV Radar vs Agency Procurement -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 0; flex: 1;">
-                    <!-- Panel 1: Pharmacovigilance Safety Signal Radar & Webhook Broadcast Matrix -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">📡</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Global Post-Market Safety Surveillance Radar</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #FCA5A5; background: rgba(239,68,68,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(239,68,68,0.2);">PV Registry Active</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            When an adverse event parameter shifts in post-market registries, PV safety officers must instantly broadcast a global quarantine across all promotional campaigns:
-                        </p>
-                        
-                        <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; color: #cbd5e1; background: var(--bg-surface-solid); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
-                            <thead>
-                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--color-text-muted); text-align: left; background: rgba(255,255,255,0.02);">
-                                    <th style="padding: 0.6rem 0.75rem;">Product & Trial</th>
-                                    <th>Observed AE Parameter</th>
-                                    <th>Baseline Registry Value</th>
-                                    <th style="text-align: right; padding-right: 0.75rem;">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-A (KEYNOTE-189)</td>
-                                    <td>Immune-Mediated Reactions</td>
-                                    <td style="font-weight: 800; color: #34D399;">10% Grade 3/4</td>
-                                    <td style="text-align: right; padding-right: 0.75rem; color: #34D399;">● GxP Compliant</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-B (CLEAR Trial)</td>
-                                    <td>Grade 3/4 Adverse Events</td>
-                                    <td style="font-weight: 800; color: #FBBF24;">82% Grade 3/4</td>
-                                    <td style="text-align: right; padding-right: 0.75rem; color: #FBBF24;">● Monitoring Active</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.6rem 0.75rem; font-weight: 700; color: white;">Product-C (LITESPARK-005)</td>
-                                    <td>Hypoxia / Anemia</td>
-                                    <td style="font-weight: 800; color: #34D399;">30% Grade 3/4</td>
-                                    <td style="text-align: right; padding-right: 0.75rem; color: #34D399;">● GxP Compliant</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <button onclick="triggerPvSafetySignal()" style="background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">
-                            <span>🚨 Simulate Urgent FDA Safety Signal Webhook & Global Quarantine</span>
-                        </button>
-
-                        <div id="pv-signal-output" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Click above to simulate real-time PV safety signal shift & auto-healing broadcast.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel 2: Procurement & Agency Operations Analytics Deck -->
-                    <div class="workspace-panel" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; box-shadow: var(--shadow-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem;">
-                                <span style="font-size: 1.25rem;">💰</span>
-                                <h3 style="font-size: 0.95rem; font-weight: 800; margin: 0; color: var(--color-text-main);">Agency Retainer & MSA Cost Avoidance Deck</h3>
-                            </div>
-                            <span style="font-size: 0.62rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(52,211,153,0.2);">Finance Certified</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                            Strategic sourcing leads track production cycle-time compression (`42 days -> 6 minutes`) and reconcile agency retainer SOW invoices across global ad partners (`WPP`, `Omnicom`, `Publicis`):
-                        </p>
-
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Agency Fees Avoided YTD</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: #34D399; margin-top: 0.2rem;">$1,420,500</div>
-                                <div style="font-size: 0.58rem; color: #34d399; margin-top: 0.15rem;">● +42% vs SOW Budget Target</div>
-                            </div>
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Cycle Time Compression</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: #38BDF8; margin-top: 0.2rem;">6.2 Minutes</div>
-                                <div style="font-size: 0.58rem; color: #38bdf8; margin-top: 0.15rem;">● -99.8% vs 42-Day Agency Bench</div>
-                            </div>
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 8px;">
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); text-transform: uppercase;">Retainer SOW Efficiency</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: #C084FC; margin-top: 0.2rem;">94.5% High-Value</div>
-                                <div style="font-size: 0.58rem; color: #c084fc; margin-top: 0.15rem;">● 0% Production Grunt Work</div>
-                            </div>
-                        </div>
-
-                        <button onclick="generateProcurementReport()" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition-smooth); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">
-                            <span>📊 Generate Executive Agency SOW Reconciliation Report</span>
-                        </button>
-
-                        <div id="procurement-output-box" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px; padding: 1.25rem; text-align: center; color: var(--color-text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex: 1;">
-                                Click above to reconcile agency partner SOW invoices and certified savings ledger.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div> <!-- Closes #tab-workbench -->
+            </div> <!-- Closes tab-analytics -->
 <!-- PREMIUM FULL-SCREEN SYSTEM DIAGNOSTICS OVERLAY MODAL -->
     <div class="diagnostics-modal-overlay" id="diagnostics-modal" style="display: none;">
         <div class="diagnostics-modal-card">
