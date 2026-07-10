@@ -1716,11 +1716,11 @@ async def get_strategic_heatmap():
     # Define fixed rows (indications) and columns (brands/products)
     indications = ["NSCLC", "RCC", "Advanced RCC", "PAH", "Ovarian Cancer", "TNBC"]
     brands = [
-        {"id": "Product-A", "name": "Product-A", "compound": "Pembrolizumab"},
-        {"id": "Product-B", "name": "Product-B", "compound": "Lenvatinib"},
-        {"id": "Product-C", "name": "Product-C", "compound": "Belzutifan"},
-        {"id": "Product-D", "name": "Product-D", "compound": "Sotatercept"},
-        {"id": "Product-E", "name": "Product-E", "compound": "Olaparib"}
+        {"id": "Product-A", "name": "Product-A", "compound": "compound_alpha"},
+        {"id": "Product-B", "name": "Product-B", "compound": "compound_beta"},
+        {"id": "Product-C", "name": "Product-C", "compound": "compound_gamma"},
+        {"id": "Product-D", "name": "Product-D", "compound": "compound_delta"},
+        {"id": "Product-E", "name": "Product-E", "compound": "compound_epsilon"}
     ]
     
     try:

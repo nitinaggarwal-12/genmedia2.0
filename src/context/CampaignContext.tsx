@@ -232,7 +232,7 @@ const MOCK_TRIALS: ClinicalTrial[] = [
   },
   {
     id: "trial-2",
-    name: "KEYNOTE-564: Pembrolizumab in Renal Cell Carcinoma",
+    name: "KEYNOTE-564: Product-A in Renal Cell Carcinoma",
     pdfName: "KEYNOTE-564_Brief.pdf",
     metrics: {
       hazard_ratio: "0.68",
@@ -241,7 +241,7 @@ const MOCK_TRIALS: ClinicalTrial[] = [
     },
     claims: [
       "Demonstrated statistically significant disease-free survival benefits.",
-      "Adjuvant pembrolizumab prolonged disease-free survival in high-risk patients.",
+      "Adjuvant therapy prolonged disease-free survival in high-risk patients.",
       "Consistent safety endpoints across all patient subsegments."
     ],
     ingestedAt: Date.now() - 3600000 * 24 * 8

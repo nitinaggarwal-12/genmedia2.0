@@ -136,11 +136,11 @@ def seed_analytics_data(conn):
     
     # Define our products and indications
     products = [
-        ("Product-A", "Pembrolizumab", "NSCLC"),
-        ("Product-B", "Lenvatinib", "RCC"),
-        ("Product-C", "Belzutifan", "Advanced RCC"),
-        ("Product-D", "Sotatercept", "PAH"),
-        ("Product-E", "Olaparib", "Ovarian Cancer")
+        ("Product-A", "compound_alpha", "NSCLC"),
+        ("Product-B", "compound_beta", "RCC"),
+        ("Product-C", "compound_gamma", "Advanced RCC"),
+        ("Product-D", "compound_delta", "PAH"),
+        ("Product-E", "compound_epsilon", "Ovarian Cancer")
     ]
     
     statuses = ["COMPLIANT", "AUTO_HEALED", "BLOCKED"]
@@ -244,17 +244,17 @@ def seed_claims(conn):
     
     products = {
         "Product-A": {
-            "name": "Product-A (Pembrolizumab)",
+            "name": "Product-A (compound_alpha)",
             "trials": ["KEYNOTE-189", "KEYNOTE-042", "KEYNOTE-522", "KEYNOTE-355", "KEYNOTE-826"],
             "area": "Oncology (NSCLC, Triple-Negative Breast Cancer, Cervical Cancer)"
         },
         "Product-B": {
-            "name": "Product-B (Lenvatinib)",
+            "name": "Product-B (compound_beta)",
             "trials": ["CLEAR / KEYNOTE-581", "SELECT", "REFLECT"],
             "area": "Oncology (Renal Cell Carcinoma, Thyroid Cancer, Hepatocellular Carcinoma)"
         },
         "Product-C": {
-            "name": "Product-C (Belzutifan)",
+            "name": "Product-C (compound_gamma)",
             "trials": ["LITESPARK-005", "LITESPARK-001", "LITESPARK-003"],
             "area": "Oncology (VHL disease, Advanced Renal Cell Carcinoma)"
         },

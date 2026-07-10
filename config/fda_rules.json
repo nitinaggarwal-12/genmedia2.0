@@ -3,12 +3,12 @@
   "compliance_standards": "OPDP / PhRMA Code Guidelines",
   "mandatory_disclosures": {
     "Product-A": "Disclosure: Product-A (compound_alpha) safety profile is based on Regulatory Compliance Vault Ref #V-2026-KTS99. Subject to local regulatory guidelines.",
-    "Product-B": "Disclosure: Product-B (Lenvima) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LV581. Subject to local regulatory guidelines.",
-    "Product-C": "Disclosure: Product-C (Welireg) safety profile is based on Regulatory Compliance Vault Ref #V-2026-WR005. Subject to local regulatory guidelines.",
-    "Product-D": "Disclosure: Product-D (Sotatercept) safety profile is based on Regulatory Compliance Vault Ref #V-2026-WV169. Subject to local regulatory guidelines.",
-    "Product-E": "Disclosure: Product-E (Olaparib) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LP607. Subject to local regulatory guidelines.",
-    "Product-F": "Disclosure: Product-F (Gardasil 9) safety profile is based on Regulatory Compliance Vault Ref #V-2026-GD543. Subject to local regulatory guidelines.",
-    "Product-G": "Disclosure: Product-G (Molnupiravir) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LG597. Subject to local regulatory guidelines."
+    "Product-B": "Disclosure: Product-B (compound_beta) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LV581. Subject to local regulatory guidelines.",
+    "Product-C": "Disclosure: Product-C (compound_gamma) safety profile is based on Regulatory Compliance Vault Ref #V-2026-WR005. Subject to local regulatory guidelines.",
+    "Product-D": "Disclosure: Product-D (compound_delta) safety profile is based on Regulatory Compliance Vault Ref #V-2026-WV169. Subject to local regulatory guidelines.",
+    "Product-E": "Disclosure: Product-E (compound_epsilon) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LP607. Subject to local regulatory guidelines.",
+    "Product-F": "Disclosure: Product-F (compound_zeta) safety profile is based on Regulatory Compliance Vault Ref #V-2026-GD543. Subject to local regulatory guidelines.",
+    "Product-G": "Disclosure: Product-G (compound_eta) safety profile is based on Regulatory Compliance Vault Ref #V-2026-LG597. Subject to local regulatory guidelines."
   },
   "safety_integrity_rules": {
     "grounding_rule": "Every efficacy claim must be immediately accompanied by its corresponding safety parameter from the approved claims registry. No net-new clinical claims or efficacy claims may be generated or hallucinated.",

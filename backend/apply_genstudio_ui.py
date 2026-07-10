@@ -466,9 +466,9 @@ def write_html_contentstudio():
                 <div class="imagen-form-group">
                     <label>Active Clinical Brand</label>
                     <select id="imagen-brand-select" class="imagen-select">
-                        <option value="product_a">KEYTRUDA (Pembrolizumab)</option>
-                        <option value="product_b">LENVIMA (Lenvatinib)</option>
-                        <option value="product_c">WELIREG (Belzutifan)</option>
+                        <option value="product_a">Product-A (compound_alpha)</option>
+                        <option value="product_b">Product-B (compound_beta)</option>
+                        <option value="product_c">Product-C (compound_gamma)</option>
                     </select>
                 </div>
                 

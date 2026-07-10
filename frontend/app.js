@@ -3317,7 +3317,26 @@ window.loadVariant = function(variantNum) {
     
     const heroImg = document.getElementById('composer-hero-image');
     if (heroImg) {
-        heroImg.src = variantData.image;
+        let targetSrc = variantData.image;
+        if (targetSrc && targetSrc.startsWith('./')) {
+            targetSrc = targetSrc.replace('./', '/');
+        }
+        heroImg.src = targetSrc;
+        heroImg.onerror = function() {
+            const defaultHeroes = {
+                1: "/product_a_clinical_hero.png",
+                2: "/product_b_clinical_hero.png",
+                3: "/product_c_clinical_hero.png",
+                4: "/product_d_clinical_hero.png",
+                5: "/product_e_clinical_hero.png",
+                6: "/product_f_clinical_hero.png",
+                7: "/product_g_clinical_hero.png"
+            };
+            const fallback = defaultHeroes[variantNum] || "/product_a_clinical_hero.png";
+            if (!this.src.endsWith(fallback)) {
+                this.src = fallback;
+            }
+        };
         
         if (variantData.image.includes('generated')) {
             // Center generated assets perfectly to keep the subject in focus!
