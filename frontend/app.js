@@ -5708,8 +5708,12 @@ function initOnboardingTour() {
         return;
     }
     
-    // Initialize Driver.js from global IIFE namespace
-    const { driver } = window.driver.js;
+    // Initialize Driver.js safely using defensive check
+    const driver = (window.driver && window.driver.js && window.driver.js.driver) ? window.driver.js.driver : (window.driver && window.driver.driver ? window.driver.driver : null);
+    if (!driver) {
+        console.warn('⚠️ Driver.js not yet loaded in window namespace.');
+        return;
+    }
     const driverObj = driver({
         showProgress: true,
         animate: true,
@@ -5783,8 +5787,13 @@ window.startInteractiveTour = function() {
         switchPhase(-1);
     }
     
-    // 3. Initialize Driver.js with all steps upfront to avoid setSteps errors!
-    const { driver } = window.driver.js;
+    // 3. Initialize Driver.js safely using defensive check
+    const driver = (window.driver && window.driver.js && window.driver.js.driver) ? window.driver.js.driver : (window.driver && window.driver.driver ? window.driver.driver : null);
+    if (!driver) {
+        if (typeof showToast === 'function') showToast('⚠️ Guided Tour engine loading... please retry.');
+        console.warn('⚠️ Driver.js not yet loaded in window namespace.');
+        return;
+    }
     
     activeTour = driver({
         showProgress: false,
