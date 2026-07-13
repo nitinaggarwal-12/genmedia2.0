@@ -34,6 +34,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Prevent caching of static assets (HTML, CSS, JS) so updates are delivered instantly
+@app.middleware("http")
+async def add_no_cache_headers(request, call_next):
+    response = await call_next(request)
+    path = request.url.path
+    if path == "/" or path.endswith((".html", ".css", ".js")):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
+
 # Initialize the central Master Orchestrator Agent (Grounded in Product-A)
 orchestrator = MasterOrchestratorAgent()
 
