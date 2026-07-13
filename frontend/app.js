@@ -5423,9 +5423,12 @@ function updateHashFromState() {
     const simModal = document.getElementById('sim-comparison-modal');
     const veevaModal = document.getElementById('modal-veeva-sync');
     const detailModal = document.getElementById('detail-modal');
+    const settingsModal = document.getElementById('settings-modal');
 
     if (diagnosticsModal && diagnosticsModal.style.display !== 'none' && diagnosticsModal.style.display !== '') {
         route += '/diagnostics';
+    } else if (settingsModal && settingsModal.style.display !== 'none' && settingsModal.style.display !== '') {
+        route += '/settings';
     } else if (fdaModal && fdaModal.style.display !== 'none' && fdaModal.style.display !== '') {
         route += '/fda2253';
     } else if (complianceModal && (complianceModal.style.display !== 'none' && complianceModal.style.display !== '' || complianceModal.classList.contains('active'))) {
@@ -5498,7 +5501,7 @@ function handleHashRoute() {
             }
 
             // Close all modals first by default to avoid overlapping state
-            ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
+            ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'settings-modal'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     el.style.display = 'none';
@@ -5513,6 +5516,8 @@ function handleHashRoute() {
                     modal.style.display = 'flex';
                     setTimeout(initCharts, 50);
                 }
+            } else if (hash.endsWith('/settings')) {
+                if (window.openSettingsModal) window.openSettingsModal();
             } else if (hash.endsWith('/fda2253')) {
                 if (window.openFda2253Modal) window.openFda2253Modal();
             } else if (hash.endsWith('/certificate')) {
@@ -6838,7 +6843,7 @@ window.closeSimComparisonModal = function() {
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         let changed = false;
-        ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
+        ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'settings-modal'].forEach(id => {
             const el = document.getElementById(id);
             if (el && (el.style.display !== 'none' || el.classList.contains('active'))) {
                 el.style.display = 'none';
@@ -6852,7 +6857,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('click', (e) => {
     let changed = false;
-    ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
+    ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'settings-modal'].forEach(id => {
         const el = document.getElementById(id);
         if (el && e.target === el) {
             el.style.display = 'none';
@@ -7248,4 +7253,30 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.add('collapsed');
     }
 });
+// ==========================================
+//   USER SETTINGS & IDENTITY MANAGER
+// ==========================================
+window.openSettingsModal = function() {
+    const modal = document.getElementById('settings-modal');
+    if (modal) modal.style.display = 'flex';
+    updateHashFromState();
+};
 
+window.closeSettingsModal = function() {
+    const modal = document.getElementById('settings-modal');
+    if (modal) modal.style.display = 'none';
+    updateHashFromState();
+};
+
+window.saveSettings = function() {
+    const roleSelect = document.getElementById('settings-user-role');
+    const labelEl = document.getElementById('user-role-label');
+    
+    if (roleSelect && labelEl) {
+        const selectedRole = roleSelect.value;
+        labelEl.innerHTML = `👤 nitinagga-ge-2 <span style="font-size:0.5rem; opacity:0.75;">(${selectedRole})</span>`;
+        logConsoleLine("Settings_Engine", `⚙️ User division role updated to: [${selectedRole}]`);
+        showToast("Profile Updated", `Workspace configured for the '${selectedRole}' role context.`, "success");
+    }
+    closeSettingsModal();
+};
