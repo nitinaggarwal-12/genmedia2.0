@@ -4721,8 +4721,21 @@ window.switchPhase = function(phaseNum) {
             window.tourStep = 8;
             setTimeout(() => {
                     activeTour.drive(8); // Highlights Step 8: The final cryptographic seal ledger view!
-                    window.isTourActive = false;
-                    window.tourStep = 0;
+            }, 800);
+        } else if (phaseNum === 4 && window.tourStep === 8) {
+            window.tourStep = 9;
+            setTimeout(() => {
+                    activeTour.drive(10); // Auto-advance to highlight Step 10: Localization button!
+            }, 800);
+        } else if (phaseNum === 5 && window.tourStep === 9) {
+            window.tourStep = 10;
+            setTimeout(() => {
+                    activeTour.drive(11); // Auto-advance to highlight Step 11: PV & Agency button!
+            }, 800);
+        } else if (phaseNum === 6 && window.tourStep === 10) {
+            window.tourStep = 11;
+            setTimeout(() => {
+                    activeTour.drive(12); // Auto-advance to highlight Step 12: Complete!
             }, 800);
         }
     }
