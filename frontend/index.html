@@ -1746,80 +1746,58 @@
                         </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; padding: 0.75rem 2rem 1.5rem 2rem; box-sizing: border-box; position: relative;">
-                        <!-- Left Column: Heatmap + Live GxP Compliance Feed -->
-                        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-                            <!-- Top: Competitive Claims Heatmap -->
-                            <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box;">
-                                <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <span class="panel-icon">📊</span>
-                                        <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
-                                        <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
-                                    </div>
-                                    <span style="font-size: 0.95rem; color: var(--color-text-muted); cursor: pointer;">⋮</span>
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; padding: 0.75rem 2rem 1.5rem 2rem; box-sizing: border-box; position: relative; align-items: stretch;">
+                        <!-- Left Column: Competitive Claims Heatmap -->
+                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box;">
+                            <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span class="panel-icon">📊</span>
+                                    <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
+                                    <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
                                 </div>
-                                
-                                <!-- Interactive Heatmap Filters -->
-                                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                                    <input type="text" id="heatmap-search-filter" placeholder="Filter..." style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; max-width: 140px; box-sizing: border-box; outline: none;">
-                                    <select id="heatmap-compound-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
-                                        <option value="all">All Compounds</option>
-                                        <option value="Product-A">Product-A</option>
-                                        <option value="Product-B">Product-B</option>
-                                        <option value="Product-C">Product-C</option>
-                                        <option value="Product-D">Product-D</option>
-                                        <option value="Product-E">Product-E</option>
-                                    </select>
-                                    <select id="heatmap-status-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
-                                        <option value="all">All Statuses</option>
-                                        <option value="COMPLIANT">Compliant</option>
-                                        <option value="AUTO_HEALED">Auto-Healed</option>
-                                        <option value="BLOCKED">Blocked</option>
-                                    </select>
-                                </div>
-                                
-                                <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
-                                    <table class="heatmap-table" style="width: 100%; border-collapse: collapse;">
-                                        <thead id="heatmap-thead">
-                                            <tr>
-                                                <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
-                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitor<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competic-in<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-607<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-3A<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                                <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitiiic<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="heatmap-tbody" style="font-size: 0.72rem; font-weight: 700;">
-                                            <!-- Dynamically populated from backend /api/strategic-heatmap -->
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
-                                
-                                <!-- Bottom: Live GxP Compliance Feed Console -->
-                                <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; height: 260px; box-sizing: border-box; overflow: hidden;">
-                                    <div class="panel-header-compact" style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
-                                        <div>
-                                            <span class="panel-icon">💻</span>
-                                            <h3 style="font-size: 0.85rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">System Compliance Live Feed</h3>
-                                            <p style="font-size: 0.62rem; color: var(--color-text-muted); margin: 0.15rem 0 0 0;">Real-time agentic GxP validation transactions and ledger locks.</p>
-                                        </div>
-                                        <span style="font-size: 0.58rem; color: var(--primary-mint); font-weight: 700; display: flex; align-items: center; gap: 0.25rem;">
-                                            <span class="pulse-dot" style="width: 6px; height: 6px; background-color: var(--primary-mint); display: inline-block; border-radius: 50%;"></span>
-                                            Core VM in sync
-                                        </span>
-                                    </div>
-                                    <div id="dashboard-compliance-log" class="console-body" style="flex: 1; overflow-y: auto; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 0.68rem; background: rgba(3, 7, 18, 0.4); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); box-sizing: border-box; line-height: 1.5; color: #a1a1aa; position: relative;">
-                                        <!-- Scanning sweep line overlay -->
-                                        <div class="scan-line-sweep" style="position: absolute; left: 0; top: 0; width: 100%; height: 2px; background: linear-gradient(to right, transparent, var(--accent-cyan), transparent); opacity: 0.15; animation: scanLineSweepAnim 4s linear infinite; pointer-events: none;"></div>
-                                    </div>
+                                <span style="font-size: 0.95rem; color: var(--color-text-muted); cursor: pointer;">⋮</span>
+                            </div>
+                            
+                            <!-- Interactive Heatmap Filters -->
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                                <input type="text" id="heatmap-search-filter" placeholder="Filter..." style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; max-width: 140px; box-sizing: border-box; outline: none;">
+                                <select id="heatmap-compound-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
+                                    <option value="all">All Compounds</option>
+                                    <option value="Product-A">Product-A</option>
+                                    <option value="Product-B">Product-B</option>
+                                    <option value="Product-C">Product-C</option>
+                                    <option value="Product-D">Product-D</option>
+                                    <option value="Product-E">Product-E</option>
+                                </select>
+                                <select id="heatmap-status-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
+                                    <option value="all">All Statuses</option>
+                                    <option value="COMPLIANT">Compliant</option>
+                                    <option value="AUTO_HEALED">Auto-Healed</option>
+                                    <option value="BLOCKED">Blocked</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
+                                <table class="heatmap-table" style="width: 100%; border-collapse: collapse;">
+                                    <thead id="heatmap-thead">
+                                        <tr>
+                                            <th style="text-align: left; padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Indication</th>
+                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitor<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competic-in<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-607<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">KEYNOTE-3A<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                            <th style="padding: 0.6rem 0.4rem; font-size: 0.68rem; text-transform: uppercase; color: var(--color-text-muted);">Competitiiic<br><span style="font-size: 0.55rem; font-style: italic;">(Product)</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="heatmap-tbody" style="font-size: 0.72rem; font-weight: 700;">
+                                        <!-- Dynamically populated from backend /api/strategic-heatmap -->
+                                    </tbody>
+                                </table>
                                 </div>
                             </div>
                         
                         <!-- Right Column: Brand Sentiment & Share of Voice Dashboard -->
-                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box; position: relative;">
+                        <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box; position: relative; flex: 1;">
                             <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
                                 <div>
                                     <span class="panel-icon">📈</span>
@@ -1883,26 +1861,14 @@
                                 </div>
                                 
                                 <!-- Sentiment Bar Charts Row -->
-                                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; min-height: 120px;">
-                                    <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; flex: 1; min-height: 180px;">
+                                    <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
                                         <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Market Sentiment Ratio</span>
-                                        <canvas id="chart-sentiment-bar" style="width: 100%; height: 100%; max-height: 110px;"></canvas>
+                                        <canvas id="chart-sentiment-bar" style="width: 100%; height: 100%; max-height: 170px;"></canvas>
                                     </div>
-                                    <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
                                         <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Share of Voice by Indication</span>
-                                        <canvas id="chart-sov-bar" style="width: 100%; height: 100%; max-height: 110px;"></canvas>
-                                    </div>
-                                </div>
-                                
-                                <!-- Forecast Area Chart Card -->
-                                <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-size: 0.58rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Forecasted CDO Goal Alignment</span>
-                                        <span style="font-size: 0.58rem; color: #10b981; font-weight: 700;">✓ Verified</span>
-                                    </div>
-                                    <p style="font-size: 0.6rem; color: var(--color-text-muted); margin: 0;">Adjustments in Phase 0 strategically optimize downstream CDO market alignment.</p>
-                                    <div style="flex: 1; min-height: 130px; position: relative;">
-                                        <canvas id="chart-cdo-alignment" style="width: 100%; height: 100%; max-height: 130px;"></canvas>
+                                        <canvas id="chart-sov-bar" style="width: 100%; height: 100%; max-height: 170px;"></canvas>
                                     </div>
                                 </div>
                             </div>

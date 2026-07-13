@@ -4870,8 +4870,8 @@ function applyHeatmapFiltersAndRender() {
         }
         
         tbodyHtml += `
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.02); ${cursorStyle} transition: background 0.2s;" ${clickAction} onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
-                <td style="padding: 0.8rem 0.4rem; color: var(--color-text-main); font-weight: 700;">${row.indication} <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
+            <tr style="${cursorStyle} transition: background 0.2s;" ${clickAction} onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='none'">
+                <td class="heatmap-row-header">${row.indication} <span style="color: var(--color-primary); margin-left: 0.25rem;">➔</span></td>
         `;
         
         cachedHeatmapData.columns.forEach(col => {
@@ -4887,8 +4887,8 @@ function applyHeatmapFiltersAndRender() {
             }
             
             tbodyHtml += `
-                <td style="text-align: center; padding: 0.4rem; ${cellStyle}">
-                    <span class="heatmap-badge ${cell.class}" title="${cell.status} (${cell.count} runs)">${cell.value}</span>
+                <td style="${cellStyle}">
+                    <span class="heatmap-badge ${cell.class}" title="${cell.status} (${cell.count} runs)"></span>
                 </td>
             `;
         });
@@ -4956,102 +4956,30 @@ function initStrategicCharts() {
     const neutralBarColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.15)';
     const baselineLineColor = isLight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
 
-    // 1. Sentiment Bar Chart
+    // 1. Sentiment Line Chart (Market Sentiment Ratio)
     const sentCtx = document.getElementById('chart-sentiment-bar');
     if (sentCtx) {
         strategicCharts.sentiment = new Chart(sentCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Maestro', 'Main', 'RCC'],
-                datasets: [{
-                    label: 'Sentiment Score',
-                    data: [35, 23, 18],
-                    backgroundColor: ['oklch(0.696 0.17 162.48)', 'oklch(0.79 0.14 195)', neutralBarColor],
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { 
-                        grid: { color: gridColor, borderDash: [2, 2] }, 
-                        ticks: { color: labelColor, font: { size: 8 } } 
-                    },
-                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
-                }
-            }
-        });
-    }
-    
-    // 2. Share of Voice Bar Chart
-    const sovCtx = document.getElementById('chart-sov-bar');
-    if (sovCtx) {
-        strategicCharts.sov = new Chart(sovCtx, {
-            type: 'bar',
-            data: {
-                labels: ['US', 'EU', 'MEA', 'APAC'],
-                datasets: [
-                    { label: 'Maestro', data: [55, 60, 48, 52], backgroundColor: 'oklch(0.696 0.17 162.48)', borderRadius: 3 },
-                    { label: 'Competitors', data: [40, 35, 42, 38], backgroundColor: neutralBarColor, borderRadius: 3 }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { 
-                        grid: { color: gridColor, borderDash: [2, 2] }, 
-                        ticks: { color: labelColor, font: { size: 8 } } 
-                    },
-                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
-                }
-            }
-        });
-    }
-    
-    // 3. Forecasted CDO Goal Alignment Line Chart
-    const cdoCtx = document.getElementById('chart-cdo-alignment');
-    if (cdoCtx) {
-        const ctx = cdoCtx.getContext('2d');
-        const mintGradient = ctx.createLinearGradient(0, 0, 0, 130);
-        mintGradient.addColorStop(0, 'oklch(0.696 0.17 162.48 / 0.16)');
-        mintGradient.addColorStop(1, 'oklch(0.696 0.17 162.48 / 0.0)');
-        
-        strategicCharts.cdo = new Chart(cdoCtx, {
             type: 'line',
             data: {
-                labels: ['Time 6', 'Phes 7', 'Time 8', 'Time 9', 'Time 0', 'Time 1', 'Time 2'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [
                     {
-                        label: 'Projected Alignment',
-                        data: [18, 32, 45, 58, 65, 75, 90],
-                        borderColor: 'oklch(0.696 0.17 162.48)',
-                        backgroundColor: mintGradient,
-                        fill: true,
-                        tension: 0.4,
+                        label: 'Maestro',
+                        data: [-0.6, 0.4, 0.1, 1.1, 0.3, 1.3],
+                        borderColor: '#06b6d4',
+                        backgroundColor: 'transparent',
                         borderWidth: 2,
+                        tension: 0.4,
                         pointRadius: 2
                     },
                     {
-                        label: 'Baseline Forecast',
-                        data: [15, 25, 38, 48, 55, 60, 70],
-                        borderColor: baselineLineColor,
+                        label: 'Competitor',
+                        data: [-0.1, -0.2, 0.3, 0.2, 0.3, -0.3],
+                        borderColor: '#fbbf24',
                         backgroundColor: 'transparent',
-                        fill: false,
-                        tension: 0.4,
                         borderWidth: 2,
-                        borderDash: [4, 4],
+                        tension: 0.4,
                         pointRadius: 2
                     }
                 ]
@@ -5059,10 +4987,34 @@ function initStrategicCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { 
+                        grid: { color: gridColor, borderDash: [2, 2] }, 
+                        ticks: { color: labelColor, font: { size: 8 } } 
+                    },
+                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
+                }
+            }
+        });
+    }
+    
+    // 2. Share of Voice Bar Chart (Grouped)
+    const sovCtx = document.getElementById('chart-sov-bar');
+    if (sovCtx) {
+        strategicCharts.sov = new Chart(sovCtx, {
+            type: 'bar',
+            data: {
+                labels: ['US&S', 'Nem', 'Ehr', 'Ipk', 'Sep'],
+                datasets: [
+                    { label: 'USA', data: [75, 60, 48, 55, 68], backgroundColor: '#3b82f6', borderRadius: 2 },
+                    { label: 'Europe', data: [35, 42, 38, 48, 52], backgroundColor: '#06b6d4', borderRadius: 2 },
+                    { label: 'RU', data: [42, 30, 22, 35, 45], backgroundColor: '#fbbf24', borderRadius: 2 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { 

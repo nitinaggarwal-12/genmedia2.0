@@ -2887,79 +2887,67 @@ body.light-theme .clickable-row:hover {
 /* Competitive Claims Heatmap Grid */
 .heatmap-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0.35rem; /* Spacious grid spacing */
+    border-collapse: collapse !important;
     box-sizing: border-box;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 .heatmap-table th {
-    font-family: monospace;
-    font-size: 0.55rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-align: center;
-    padding: 0.25rem;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.58rem !important;
+    font-weight: 800 !important;
+    color: var(--color-text-muted) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    text-align: center !important;
+    padding: 0.8rem 0.5rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 .heatmap-table td {
-    text-align: center;
-    vertical-align: middle;
-    padding: 0.25rem;
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 0.8rem 0.5rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 .heatmap-row-header {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--color-text-main);
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: var(--color-text-main) !important;
     text-align: left !important;
-    white-space: nowrap;
-    padding-right: 0.75rem !important;
+    white-space: nowrap !important;
+    padding-left: 0.8rem !important;
 }
 
 /* Heatmap Badge Cell Values (highly tailored colors mapping the clinical matrix) */
 .heatmap-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 0.72rem;
     box-sizing: border-box;
     transition: var(--transition-smooth);
     cursor: pointer;
-    border: 1px solid transparent;
 }
 .heatmap-badge:hover {
-    transform: scale(1.1);
-    filter: brightness(1.15);
+    transform: scale(1.25);
+    filter: brightness(1.2);
 }
 .heatmap-badge.zero-teal,
 .heatmap-badge.zero-blue,
 .heatmap-badge.zero-purple {
-    color: #64748b !important;
-    background: rgba(100, 116, 139, 0.04) !important;
-    border-color: rgba(100, 116, 139, 0.15) !important;
+    background: #475569 !important;
+    opacity: 0.15;
 }
 .heatmap-badge.gold-g {
-    color: #34d399 !important;
-    background: rgba(52, 211, 153, 0.08) !important;
-    border-color: rgba(52, 211, 153, 0.25) !important;
-    box-shadow: 0 0 8px rgba(52, 211, 153, 0.1);
+    background: #10B981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
 }
 .heatmap-badge.orange-o {
-    color: #fbbf24 !important;
-    background: rgba(251, 191, 36, 0.08) !important;
-    border-color: rgba(251, 191, 36, 0.25) !important;
-    box-shadow: 0 0 8px rgba(251, 191, 36, 0.1);
+    background: #FBBF24 !important;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
 }
 .heatmap-badge.red-delta {
-    color: #f43f5e !important;
-    background: rgba(244, 63, 94, 0.1) !important;
-    border-color: rgba(244, 63, 94, 0.25) !important;
-    box-shadow: 0 0 8px rgba(244, 63, 94, 0.1);
+    background: #F43F5E !important;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.7);
 }
 
 /* Speedometer SVGs & Dial Gauges */
