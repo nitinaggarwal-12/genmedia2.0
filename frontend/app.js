@@ -7359,13 +7359,19 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 window.openSettingsModal = function() {
     const modal = document.getElementById('settings-modal');
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+    }
     updateHashFromState();
 };
 
 window.closeSettingsModal = function() {
     const modal = document.getElementById('settings-modal');
-    if (modal) modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
     updateHashFromState();
 };
 
