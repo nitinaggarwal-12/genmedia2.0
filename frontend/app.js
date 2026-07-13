@@ -4698,6 +4698,18 @@ window.switchPhase = function(phaseNum) {
     currentActivePhase = phaseNum;
     localStorage.setItem('maestro_active_phase', phaseNum);
     
+    // Auto-restore tab focus back to workbench when navigating phases
+    const workbenchTab = document.getElementById("tab-workbench");
+    const analyticsTab = document.getElementById("tab-analytics");
+    if (analyticsTab && analyticsTab.classList.contains("active-tab")) {
+        document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active-tab"));
+        if (workbenchTab) {
+            workbenchTab.classList.add("active-tab");
+            workbenchTab.style.setProperty('display', 'flex', 'important');
+        }
+        analyticsTab.style.setProperty('display', 'none', 'important');
+    }
+    
     // Hook into the interactive tour!
     if (window.isTourActive) {
         if (phaseNum === 2 && window.tourStep === 2) {
