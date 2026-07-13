@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <!-- Chart.js CDN for premium executive analytics and brand sentiment dashboards -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.3.2">
+    <link rel="stylesheet" href="style.css?v=1.3.3">
     <!-- Driver.js Local Assets for interactive onboarding tour (Self-hosted for zero external CDN dependency!) -->
     <link rel="stylesheet" href="assets/driver/driver.css"/>
     <script src="assets/driver/driver.js.iife.js"></script>
@@ -243,7 +243,10 @@
             flex-direction: row !important; 
             height: 100vh !important; 
             width: 100vw !important; 
-            background-color: var(--bg-main);
+            background: radial-gradient(circle at 60% 40%, #0d1220 0%, #04060b 100%) !important;
+        }
+        body.light-theme .app-container {
+            background: #F4F4F5 !important;
         }
 
         /* LEFT PANE SIDEBAR */
@@ -302,11 +305,11 @@
         }
         .side-nav-btn:hover { background: rgba(255,255,255,0.03); color: var(--color-text-main); }
         .side-nav-btn.active { 
-            background: oklch(0.62 0.17 162.48) !important; 
-            color: #000000 !important; 
-            border: 1px solid transparent !important; 
+            background: rgba(16, 185, 129, 0.08) !important; 
+            color: #34d399 !important; 
+            border: 1px solid rgba(16, 185, 129, 0.25) !important; 
             font-weight: 800; 
-            box-shadow: 0 4px 12px oklch(0.62 0.17 162.48 / 0.25); 
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.1); 
         }
 
         /* BOTTOM ACTIONS */
@@ -1562,6 +1565,17 @@
     </div>
 
     <div class="app-container">
+        <!-- Workbench Icon-only Sidebar (Tier 1 navigation) -->
+        <aside class="workbench-vertical-sidebar">
+            <button class="v-sidebar-btn active" id="v-nav-btn--1" onclick="switchPhase(-1)" title="Command Center">🧭</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-1" onclick="switchPhase(1)" title="Clinical Ingest">💼</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-2" onclick="switchPhase(2)" title="Creative Composer">✏️</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-3" onclick="switchPhase(3)" title="Governance Ledger">🛡️</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-4" onclick="switchPhase(4)" title="Medical / HEOR Hub">🔬</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-5" onclick="switchPhase(5)" title="Localization Studio">🌐</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-6" onclick="switchPhase(6)" title="PV & Agency Watch">🚨</button>
+            <button class="v-sidebar-btn logout" onclick="goBackToLanding()" title="Back to Landing Page">🚪</button>
+        </aside>
         <!-- TOP NAVIGATION BAR (Premium Restructured Header matching Mockups!) -->
         <!-- RESTUCTURED LEFT PANE NAVIGATION -->
         <aside class="sidebar" style="display: flex; flex-direction: column; justify-content: space-between; height: 100vh;">

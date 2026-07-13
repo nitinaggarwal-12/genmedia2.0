@@ -8,8 +8,8 @@
     --bg-main: #08080a; /* Deepest Obsidian slate */
     --bg-surface: rgba(18, 18, 22, 0.6); /* Frosted obsidian card */
     --bg-surface-solid: #121215; /* Solid zinc black */
-    --border-color: rgba(255, 255, 255, 0.25); /* Crisp visible high-contrast border */
-    --border-glow: rgba(13, 148, 136, 0.25);
+    --border-color: rgba(255, 255, 255, 0.08); /* Translucent soft border */
+    --border-glow: rgba(13, 148, 136, 0.15);
     
     /* Brand Colors */
     --color-primary: #0D9488; /* Global Pharma Teal */

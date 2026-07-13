@@ -4711,13 +4711,21 @@ window.switchPhase = function(phaseNum) {
         }
     }
     
-    // Update global header navigation icons active class!
-    document.querySelectorAll('.global-nav-btn').forEach(btn => {
+    // Update global side navigation buttons active class!
+    document.querySelectorAll('.side-nav-btn, .v-sidebar-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    const activeGlobalBtn = document.getElementById('global-nav-btn-' + phaseNum);
+    
+    // We handle the special -1 negative index key matching
+    const suffix = phaseNum === -1 ? '-1' : phaseNum;
+    
+    const activeGlobalBtn = document.getElementById('global-nav-btn-' + suffix);
     if (activeGlobalBtn) {
         activeGlobalBtn.classList.add('active');
+    }
+    const activeVerticalBtn = document.getElementById('v-nav-btn-' + suffix);
+    if (activeVerticalBtn) {
+        activeVerticalBtn.classList.add('active');
     }
     
     // Update URL hash for routing
