@@ -5407,6 +5407,11 @@ function updateHashFromState() {
         const sub = (typeof activeChartTab !== 'undefined' && activeChartTab) ? activeChartTab : 'trend';
         const subRoute = sub === 'trend' ? 'trends' : sub;
         route = `/analytics/${subRoute}`;
+        
+        // Append brand context to URL if active and not ALL
+        if (typeof activeBrandFilter !== 'undefined' && activeBrandFilter && activeBrandFilter !== 'ALL') {
+            route += `/brand/${activeBrandFilter}`;
+        }
     } else {
         if (currentActivePhase === 0) route = '/strategy';
         else if (currentActivePhase === 1) route = '/ingest';
@@ -5474,11 +5479,21 @@ function handleHashRoute() {
                 if (hash.includes('/roi')) activeSub = 'roi';
                 else if (hash.includes('/violations')) activeSub = 'violations';
                 
+                // Parse brand context if present
+                let activeBrand = 'ALL';
+                const brandMatch = hash.match(/\/brand\/([A-Za-z0-9\-]+)/);
+                if (brandMatch) {
+                    activeBrand = brandMatch[1];
+                }
+                
                 // Temporarily flag routing to avoid nested loops
                 const prevRoutingState = isRoutingInProgress;
                 isRoutingInProgress = true;
                 if (typeof window.switchChartTab === 'function') {
                     window.switchChartTab(activeSub);
+                }
+                if (typeof window.filterByBrand === 'function') {
+                    window.filterByBrand(activeBrand);
                 }
                 isRoutingInProgress = prevRoutingState;
             } else if (hash.startsWith('#/home') || hash.startsWith('#/command')) {
@@ -6209,6 +6224,7 @@ window.filterByBrand = function(brand) {
     if (window.appendConsoleLine) {
         appendConsoleLine('system', `📊 Filtered analytics dashboard by Brand: ${brand}`);
     }
+    updateHashFromState();
 };
 
 window.applyLedgerFilters = function() {
@@ -6808,15 +6824,74 @@ function parseSimpleMarkdown(md) {
 }
 
 // 8. Drill-Down Campaign Detail Modal
+// 8. Drill-Down Campaign Detail Modal
+window.showViolationDetail = function(templateId) {
+    const modal = document.getElementById('detail-modal');
+    if (!modal) return;
+    
+    const iconEl = document.getElementById('detail-modal-icon');
+    const titleEl = document.getElementById('detail-modal-title');
+    const subtitleEl = document.getElementById('detail-modal-subtitle');
+    const bodyEl = document.getElementById('detail-modal-body');
+    
+    let icon = "🔍";
+    let title = "Audit Report Details";
+    let subtitle = "Campaign Compliance verification";
+    let contentHtml = "";
+    
+    if (templateId === 'violation_product_a') {
+        icon = "✓";
+        title = "Campaign Compliance: PASSED";
+        subtitle = "Zero layout or medical claims violations detected.";
+        contentHtml = `
+            <div style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem;">
+                    <span>Clinical Grounding Score</span>
+                    <strong style="color: #10B981;">100% Match</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem;">
+                    <span>Brand Alignment Verification</span>
+                    <strong style="color: #10B981;">Passed</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem;">
+                    <span>Legal Disclaimer Check</span>
+                    <strong style="color: #10B981;">Verified</strong>
+                </div>
+            </div>
+        `;
+    } else {
+        icon = "⚠️";
+        title = "Campaign Audit: FLAGGED";
+        subtitle = "Claims discrepancies detected and automatically resolved.";
+        contentHtml = `
+            <div style="background: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.2); display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem;">
+                    <span>Claim Match Discrepancy</span>
+                    <strong style="color: #F59E0B;">Auto-Healed</strong>
+                </div>
+                <div style="padding: 0.6rem; border-radius: 6px; background: rgba(0,0,0,0.2); font-family: monospace; font-size: 0.58rem; line-height: 1.4; color: #34d399;">
+                    - Ingested: "ORR of 49%"<br>
+                    + Verified: "ORR of 56% (KEYNOTE-189 update)"<br>
+                    Status: Replaced & Re-verified
+                </div>
+            </div>
+        `;
+    }
+    
+    if (iconEl) iconEl.innerText = icon;
+    if (titleEl) titleEl.innerText = title;
+    if (subtitleEl) subtitleEl.innerText = subtitle;
+    if (bodyEl) bodyEl.innerHTML = contentHtml;
+    
+    modal.classList.add('active');
+    updateHashFromState();
+};
+
 window.drillDownCampaign = function(violationId) {
     if (window.appendConsoleLine) {
         appendConsoleLine('system', `🔍 Drilling down into campaign audit details for: ${violationId}`);
     }
-    if (typeof showViolationDetail === 'function') {
-        showViolationDetail(violationId);
-    } else {
-        console.warn("⚠️ showViolationDetail function not found in app.js");
-    }
+    window.showViolationDetail(violationId);
 };
 
 
