@@ -1568,6 +1568,7 @@
         <!-- Workbench Icon-only Sidebar (Tier 1 navigation) -->
         <aside class="workbench-vertical-sidebar">
             <button class="v-sidebar-btn active" id="v-nav-btn--1" onclick="switchPhase(-1)" title="Command Center">🧭</button>
+            <button class="v-sidebar-btn" id="v-nav-btn-0" onclick="switchPhase(0)" title="Strategy Map">🕸️</button>
             <button class="v-sidebar-btn" id="v-nav-btn-1" onclick="switchPhase(1)" title="Clinical Ingest">💼</button>
             <button class="v-sidebar-btn" id="v-nav-btn-2" onclick="switchPhase(2)" title="Creative Composer">✏️</button>
             <button class="v-sidebar-btn" id="v-nav-btn-3" onclick="switchPhase(3)" title="Governance Ledger">🛡️</button>
@@ -1619,6 +1620,9 @@
                     <nav class="side-nav" id="header-workflow-nav" style="display: flex; flex-direction: column; gap: 0.35rem; width: 100%;">
                         <button onclick="switchPhase(-1)" id="global-nav-btn--1" class="side-nav-btn active" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
                             0. Command Center
+                        </button>
+                        <button onclick="switchPhase(0)" id="global-nav-btn-0" class="side-nav-btn" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                            Strategy Map
                         </button>
                         <button onclick="switchPhase(1)" id="global-nav-btn-1" class="side-nav-btn" style="text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
                             1. Clinical Ingest
