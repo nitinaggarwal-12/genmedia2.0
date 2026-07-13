@@ -414,15 +414,15 @@
 
         @keyframes gaugeArcSweep1 {
             from { stroke-dashoffset: 126; }
-            to { stroke-dashoffset: 35; } /* ~72% */
+            to { stroke-dashoffset: 57; } /* 55% */
         }
         @keyframes gaugeArcSweep2 {
             from { stroke-dashoffset: 126; }
-            to { stroke-dashoffset: 2; } /* 98.2% */
+            to { stroke-dashoffset: 38; } /* 70% */
         }
         @keyframes gaugeArcSweep3 {
             from { stroke-dashoffset: 126; }
-            to { stroke-dashoffset: 22; } /* ~82% */
+            to { stroke-dashoffset: 13; } /* 90% */
         }
 
         /* Needle keyframes - rotating needles to target angles */
@@ -432,15 +432,15 @@
 
         @keyframes needleRotate1 {
             from { transform: rotate(0deg); }
-            to { transform: rotate(130deg); }
+            to { transform: rotate(99deg); }
         }
         @keyframes needleRotate2 {
             from { transform: rotate(0deg); }
-            to { transform: rotate(154deg); }
+            to { transform: rotate(126deg); }
         }
         @keyframes needleRotate3 {
             from { transform: rotate(0deg); }
-            to { transform: rotate(141deg); }
+            to { transform: rotate(162deg); }
         }
 
         @keyframes scanLineSweepAnim {
@@ -1679,38 +1679,69 @@
                 
                 <!-- PHASE -1: GLOBAL STRATEGIC INTELLIGENCE COMMAND CENTER -->
                 <div class="phase-container" id="phase-minus1-view" style="display: flex; flex-direction: column; width: 100%; padding-bottom: 2rem;">
+                    <!-- Redesigned Command Center Hub Title -->
+                    <div style="padding: 1.5rem 2rem 0 2rem; flex-shrink: 0;">
+                        <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); margin: 0; font-family: 'Outfit', sans-serif;">Redesigned Command Center Hub</h2>
+                        <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">Mission-Critical Data & Compliance Overview</p>
+                    </div>
+
                     <!-- EXECUTIVE KPI STATS ROW (Dossier Harmonizer Style) -->
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; padding: 2rem 2rem 0 2rem; box-sizing: border-box; flex-shrink: 0;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; padding: 1rem 2rem 0 2rem; box-sizing: border-box; flex-shrink: 0;">
                         <!-- Card 1: Screened Claims -->
-                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
-                            <div style="background: rgba(16, 185, 129, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981;">💼</div>
-                            <div>
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Screened Indications</div>
-                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">36 Claims</div>
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                                <div>
+                                    <div style="font-size: 0.55rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">Screened Indications</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif; margin-top: 0.15rem;">36 Claims</div>
+                                </div>
+                                <span style="font-size: 0.95rem; color: var(--color-text-muted);">⋮</span>
+                            </div>
+                            <div style="flex: 1; display: flex; align-items: flex-end; width: 100%; height: 32px; margin-top: 0.35rem;">
+                                <canvas id="sparkline-indications" style="width: 100%; height: 32px;"></canvas>
                             </div>
                         </div>
                         <!-- Card 2: Remediation Gaps -->
-                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
-                            <div style="background: rgba(251, 191, 36, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(251, 191, 36, 0.2); color: #fbbf24;">⚠️</div>
-                            <div>
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Remediation Gaps</div>
-                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">4 Gaps</div>
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex: 1;">
+                                <div>
+                                    <div style="font-size: 0.55rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">Remediation Gaps</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif; margin-top: 0.15rem;">4 Gaps</div>
+                                </div>
+                                <div style="position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <svg width="38" height="38" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                                        <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(244, 63, 94, 0.1)" stroke-width="3" />
+                                        <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f43f5e" stroke-width="3" stroke-dasharray="25, 100" stroke-linecap="round" />
+                                    </svg>
+                                    <span style="position: absolute; font-size: 0.65rem; font-weight: 800; color: var(--color-text-main);">4</span>
+                                </div>
                             </div>
                         </div>
                         <!-- Card 3: Governance Health -->
-                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
-                            <div style="background: rgba(6, 182, 212, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(6, 182, 212, 0.2); color: #06b6d4;">📈</div>
-                            <div>
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Governance Health</div>
-                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">98.2% Approved</div>
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <div>
+                                    <div style="font-size: 0.55rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">Governance Health</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif; margin-top: 0.15rem;">98.2% Approved</div>
+                                </div>
+                                <div style="background: rgba(52, 211, 153, 0.1); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(52, 211, 153, 0.2); color: #34d399; font-size: 0.72rem; font-weight: bold; flex-shrink: 0;">✓</div>
+                            </div>
+                            <div style="width: 100%; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem;">
+                                <div style="background: rgba(255, 255, 255, 0.08); height: 4px; border-radius: 2px; width: 100%; overflow: hidden;">
+                                    <div style="background: #34d399; height: 100%; width: 98.2%; border-radius: 2px; box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);"></div>
+                                </div>
                             </div>
                         </div>
                         <!-- Card 4: Estimated Savings -->
-                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem; height: auto; min-height: 75px; box-sizing: border-box;">
-                            <div style="background: rgba(16, 185, 129, 0.1); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981;">💵</div>
-                            <div>
-                                <div style="font-size: 0.58rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">MLR Labor Savings</div>
-                                <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif;">$420.5K USD</div>
+                        <div class="cdo-metric-card" style="padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <div>
+                                    <div style="font-size: 0.55rem; color: var(--color-text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">MLR Labor Savings</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); font-family: 'Outfit', sans-serif; margin-top: 0.15rem;">$420.5K USD</div>
+                                </div>
+                                <div style="background: rgba(251, 191, 36, 0.1); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(251, 191, 36, 0.2); color: #fbbf24; font-size: 0.78rem; font-weight: bold; flex-shrink: 0;">$</div>
+                            </div>
+                            <div style="flex: 1; display: flex; align-items: flex-end; width: 100%; height: 26px; margin-top: 0.35rem;">
+                                <canvas id="sparkline-savings" style="width: 100%; height: 26px;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -1720,10 +1751,32 @@
                         <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                             <!-- Top: Competitive Claims Heatmap -->
                             <div class="cdo-metric-card" style="display: flex; flex-direction: column; padding: 1.25rem 1.5rem; box-sizing: border-box;">
-                                <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0;">
-                                    <span class="panel-icon">📊</span>
-                                    <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
-                                    <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
+                                <div class="panel-header-compact" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <span class="panel-icon">📊</span>
+                                        <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin: 0; display: inline;">Competitive Claims Heatmap</h3>
+                                        <p style="font-size: 0.68rem; color: var(--color-text-muted); margin: 0.2rem 0 0 0;">An active, interactive matrix mapping clinical oncology indications against competitive compounds.</p>
+                                    </div>
+                                    <span style="font-size: 0.95rem; color: var(--color-text-muted); cursor: pointer;">⋮</span>
+                                </div>
+                                
+                                <!-- Interactive Heatmap Filters -->
+                                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                                    <input type="text" id="heatmap-search-filter" placeholder="Filter..." style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; max-width: 140px; box-sizing: border-box; outline: none;">
+                                    <select id="heatmap-compound-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
+                                        <option value="all">All Compounds</option>
+                                        <option value="Product-A">Product-A</option>
+                                        <option value="Product-B">Product-B</option>
+                                        <option value="Product-C">Product-C</option>
+                                        <option value="Product-D">Product-D</option>
+                                        <option value="Product-E">Product-E</option>
+                                    </select>
+                                    <select id="heatmap-status-filter" style="background: rgba(3, 7, 18, 0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem 0.65rem; color: #fff; font-size: 0.68rem; cursor: pointer; box-sizing: border-box; outline: none;">
+                                        <option value="all">All Statuses</option>
+                                        <option value="COMPLIANT">Compliant</option>
+                                        <option value="AUTO_HEALED">Auto-Healed</option>
+                                        <option value="BLOCKED">Blocked</option>
+                                    </select>
                                 </div>
                                 
                                 <div style="flex: 1; overflow-y: auto; overflow-x: auto;">
@@ -1778,36 +1831,54 @@
                             
                             <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                                 <!-- Speedometer Gauges Row -->
+                                <!-- Global SVG Defs for Speedometer Gradients -->
+                                <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
+                                    <defs>
+                                        <linearGradient id="gradient-hcp" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#06b6d4" />
+                                            <stop offset="100%" stop-color="#3b82f6" />
+                                        </linearGradient>
+                                        <linearGradient id="gradient-adherence" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#f97316" />
+                                            <stop offset="100%" stop-color="#ec4899" />
+                                        </linearGradient>
+                                        <linearGradient id="gradient-sov" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#0ea5e9" />
+                                            <stop offset="100%" stop-color="#10b981" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+
                                 <div style="display: flex; justify-content: space-between; gap: 0.5rem;">
                                     <div class="gauge-card">
                                         <span style="font-size: 0.5rem; font-weight: 750; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem; display: block; line-height: 1.1; min-height: 22px;">HCP<br>Perception</span>
                                         <svg width="70" height="42" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-1" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-1" fill="none" stroke="url(#gradient-hcp)" stroke-width="8" stroke-linecap="round"/>
                                             <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-1" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
-                                        <span style="font-size: 0.65rem; color: #34d399; font-weight: 800; margin-top: 0.25rem;">Current Gauges</span>
+                                        <span style="font-size: 0.72rem; color: #fff; font-weight: 800; margin-top: 0.25rem;">55%</span>
                                     </div>
                                     <div class="gauge-card">
                                         <span style="font-size: 0.5rem; font-weight: 750; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem; display: block; line-height: 1.1; min-height: 22px;">Competitive<br>Adherence</span>
                                         <svg width="70" height="42" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-2" fill="none" stroke="var(--color-secondary)" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-2" fill="none" stroke="url(#gradient-adherence)" stroke-width="8" stroke-linecap="round"/>
                                             <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-2" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
-                                        <span style="font-size: 0.65rem; color: var(--color-secondary); font-weight: 800; margin-top: 0.25rem;">98.2% Approved</span>
+                                        <span style="font-size: 0.72rem; color: #fff; font-weight: 800; margin-top: 0.25rem;">70%</span>
                                     </div>
                                     <div class="gauge-card">
                                         <span style="font-size: 0.5rem; font-weight: 750; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 0.35rem; display: block; line-height: 1.1; min-height: 22px;">Share of<br>Voice</span>
                                         <svg width="70" height="42" viewBox="0 0 100 60">
                                             <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
-                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-3" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-arc gauge-arc-3" fill="none" stroke="url(#gradient-sov)" stroke-width="8" stroke-linecap="round"/>
                                             <line x1="50" y1="50" x2="10" y2="50" class="gauge-needle gauge-needle-3" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                                             <circle cx="50" cy="50" r="4" fill="#ffffff"/>
                                         </svg>
-                                        <span style="font-size: 0.65rem; color: #34d399; font-weight: 800; margin-top: 0.25rem;">98.2% (Fasts)</span>
+                                        <span style="font-size: 0.72rem; color: #fff; font-weight: 800; margin-top: 0.25rem;">90%</span>
                                     </div>
                                 </div>
                                 
