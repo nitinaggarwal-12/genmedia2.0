@@ -1853,11 +1853,13 @@ window.showComplianceCertificate = function(data) {
     }
     
     modal.classList.add('active');
+    updateHashFromState();
 };
 
 window.closeComplianceModal = function() {
     const modal = document.getElementById('compliance-modal');
     if (modal) modal.classList.remove('active');
+    updateHashFromState();
 };
 
 // ==========================================
@@ -2921,11 +2923,13 @@ window.showDetailModal = function(type) {
     subtitleEl.innerText = subtitle;
     bodyEl.innerHTML = contentHtml;
     modal.classList.add('active');
+    updateHashFromState();
 };
 
 window.closeDetailModal = function() {
     const modal = document.getElementById('detail-modal');
     if (modal) modal.classList.remove('active');
+    updateHashFromState();
 };
 
 // Tab switching logic for the unified Ingestion Dock
@@ -5356,11 +5360,11 @@ window.toggleDiagnosticsModal = function() {
     
     if (modal.style.display === 'none' || !modal.style.display) {
         modal.style.display = 'flex';
-        // Initialize charts if needed
         setTimeout(initCharts, 50);
     } else {
         modal.style.display = 'none';
     }
+    updateHashFromState();
 };
 
 // --- DYNAMIC STRATEGIC HEATMAP ROUTER ---
@@ -5398,13 +5402,43 @@ let isRoutingInProgress = false;
 // 1. Synchronizes State to URL Hash
 function updateHashFromState() {
     let route = '/home';
-    if (currentActivePhase === 0) route = '/strategy';
-    else if (currentActivePhase === 1) route = '/ingest';
-    else if (currentActivePhase === 2) route = `/composer/variant/${currentActiveVariant}`;
-    else if (currentActivePhase === 3) route = `/governance/variant/${currentActiveVariant}`;
-    else if (currentActivePhase === 4) route = '/medical-heor';
-    else if (currentActivePhase === 5) route = '/localization';
-    else if (currentActivePhase === 6) route = '/pharmacovigilance';
+    const analyticsTab = document.getElementById("tab-analytics");
+    if (analyticsTab && analyticsTab.classList.contains("active-tab")) {
+        route = '/analytics';
+    } else {
+        if (currentActivePhase === 0) route = '/strategy';
+        else if (currentActivePhase === 1) route = '/ingest';
+        else if (currentActivePhase === 2) route = `/composer/variant/${currentActiveVariant}`;
+        else if (currentActivePhase === 3) route = `/governance/variant/${currentActiveVariant}`;
+        else if (currentActivePhase === 4) route = '/medical-heor';
+        else if (currentActivePhase === 5) route = '/localization';
+        else if (currentActivePhase === 6) route = '/pharmacovigilance';
+    }
+    
+    // Check if any modal is active/visible and append to the URL path
+    const diagnosticsModal = document.getElementById('diagnostics-modal');
+    const fdaModal = document.getElementById('fda-2253-modal-overlay');
+    const complianceModal = document.getElementById('compliance-modal');
+    const timeTravelModal = document.getElementById('time-travel-modal');
+    const simModal = document.getElementById('sim-comparison-modal');
+    const veevaModal = document.getElementById('modal-veeva-sync');
+    const detailModal = document.getElementById('detail-modal');
+
+    if (diagnosticsModal && diagnosticsModal.style.display !== 'none' && diagnosticsModal.style.display !== '') {
+        route += '/diagnostics';
+    } else if (fdaModal && fdaModal.style.display !== 'none' && fdaModal.style.display !== '') {
+        route += '/fda2253';
+    } else if (complianceModal && (complianceModal.style.display !== 'none' && complianceModal.style.display !== '' || complianceModal.classList.contains('active'))) {
+        route += '/certificate';
+    } else if (timeTravelModal && timeTravelModal.style.display !== 'none' && timeTravelModal.style.display !== '') {
+        route += '/timetravel';
+    } else if (simModal && simModal.style.display !== 'none' && simModal.style.display !== '') {
+        route += '/simulation';
+    } else if (veevaModal && veevaModal.style.display !== 'none' && veevaModal.style.display !== '') {
+        route += '/veevasync';
+    } else if (detailModal && detailModal.style.display !== 'none' && detailModal.style.display !== '') {
+        route += '/details';
+    }
     
     isRoutingInProgress = true;
     window.location.hash = route;
@@ -5428,7 +5462,10 @@ function handleHashRoute() {
         } else {
             if (landingView) landingView.style.display = 'none';
             
-            if (hash.startsWith('#/home') || hash.startsWith('#/command')) {
+            // Dispatch parent container/tab state
+            if (hash.startsWith('#/analytics')) {
+                window.switchTab('analytics');
+            } else if (hash.startsWith('#/home') || hash.startsWith('#/command')) {
                 currentActivePhase = -1;
                 window.switchPhase(-1);
             } else if (hash.startsWith('#/strategy')) {
@@ -5458,6 +5495,45 @@ function handleHashRoute() {
             } else if (hash.startsWith('#/pharmacovigilance') || hash.startsWith('#/pv') || hash.startsWith('#/agency')) {
                 currentActivePhase = 6;
                 window.switchPhase(6);
+            }
+
+            // Close all modals first by default to avoid overlapping state
+            ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = 'none';
+                    el.classList.remove('active');
+                }
+            });
+
+            // Dispatch sub-route modals based on suffix matches
+            if (hash.endsWith('/diagnostics')) {
+                const modal = document.getElementById("diagnostics-modal");
+                if (modal) {
+                    modal.style.display = 'flex';
+                    setTimeout(initCharts, 50);
+                }
+            } else if (hash.endsWith('/fda2253')) {
+                if (window.openFda2253Modal) window.openFda2253Modal();
+            } else if (hash.endsWith('/certificate')) {
+                if (window.showComplianceCertificate) {
+                    window.showComplianceCertificate({
+                        timestamp: new Date().toUTCString(),
+                        medication: 'Product-A (compound_alpha)',
+                        campaignName: 'Standard Verification Campaign',
+                        hash: 'sha256:4d2e135a9da9467893b2e51a747dc31f'
+                    });
+                }
+            } else if (hash.endsWith('/timetravel')) {
+                if (window.openTimeTravelDrawer) window.openTimeTravelDrawer();
+            } else if (hash.endsWith('/simulation')) {
+                if (window.openSimComparisonModal) window.openSimComparisonModal();
+            } else if (hash.endsWith('/veevasync')) {
+                const modal = document.getElementById('modal-veeva-sync');
+                if (modal) modal.style.display = 'flex';
+            } else if (hash.endsWith('/details')) {
+                const modal = document.getElementById('detail-modal');
+                if (modal) modal.style.display = 'flex';
             }
         }
     } finally {
@@ -6749,32 +6825,42 @@ window.goBackToLanding = function() {
 window.openSimComparisonModal = function() {
     const modal = document.getElementById('sim-comparison-modal');
     if (modal) modal.style.display = 'flex';
+    updateHashFromState();
 };
 
 window.closeSimComparisonModal = function() {
     const modal = document.getElementById('sim-comparison-modal');
     if (modal) modal.style.display = 'none';
+    updateHashFromState();
 };
 
 // 🌟 GLOBAL MODAL ESCAPE KEY & CLICK-OUTSIDE DISMISSAL PROTECTION
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'image-studio-modal'].forEach(id => {
+        let changed = false;
+        ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
             const el = document.getElementById(id);
-            if (el && el.style.display !== 'none') {
+            if (el && (el.style.display !== 'none' || el.classList.contains('active'))) {
                 el.style.display = 'none';
+                el.classList.remove('active');
+                changed = true;
             }
         });
+        if (changed) updateHashFromState();
     }
 });
 
 window.addEventListener('click', (e) => {
-    ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal', 'image-studio-modal'].forEach(id => {
+    let changed = false;
+    ['sim-comparison-modal', 'time-travel-modal', 'diagnostics-modal', 'fda-2253-modal-overlay', 'modal-veeva-sync', 'compliance-modal', 'detail-modal'].forEach(id => {
         const el = document.getElementById(id);
         if (el && e.target === el) {
             el.style.display = 'none';
+            el.classList.remove('active');
+            changed = true;
         }
     });
+    if (changed) updateHashFromState();
 });
 
 let isLandingSimRunning = false;
@@ -7020,7 +7106,7 @@ function recordTimeTravelEvent(eventType, promptInput, agentRationale) {
     });
 }
 
-function openTimeTravelDrawer() {
+window.openTimeTravelDrawer = function() {
     const modal = document.getElementById('time-travel-modal');
     const sessionIdEl = document.getElementById('tt-active-session-id');
     if (sessionIdEl) sessionIdEl.innerText = window.activeSessionId.toUpperCase();
@@ -7028,12 +7114,14 @@ function openTimeTravelDrawer() {
         modal.style.display = 'flex';
         loadTimeTravelHistory();
     }
-}
+    updateHashFromState();
+};
 
-function closeTimeTravelDrawer() {
+window.closeTimeTravelDrawer = function() {
     const modal = document.getElementById('time-travel-modal');
     if (modal) modal.style.display = 'none';
-}
+    updateHashFromState();
+};
 
 function loadTimeTravelHistory() {
     const track = document.getElementById('tt-timeline-track');
