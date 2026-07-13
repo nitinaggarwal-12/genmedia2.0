@@ -5404,7 +5404,9 @@ function updateHashFromState() {
     let route = '/home';
     const analyticsTab = document.getElementById("tab-analytics");
     if (analyticsTab && analyticsTab.classList.contains("active-tab")) {
-        route = '/analytics';
+        const sub = (typeof activeChartTab !== 'undefined' && activeChartTab) ? activeChartTab : 'trend';
+        const subRoute = sub === 'trend' ? 'trends' : sub;
+        route = `/analytics/${subRoute}`;
     } else {
         if (currentActivePhase === 0) route = '/strategy';
         else if (currentActivePhase === 1) route = '/ingest';
@@ -5468,6 +5470,17 @@ function handleHashRoute() {
             // Dispatch parent container/tab state
             if (hash.startsWith('#/analytics')) {
                 window.switchTab('analytics');
+                let activeSub = 'trend';
+                if (hash.includes('/roi')) activeSub = 'roi';
+                else if (hash.includes('/violations')) activeSub = 'violations';
+                
+                // Temporarily flag routing to avoid nested loops
+                const prevRoutingState = isRoutingInProgress;
+                isRoutingInProgress = true;
+                if (typeof window.switchChartTab === 'function') {
+                    window.switchChartTab(activeSub);
+                }
+                isRoutingInProgress = prevRoutingState;
             } else if (hash.startsWith('#/home') || hash.startsWith('#/command')) {
                 currentActivePhase = -1;
                 window.switchPhase(-1);
@@ -6302,6 +6315,7 @@ window.switchChartTab = function(tabId) {
     
     // Render the selected chart
     renderActiveCharts();
+    updateHashFromState();
 };
 
 function renderActiveCharts() {
