@@ -7229,3 +7229,23 @@ function restoreSelectedTimeTravelSnapshot() {
     }
 }
 
+// ==========================================
+//   COLLAPSIBLE SIDEBAR ENGINE
+// ==========================================
+window.toggleSidebar = function() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('collapsed');
+        localStorage.setItem('maestro_sidebar_collapsed', sidebar.classList.contains('collapsed'));
+    }
+};
+
+// Auto-restore sidebar collapsed state on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const isCollapsed = localStorage.getItem('maestro_sidebar_collapsed') === 'true';
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && isCollapsed) {
+        sidebar.classList.add('collapsed');
+    }
+});
+

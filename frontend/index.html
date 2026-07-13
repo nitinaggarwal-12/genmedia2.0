@@ -261,6 +261,16 @@
             padding: 1.5rem 1.25rem; 
             box-sizing: border-box; 
             z-index: 100; 
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, opacity 0.2s ease;
+        }
+        .sidebar.collapsed {
+            width: 0 !important;
+            min-width: 0 !important;
+            padding: 0 !important;
+            border-right: none !important;
+            opacity: 0 !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
         }
         
         /* Renamed to avoid collision with .logo-container in style.css */
@@ -1567,6 +1577,7 @@
     <div class="app-container">
         <!-- Workbench Icon-only Sidebar (Tier 1 navigation) -->
         <aside class="workbench-vertical-sidebar">
+            <button class="v-sidebar-btn toggle-menu-btn" onclick="toggleSidebar()" title="Toggle Sidebar Menu" style="margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.9rem; font-weight: 800; border: none; background: transparent; cursor: pointer; outline: none; width: 100%; display: flex; align-items: center; justify-content: center; height: 36px;">☰</button>
             <button class="v-sidebar-btn active" id="v-nav-btn--1" onclick="switchPhase(-1)" title="Command Center">🧭</button>
             <button class="v-sidebar-btn" id="v-nav-btn-0" onclick="switchPhase(0)" title="Strategy Map">🕸️</button>
             <button class="v-sidebar-btn" id="v-nav-btn-1" onclick="switchPhase(1)" title="Clinical Ingest">💼</button>
@@ -1584,8 +1595,8 @@
                 
                 <!-- Logo & Brand Header -->
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; width: 100%;">
-                    <h1 class="brand-h1" style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); margin: 0; letter-spacing: 0.8px; font-family: 'Outfit', sans-serif;">MAESTRO</h1>
-                    <button class="action-btn" onclick="switchPhase(-1)" style="border: none; background: transparent; color: var(--color-text-muted); cursor: pointer; padding: 0.25rem; display: flex; align-items: center; justify-content: center; outline: none; font-size: 0.75rem;">⟨</button>
+                    <h1 class="brand-h1" onclick="goBackToLanding()" style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); margin: 0; letter-spacing: 0.8px; font-family: 'Outfit', sans-serif; cursor: pointer;" title="Go to Landing Page">MAESTRO</h1>
+                    <button class="action-btn" onclick="toggleSidebar()" style="border: none; background: transparent; color: var(--color-text-muted); cursor: pointer; padding: 0.25rem; display: flex; align-items: center; justify-content: center; outline: none; font-size: 0.75rem;">⟨</button>
                 </div>
 
                 <!-- Active Portfolio Selector Section -->
