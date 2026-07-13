@@ -1,9 +1,7 @@
 // Maestro — Frontend Canvas & Agent Orchestration Client
 
-const BACKEND_URL = window.location.port === '3000' ? `${window.location.protocol}//${window.location.hostname}:8000` : window.location.origin;
-const WS_URL = window.location.port === '3000' 
-    ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:8000/ws/logs` 
-    : (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/logs';
+const BACKEND_URL = window.location.origin;
+const WS_URL = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/logs';
 
 let socket = null;
 let activePrompt = "";
@@ -73,6 +71,11 @@ function toggleTheme() {
     // Dynamically redraw the claims network to apply theme-specific high contrast text colors!
     if (currentNetworkInstance) {
         drawDefaultClaimsNetwork();
+    }
+    
+    // Dynamically redraw strategic charts if we are on the Command Center phase
+    if (currentActivePhase === -1 && typeof initStrategicCharts === 'function') {
+        initStrategicCharts();
     }
 }
 
@@ -4892,6 +4895,12 @@ function initStrategicCharts() {
         dbLog.scrollTop = dbLog.scrollHeight;
     }
     
+    const isLight = document.body.classList.contains('light-theme');
+    const labelColor = isLight ? '#475569' : '#a1a1aa';
+    const gridColor = isLight ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.03)';
+    const neutralBarColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.15)';
+    const baselineLineColor = isLight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
+
     // 1. Sentiment Bar Chart
     const sentCtx = document.getElementById('chart-sentiment-bar');
     if (sentCtx) {
@@ -4902,7 +4911,7 @@ function initStrategicCharts() {
                 datasets: [{
                     label: 'Sentiment Score',
                     data: [35, 23, 18],
-                    backgroundColor: ['oklch(0.696 0.17 162.48)', 'oklch(0.79 0.14 195)', 'rgba(255,255,255,0.15)'],
+                    backgroundColor: ['oklch(0.696 0.17 162.48)', 'oklch(0.79 0.14 195)', neutralBarColor],
                     borderRadius: 4
                 }]
             },
@@ -4916,10 +4925,10 @@ function initStrategicCharts() {
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { 
-                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
-                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                        grid: { color: gridColor, borderDash: [2, 2] }, 
+                        ticks: { color: labelColor, font: { size: 8 } } 
                     },
-                    x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
+                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
                 }
             }
         });
@@ -4934,7 +4943,7 @@ function initStrategicCharts() {
                 labels: ['US', 'EU', 'MEA', 'APAC'],
                 datasets: [
                     { label: 'Maestro', data: [55, 60, 48, 52], backgroundColor: 'oklch(0.696 0.17 162.48)', borderRadius: 3 },
-                    { label: 'Competitors', data: [40, 35, 42, 38], backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: 3 }
+                    { label: 'Competitors', data: [40, 35, 42, 38], backgroundColor: neutralBarColor, borderRadius: 3 }
                 ]
             },
             options: {
@@ -4947,10 +4956,10 @@ function initStrategicCharts() {
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { 
-                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
-                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                        grid: { color: gridColor, borderDash: [2, 2] }, 
+                        ticks: { color: labelColor, font: { size: 8 } } 
                     },
-                    x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
+                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
                 }
             }
         });
@@ -4982,7 +4991,7 @@ function initStrategicCharts() {
                     {
                         label: 'Baseline Forecast',
                         data: [15, 25, 38, 48, 55, 60, 70],
-                        borderColor: 'rgba(255,255,255,0.2)',
+                        borderColor: baselineLineColor,
                         backgroundColor: 'transparent',
                         fill: false,
                         tension: 0.4,
@@ -5002,10 +5011,10 @@ function initStrategicCharts() {
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { 
-                        grid: { color: 'rgba(255,255,255,0.03)', borderDash: [2, 2] }, 
-                        ticks: { color: '#a1a1aa', font: { size: 8 } } 
+                        grid: { color: gridColor, borderDash: [2, 2] }, 
+                        ticks: { color: labelColor, font: { size: 8 } } 
                     },
-                    x: { grid: { display: false }, ticks: { color: '#a1a1aa', font: { size: 8 } } }
+                    x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 8 } } }
                 }
             }
         });

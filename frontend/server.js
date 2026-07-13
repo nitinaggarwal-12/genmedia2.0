@@ -73,8 +73,8 @@ const server = http.createServer((req, res) => {
     });
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`\n=============================================================`);
-    console.log(`🎨 Maestro Frontend UI Canvas is running on: http://localhost:3000`);
+    console.log(`🎨 Maestro Frontend UI Canvas is running on: http://0.0.0.0:3000`);
     console.log(`=============================================================\n`);
 });

@@ -1946,5 +1946,5 @@ app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
-    # Start the server on localhost:8000
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Start the server on localhost:3000
+    uvicorn.run("main:app", host="0.0.0.0", port=3000, reload=True)

@@ -8,7 +8,7 @@
     --bg-main: #08080a; /* Deepest Obsidian slate */
     --bg-surface: rgba(18, 18, 22, 0.6); /* Frosted obsidian card */
     --bg-surface-solid: #121215; /* Solid zinc black */
-    --border-color: rgba(255, 255, 255, 0.05); /* Hair-line highlight border */
+    --border-color: rgba(255, 255, 255, 0.25); /* Crisp visible high-contrast border */
     --border-glow: rgba(13, 148, 136, 0.25);
     
     /* Brand Colors */
@@ -2908,49 +2908,45 @@ body.light-theme .clickable-row:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 58px;
-    height: 38px;
-    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
     font-family: 'Outfit', sans-serif;
     font-weight: 800;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     box-sizing: border-box;
     transition: var(--transition-smooth);
     cursor: pointer;
+    border: 1px solid transparent;
 }
 .heatmap-badge:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     filter: brightness(1.15);
 }
-.heatmap-badge.zero-teal {
-    background: rgba(13, 148, 136, 0.12) !important;
-    color: #2dd4bf !important;
-    border: 1px solid rgba(13, 148, 136, 0.25) !important;
-}
-.heatmap-badge.zero-blue {
-    background: rgba(99, 102, 241, 0.12) !important;
-    color: #818cf8 !important;
-    border: 1px solid rgba(99, 102, 241, 0.25) !important;
-}
+.heatmap-badge.zero-teal,
+.heatmap-badge.zero-blue,
 .heatmap-badge.zero-purple {
-    background: rgba(168, 85, 247, 0.12) !important;
-    color: #c084fc !important;
-    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    color: #64748b !important;
+    background: rgba(100, 116, 139, 0.04) !important;
+    border-color: rgba(100, 116, 139, 0.15) !important;
 }
 .heatmap-badge.gold-g {
-    background: rgba(245, 158, 11, 0.12) !important;
-    color: #fbbf24 !important;
-    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    color: #34d399 !important;
+    background: rgba(52, 211, 153, 0.08) !important;
+    border-color: rgba(52, 211, 153, 0.25) !important;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.1);
 }
 .heatmap-badge.orange-o {
-    background: rgba(249, 115, 22, 0.12) !important;
-    color: #ff9d5c !important;
-    border: 1px solid rgba(249, 115, 22, 0.25) !important;
+    color: #fbbf24 !important;
+    background: rgba(251, 191, 36, 0.08) !important;
+    border-color: rgba(251, 191, 36, 0.25) !important;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.1);
 }
 .heatmap-badge.red-delta {
-    background: rgba(239, 68, 68, 0.12) !important;
-    color: #f87171 !important;
-    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+    color: #f43f5e !important;
+    background: rgba(244, 63, 94, 0.1) !important;
+    border-color: rgba(244, 63, 94, 0.25) !important;
+    box-shadow: 0 0 8px rgba(244, 63, 94, 0.1);
 }
 
 /* Speedometer SVGs & Dial Gauges */
@@ -3007,8 +3003,14 @@ body.light-theme .clickable-row:hover {
     flex-direction: column;
     gap: 0.75rem;
     box-shadow: var(--shadow-sm);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.cdo-metric-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(6, 182, 212, 0.35) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -3169,53 +3171,6 @@ body.light-theme .clickable-row:hover {
     max-height: 80vh;
 }
 
-/* Heatmap Circular Badges & Indicator Details */
-.heatmap-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    font-size: 0.68rem;
-    font-weight: 800;
-}
-
-.heatmap-badge.zero-teal {
-    background: rgba(13, 148, 136, 0.1);
-    color: #2dd4bf;
-    border: 1px solid rgba(13, 148, 136, 0.2);
-}
-
-.heatmap-badge.zero-blue {
-    background: rgba(79, 70, 229, 0.1);
-    color: #818cf8;
-    border: 1px solid rgba(79, 70, 229, 0.2);
-}
-
-.heatmap-badge.zero-purple {
-    background: rgba(147, 51, 234, 0.1);
-    color: #c084fc;
-    border: 1px solid rgba(147, 51, 234, 0.2);
-}
-
-.heatmap-badge.gold-g {
-    background: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.heatmap-badge.orange-o {
-    background: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.heatmap-badge.red-delta {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-}
 
 .heatmap-row-header {
     color: var(--color-text-muted);
@@ -3224,6 +3179,24 @@ body.light-theme .clickable-row:hover {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     padding: 0.8rem 0.4rem;
+}
+
+.gauge-card {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+.gauge-card:hover {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Double circular dials style override */

@@ -39,8 +39,8 @@ cleanup() {
 # Trap Ctrl+C (SIGINT) and terminal exit (SIGTERM)
 trap cleanup INT TERM
 
-# 1. Start FastAPI Backend Server
-echo "Starting FastAPI Backend Server on http://localhost:8000..."
+# 1. Start FastAPI Backend & Static Server
+echo "Starting FastAPI Server on http://localhost:3000..."
 # We add Python path of backend to allow imports
 export PYTHONPATH="$WORKSPACE_DIR/backend:$PYTHONPATH"
 cd "$WORKSPACE_DIR/backend"
@@ -48,19 +48,14 @@ cd "$WORKSPACE_DIR/backend"
 BACKEND_PID=$!
 cd "$WORKSPACE_DIR"
 
-# Wait a moment for the backend to bind to port 8000
+# Wait a moment for the server to bind to port 3000
 sleep 1.5
-
-# 2. Start Node.js Frontend Server
-echo "Starting Frontend UI Web Server on http://localhost:3000..."
-node frontend/server.js &
-FRONTEND_PID=$!
 
 echo -e "\n============================================================="
 echo "👉 Maestro is fully online!"
 echo "👉 Access the UI: http://localhost:3000"
-echo "👉 Press Ctrl+C to terminate both servers safely."
+echo "👉 Press Ctrl+C to terminate the server safely."
 echo "=============================================================\n"
 
 # Keep script running and wait for background processes
-wait $BACKEND_PID $FRONTEND_PID
+wait $BACKEND_PID
