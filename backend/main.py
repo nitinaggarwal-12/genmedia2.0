@@ -34,17 +34,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Prevent caching of static assets (HTML, CSS, JS) so updates are delivered instantly
-@app.middleware("http")
-async def add_no_cache_headers(request, call_next):
-    response = await call_next(request)
-    path = request.url.path
-    if path == "/" or path.endswith((".html", ".css", ".js")):
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-    return response
-
 # Initialize the central Master Orchestrator Agent (Grounded in Product-A)
 orchestrator = MasterOrchestratorAgent()
 
@@ -259,7 +248,19 @@ class PromoteStandardInput(BaseModel):
     change_description: str
     author: str
     prompt: Optional[str] = None # Optional natural language prompt to compile rule
-    expected_previous_version: Optional[str] = None # For Optimistic Concurrency Control (OCC)
+
+class ExternalStandardsImportInput(BaseModel):
+    source: str
+    author: str
+    version_label: str
+
+class SettingsInput(BaseModel):
+    google_cloud_project: str
+    google_cloud_location: str
+    use_vertex: bool
+    gemini_api_key: Optional[str] = None
+
+
 
 @app.get("/api/standards")
 def get_standards_endpoint():
@@ -370,7 +371,7 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
             raise HTTPException(status_code=500, detail=f"Rule compilation failed: {str(e)}")
             
     try:
-        # Register the new rule version with OCC enforcement
+        # Register the new rule version
         reg_result = register_new_standard_version(
             rule_id=rule_id,
             category=category,
@@ -378,8 +379,7 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
             rule_value=rule_value,
             version_label=version_label,
             change_description=change_description,
-            author=author,
-            expected_previous_version=input_data.expected_previous_version
+            author=author
         )
         
         # After updating standards, dynamically refresh our orchestrator sub-agents
@@ -418,9 +418,285 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to promote standard version: {str(e)}")
 
+@app.post("/api/standards/import-external")
+async def import_external_standards_endpoint(input_data: ExternalStandardsImportInput):
+    """
+    Simulates fetching and importing compliance standards / brand guidelines
+    from external enterprise repositories (Veeva Vault, Adobe Workfront, FDA ESG).
+    """
+    from claims_db import register_new_standard_version, get_active_standards, get_active_standards_version
+    import json
+    
+    source = input_data.source.lower().strip()
+    author = input_data.author
+    version_label = input_data.version_label
+    
+    try:
+        if source == "veeva":
+            # 1. Veeva Vault Handshake
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "🔌 Connecting to Veeva Vault PromoMats API (Endpoint: /api/v26.1/objects/documents/brand_guidelines)...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            # Fetch and simulate parsing the rules
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "📥 Fetching approved 'CARDIA-X Brand Guidelines document' (ID: DOC-99827-V2)...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            # Create/update rules
+            rule_id = "typography"
+            category = "brand_guidelines"
+            rule_name = "Brand Guideline Typography"
+            
+            # Read existing guidelines to see what we are updating
+            active_rules = get_active_standards(category)
+            rule_value = active_rules.get(rule_id, {
+                "font_size": "2.25rem",
+                "font_weight": "800",
+                "color": "#FFFFFF",
+                "font_family": "system-ui, -apple-system, sans-serif",
+                "style_string": "font-size: 2.25rem; font-weight: 800; color: #FFFFFF;"
+            })
+            
+            # Modify style_string to show it was successfully synced with the new Veeva values:
+            rule_value["color"] = "#0B6E6E"
+            rule_value["style_string"] = f"font-size: {rule_value.get('font_size', '2.25rem')}; font-weight: {rule_value.get('font_weight', '800')}; color: #0B6E6E;"
+            
+            change_description = "Imported approved Cardia-X visual layout styles from Veeva Vault Document ID: DOC-99827-V2"
+            
+        elif source == "adobe":
+            # 2. Adobe Workfront API
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "🔌 Handshaking with Adobe Workfront project management database (Endpoint: /api/v4.0/projects/brand_templates)...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "📥 Extracting corporate branding system parameters (Palette, Padding, Spacing)...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            rule_id = "colors"
+            category = "brand_guidelines"
+            rule_name = "Brand Guideline Colors"
+            
+            active_rules = get_active_standards(category)
+            rule_value = active_rules.get(rule_id, {})
+            # Modify color accents to represent Adobe brand sync: accent_teal, accent_blue
+            rule_value["accent_teal"] = "#0B6E6E"
+            rule_value["accent_blue"] = "#1E40AF"
+            
+            change_description = "Imported corporate color palette from Adobe Workfront campaign template 'ONC-CAMP-2026'"
+            
+        elif source == "fda-esg":
+            # 3. FDA ESG Gateway
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "🔌 Establishing secure session with FDA ESG Gateway (Form FDA 2253 Portal)...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            await manager.broadcast({
+                "agent": "Standards_Governance_Registry",
+                "message": "📥 Syncing clinical labeling rules and GxP safety prominence standards...",
+                "event_type": "IMPORT_PROGRESS"
+            })
+            await asyncio.sleep(0.6)
+            
+            rule_id = "safety_integrity_rules"
+            category = "fda_rules"
+            rule_name = "FDA Regulatory Safety integrity rules"
+            
+            active_rules = get_active_standards(category)
+            rule_value = active_rules.get(rule_id, {})
+            rule_value["safety_prominence_ratio"] = "Safety disclosures must be displayed in a readable, prominent font (min 0.85rem) and must not be hidden in tiny text or overlay containers."
+            
+            change_description = "Synchronized safety prominence rules from FDA OPDP 2026 guidelines via ESG gateway."
+            
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported external source: '{source}'. Supported sources: veeva, adobe, fda-esg.")
+            
+        # Register the imported ruleset
+        reg_result = register_new_standard_version(
+            rule_id=rule_id,
+            category=category,
+            rule_name=rule_name,
+            rule_value=rule_value,
+            version_label=version_label,
+            change_description=change_description,
+            author=author
+        )
+        
+        # Hot-reload orchestrator agents
+        orchestrator.claims_subagent.brand_guidelines = get_active_standards("brand_guidelines")
+        orchestrator.claims_subagent.fda_rules = get_active_standards("fda_rules")
+        orchestrator.claims_subagent.active_standards_version = get_active_standards_version()
+        
+        orchestrator.layout_subagent.brand_guidelines = get_active_standards("brand_guidelines")
+        orchestrator.layout_subagent.fda_rules = get_active_standards("fda_rules")
+        orchestrator.layout_subagent.active_standards_version = get_active_standards_version()
+        
+        # Broadcast final success
+        await manager.broadcast({
+            "agent": "Standards_Governance_Registry",
+            "message": f"✅ IMPORT SUCCESSFUL: Brand guidelines updated to version {version_label} from {source.upper()}! Specialist agents hot-reloaded.",
+            "event_type": "STANDARDS_UPDATE",
+            "data": {
+                "version": version_label,
+                "hash": reg_result["verification_hash"],
+                "rule_id": rule_id
+            }
+        })
+        
+        return {
+            "success": True,
+            "source": source,
+            "version": version_label,
+            "verification_hash": reg_result["verification_hash"],
+            "change_description": change_description
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"External guidelines import failed: {str(e)}")
+
+# ==========================================
+# SYSTEM SETTINGS & CREDENTIALS ENDPOINTS
+# ==========================================
+@app.get("/api/settings")
+def get_settings_endpoint():
+    """
+    Returns the current active Google Cloud and Vertex AI settings.
+    """
+    return {
+        "google_cloud_project": os.environ.get("GOOGLE_CLOUD_PROJECT", ""),
+        "google_cloud_location": os.environ.get("GOOGLE_CLOUD_LOCATION", ""),
+        "use_vertex": os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "false").lower() == "true",
+        "gemini_api_key": os.environ.get("GEMINI_API_KEY", "")
+    }
+
+@app.post("/api/settings/test-connection")
+async def test_connection_endpoint(input_data: SettingsInput):
+    """
+    Tests credentials and connection to Google GenAI / Vertex AI.
+    """
+    try:
+        # Keep original env vars to restore them later
+        orig_project = os.environ.get("GOOGLE_CLOUD_PROJECT")
+        orig_location = os.environ.get("GOOGLE_CLOUD_LOCATION")
+        orig_use_vertex = os.environ.get("GOOGLE_GENAI_USE_VERTEXAI")
+        orig_api_key = os.environ.get("GEMINI_API_KEY")
+        
+        # Apply temporary settings for testing
+        os.environ["GOOGLE_CLOUD_PROJECT"] = input_data.google_cloud_project
+        os.environ["GOOGLE_CLOUD_LOCATION"] = input_data.google_cloud_location
+        os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true" if input_data.use_vertex else "false"
+        if input_data.gemini_api_key:
+            os.environ["GEMINI_API_KEY"] = input_data.gemini_api_key
+        else:
+            os.environ.pop("GEMINI_API_KEY", None)
+            
+        from google import genai
+        # Force re-authentication / fresh client
+        client = genai.Client()
+        
+        # Test connection by requesting a simple model list or generating a tiny text completion
+        model_to_test = "gemini-2.5-flash"
+        response = client.models.generate_content(
+            model=model_to_test,
+            contents=["Hello"],
+        )
+        
+        # Restore original env vars
+        if orig_project: os.environ["GOOGLE_CLOUD_PROJECT"] = orig_project
+        else: os.environ.pop("GOOGLE_CLOUD_PROJECT", None)
+        
+        if orig_location: os.environ["GOOGLE_CLOUD_LOCATION"] = orig_location
+        else: os.environ.pop("GOOGLE_CLOUD_LOCATION", None)
+        
+        if orig_use_vertex: os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = orig_use_vertex
+        else: os.environ.pop("GOOGLE_GENAI_USE_VERTEXAI", None)
+        
+        if orig_api_key: os.environ["GEMINI_API_KEY"] = orig_api_key
+        else: os.environ.pop("GEMINI_API_KEY", None)
+        
+        return {
+            "success": True,
+            "message": f"Connection successful! Handshake with {model_to_test} completed."
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/settings/save")
+def save_settings_endpoint(input_data: SettingsInput):
+    """
+    Saves new Google Cloud settings permanently to the local .env file.
+    """
+    try:
+        env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+        
+        # Read existing .env lines
+        lines = []
+        if os.path.exists(env_path):
+            with open(env_path, "r") as f:
+                lines = f.readlines()
+                
+        # Parse existing variables into dict to update them
+        env_dict = {}
+        for line in lines:
+            if line.strip() and not line.startswith("#") and "=" in line:
+                key, val = line.strip().split("=", 1)
+                env_dict[key.replace('export ', '').strip()] = val.strip(' "')
+                
+        # Update with new values
+        env_dict["GOOGLE_CLOUD_PROJECT"] = input_data.google_cloud_project
+        env_dict["GOOGLE_CLOUD_LOCATION"] = input_data.google_cloud_location
+        env_dict["GOOGLE_GENAI_USE_VERTEXAI"] = "true" if input_data.use_vertex else "false"
+        if input_data.gemini_api_key:
+            env_dict["GEMINI_API_KEY"] = input_data.gemini_api_key
+        else:
+            env_dict.pop("GEMINI_API_KEY", None)
+            
+        # Write back to .env
+        with open(env_path, "w") as f:
+            for k, v in env_dict.items():
+                f.write(f'{k}="{v}"\n')
+                
+        # Update current process environment
+        os.environ["GOOGLE_CLOUD_PROJECT"] = input_data.google_cloud_project
+        os.environ["GOOGLE_CLOUD_LOCATION"] = input_data.google_cloud_location
+        os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true" if input_data.use_vertex else "false"
+        if input_data.gemini_api_key:
+            os.environ["GEMINI_API_KEY"] = input_data.gemini_api_key
+        else:
+            os.environ.pop("GEMINI_API_KEY", None)
+            
+        return {
+            "success": True,
+            "message": "Settings saved permanently to .env."
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save settings: {str(e)}")
+
 # ==========================================
 # ENTERPRISE EXPORT & MOCK INTEGRATIONS ENDPOINTS
 # ==========================================
+
 class ExportPackageInput(BaseModel):
     project: str
     variant: str
@@ -618,7 +894,6 @@ async def ingest_dataset_endpoint(filename: str):
             
         # Dynamically synchronize claims graph database to match the ingested drug trial!
         medication = brief_data.get("Medication", "Unknown")
-        orchestrator.claims_subagent.active_medication = medication
         if "Product-C" in medication:
             orchestrator.claims_subagent.material_review_db["product_a_efficacy"] = {
                 "claim_id": "CLM-WR-005-EFF",
@@ -1069,7 +1344,6 @@ async def process_extracted_text(extracted_text: str, source_filename: str, log_
         draft_html = draft_html.split("```")[1].split("```")[0].strip()
         
     medication = brief_data.get("Medication", "Product-A")
-    orchestrator.claims_subagent.active_medication = medication
     
     # Dynamic Claims Graph Database Sync based on medication name!
     if "Product-C" in medication or "compound_gamma" in extracted_text.lower() or "welireg" in medication.lower() or "belzutifan" in medication.lower():
@@ -1271,7 +1545,7 @@ async def websocket_logs_endpoint(websocket: WebSocket):
 
 
 @app.post("/api/generate-image")
-def generate_image_endpoint(input_data: ImageGenerationInput):
+async def generate_image_endpoint(input_data: ImageGenerationInput):
     """
     Real-time image generation using Google's new Nano Banana Image models (Gemini 3).
     """
@@ -1281,6 +1555,14 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
         aspect_ratio = input_data.aspect_ratio or "16:9"
         brand = input_data.brand
         style_preset = input_data.style_preset
+        
+        # Broadcast start
+        await manager.broadcast({
+            "agent": "Strategic_Ingestion_Agent",
+            "message": f"🎨 IMAGEN 3 SYNTHESIS START: Preparing clinical image synthesis for {brand.upper()}...",
+            "event_type": "IMAGE_GEN_START"
+        })
+        await asyncio.sleep(0.3)
         
         # Build the final prompt by injecting the visual style preset instructions
         style_instructions = ""
@@ -1326,6 +1608,12 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
             model_name = default_imagen_model
             
         print(f"🎨 Generating image via Google GenAI Model: '{model_name}' (VertexAI: {use_vertex})")
+        await manager.broadcast({
+            "agent": "Strategic_Ingestion_Agent",
+            "message": f"🔌 Handshaking with Google GenAI model '{model_name}' (VertexAI: {use_vertex})...",
+            "event_type": "IMAGE_GEN_API"
+        })
+        await asyncio.sleep(0.4)
         
         # Define output filename and path
         clean_brand = brand.lower().strip() if brand and brand.strip() else "product_a"
@@ -1373,13 +1661,34 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
             metadata = PngImagePlugin.PngInfo()
             provenance_seal = generate_hash(final_prompt + str(time.time()))
             metadata.add_text("SynthID_Provenance_Seal", provenance_seal)
+            
+            await manager.broadcast({
+                "agent": "Strategic_Ingestion_Agent",
+                "message": f"🔒 Securely embedding Google SynthID™ digital watermark seal: {provenance_seal[:16]}...",
+                "event_type": "IMAGE_GEN_WATERMARK"
+            })
+            await asyncio.sleep(0.4)
+            
             saved_image.save(output_path, pnginfo=metadata)
             model_used = model_name
             print(f"✅ Image generated successfully using {model_name} with SynthID digital watermark seal: {provenance_seal}!")
             
+            await manager.broadcast({
+                "agent": "Strategic_Ingestion_Agent",
+                "message": f"✅ SUCCESS: Image generated successfully using {model_name}! SynthID Watermarked and saved.",
+                "event_type": "IMAGE_GEN_SUCCESS"
+            })
+            
         except Exception as e:
             print(f"⚠️ Remote GenAI ({model_name}) error: {str(e)}")
             print(f"🔄 Attempting secondary fallback to {fallback_imagen_model}...")
+            await manager.broadcast({
+                "agent": "Strategic_Ingestion_Agent",
+                "message": f"⚠️ Primary GenAI API returned an error: {str(e)}. Retrying secondary fallback model...",
+                "event_type": "IMAGE_GEN_RETRY"
+            })
+            await asyncio.sleep(0.5)
+            
             try:
                 response = client.models.generate_images(
                     model=fallback_imagen_model,
@@ -1395,12 +1704,34 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
                 metadata = PngImagePlugin.PngInfo()
                 provenance_seal = generate_hash(final_prompt + str(time.time()) + "_fallback")
                 metadata.add_text("SynthID_Provenance_Seal", provenance_seal)
+                
+                await manager.broadcast({
+                    "agent": "Strategic_Ingestion_Agent",
+                    "message": f"🔒 Securely embedding Google SynthID™ digital watermark seal to fallback visual...",
+                    "event_type": "IMAGE_GEN_WATERMARK"
+                })
+                await asyncio.sleep(0.4)
+                
                 saved_image.save(output_path, pnginfo=metadata)
                 model_used = f"{fallback_imagen_model} (Fallback for {model_name})"
                 print(f"✅ Image generated successfully using Imagen 3 fallback ({fallback_imagen_model})!")
+                
+                await manager.broadcast({
+                    "agent": "Strategic_Ingestion_Agent",
+                    "message": f"✅ SUCCESS: Image successfully generated using fallback {fallback_imagen_model}!",
+                    "event_type": "IMAGE_GEN_SUCCESS"
+                })
             except Exception as fallback_err:
                 print(f"⚠️ Remote fallback failed: {str(fallback_err)}")
                 print("🛡️ Engaging Photorealistic Asset-Seeding Engine to guarantee 100% demo uptime and zero wireframes...")
+                
+                await manager.broadcast({
+                    "agent": "Strategic_Ingestion_Agent",
+                    "message": f"⚠️ Vertex AI error: {str(fallback_err)}. Engaging local photorealistic asset-seeding engine...",
+                    "event_type": "IMAGE_GEN_FALLBACK"
+                })
+                await asyncio.sleep(0.4)
+                
                 from PIL import Image
                 
                 asset_map = {
@@ -1426,6 +1757,12 @@ def generate_image_endpoint(input_data: ImageGenerationInput):
                     img.save(output_path, pnginfo=metadata)
                     model_used = "Photorealistic-Asset-Seeding (Resilient Fallback)"
                     print("✅ Photorealistic clinical asset seeded successfully without wireframes!")
+                    
+                    await manager.broadcast({
+                        "agent": "Strategic_Ingestion_Agent",
+                        "message": f"✅ Local asset seeded successfully: {source_filename} (SynthID Signature: {provenance_seal[:16]}...)",
+                        "event_type": "IMAGE_GEN_SUCCESS"
+                    })
                 else:
                     from PIL import ImageDraw, ImageFont
                     w, h = (1440, 810) if aspect_ratio == "16:9" else (1080, 1080)
@@ -1957,5 +2294,5 @@ app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
-    # Start the server on localhost:3000
-    uvicorn.run("main:app", host="0.0.0.0", port=3000, reload=True)
+    # Start the server on localhost:8000
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

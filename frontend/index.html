@@ -3568,66 +3568,70 @@
                     <span id="cert-hash"></span>
                 </div>
                 
-                <p style="margin: 0; color: var(--color-text-muted); font-style: italic;">This certificate represents a cryptographically locked transmittal ledger entry. Verbatim claims correspond to FDA-approved guidelines and are locked in the Standards Registry.</p>
-            </div>
-            
-            <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
-                <button class="btn btn-secondary" onclick="closeComplianceModal()">Close Certificate</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ⚙️ USER SETTINGS & ROLE CONFIGURATION MODAL -->
+                <p styl    <!-- ⚙️ MAESTRO PLATFORM & USER SETTINGS CONFIGURATION MODAL -->
     <div class="imagen-modal-overlay" id="settings-modal" style="display: none; justify-content: center; align-items: center; z-index: 10000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
         <div class="imagen-modal-card" style="max-width: 500px; width: 90%; background: #0b0f19; border: 1px solid var(--border-color); box-shadow: var(--shadow-xl); border-radius: 16px; padding: 1.75rem;">
-            <div class="imagen-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div class="imagen-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="font-size: 1.25rem;">⚙️</span>
-                    <h3 style="font-family: 'Outfit', sans-serif; font-weight: 800; margin: 0; color: var(--color-text-main);">User Settings & Role Profile</h3>
+                    <span style="font-size: 1.5rem;">⚙️</span>
+                    <h3 style="font-family: 'Outfit', sans-serif; font-weight: 800; margin: 0; color: var(--color-text-main);">Maestro Platform & User Settings</h3>
                 </div>
                 <button class="imagen-modal-close" onclick="closeSettingsModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.5rem; cursor: pointer; outline: none;">&times;</button>
             </div>
             
-            <div class="imagen-modal-body" style="display: flex; flex-direction: column; gap: 1rem;">
-                <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                    <label style="font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Active Identity</label>
-                    <input type="text" id="settings-username" value="nitinagga-ge-2" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem; color: #fff; font-size: 0.75rem;" readonly>
-                </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                    <label style="font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Compliance Role Division</label>
-                    <select id="settings-user-role" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem; color: #fff; font-size: 0.75rem; cursor: pointer;">
-                        <option value="MLR Reviewer">MLR Regulatory Auditor & Reviewer</option>
-                        <option value="Brand Manager" selected>Brand Portfolio Campaign Manager</option>
-                        <option value="Clinical Analyst">Clinical Ontology & Ingest Specialist</option>
-                        <option value="HEOR Specialist">Medical Affairs & HEOR Specialist</option>
-                    </select>
-                </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                    <label style="font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">LLM Model Profile</label>
-                    <select id="settings-model-profile" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem; color: #fff; font-size: 0.75rem; cursor: pointer;">
-                        <option value="cost_optimized" selected>Cost Optimized (Gemini 2.5 Flash)</option>
-                        <option value="accuracy_oriented">Clinical Accuracy (Gemini 2.5 Pro)</option>
-                    </select>
+            <div class="imagen-modal-body" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <!-- Section A: User Division Profile -->
+                <div style="padding-bottom: 0.85rem; border-bottom: 1px dashed var(--border-color); display: flex; flex-direction: column; gap: 0.75rem;">
+                    <h4 style="margin: 0; font-size: 0.75rem; font-weight: 800; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.5px;">User Division Profile</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <label style="font-size: 0.6rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Active Identity</label>
+                        <input type="text" id="settings-username" value="nitinagga-ge-2" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.45rem; color: #fff; font-size: 0.75rem;" readonly>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <label style="font-size: 0.6rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Compliance Role Division</label>
+                        <select id="settings-user-role" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.45rem; color: #fff; font-size: 0.75rem; cursor: pointer; outline: none;">
+                            <option value="MLR Reviewer">MLR Regulatory Auditor & Reviewer</option>
+                            <option value="Brand Manager" selected>Brand Portfolio Campaign Manager</option>
+                            <option value="Clinical Analyst">Clinical Ontology & Ingest Specialist</option>
+                            <option value="HEOR Specialist">Medical Affairs & HEOR Specialist</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 0.35rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                    <span style="font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">System Integrations Gateway</span>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">
-                        <span>Veeva Vault API</span>
-                        <span style="color: #10B981; font-weight: 700;">CONNECTED</span>
+                <!-- Section B: GCP Credentials & API Configuration -->
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <h4 style="margin: 0; font-size: 0.75rem; font-weight: 800; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.5px;">GCP Credentials & API Config</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <label style="font-size: 0.6rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Google Cloud Project ID</label>
+                        <input type="text" id="settings-gcp-project" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.45rem; color: #fff; font-size: 0.75rem; outline: none;" placeholder="e.g. nitinagga-ge-2" />
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--color-text-muted);">
-                        <span>FDA DailyMed Sync</span>
-                        <span style="color: #10B981; font-weight: 700;">CONNECTED</span>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <label style="font-size: 0.6rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Google Cloud Location</label>
+                        <input type="text" id="settings-gcp-location" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.45rem; color: #fff; font-size: 0.75rem; outline: none;" placeholder="e.g. us-central1" />
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.15rem;">
+                        <input type="checkbox" id="settings-use-vertex" style="width: 14px; height: 14px; cursor: pointer;" checked />
+                        <label for="settings-use-vertex" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-main); cursor: pointer; user-select: none;">Use Vertex AI backplane for LLM calls</label>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <label style="font-size: 0.6rem; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase;">Gemini Developer API Key (Optional)</label>
+                        <input type="password" id="settings-gemini-key" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.45rem; color: #fff; font-size: 0.75rem; outline: none;" placeholder="Optional Developer API key override" />
                     </div>
                 </div>
-            </div>
-            
-            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
-                <button class="btn btn-secondary" onclick="closeSettingsModal()" style="font-size: 0.72rem; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; outline: none; border: 1px solid var(--border-color); background: transparent; color: var(--color-text-muted);">Cancel</button>
-                <button class="btn btn-primary" onclick="saveSettings()" style="font-size: 0.72rem; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; outline: none; border: none; background: var(--color-primary); color: white;">Save Changes</button>
+                
+                <!-- Status/Feedback Box -->
+                <div id="settings-status-box" style="display: none; padding: 0.65rem; border-radius: 6px; font-size: 0.72rem; line-height: 1.4; border: 1px solid transparent;"></div>
+                
+                <div style="display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 0.5rem;">
+                    <button class="btn btn-secondary btn-small" onclick="closeSettingsModal()" id="btn-test-settings" style="padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; background: transparent; border: 1px solid var(--border-color); color: var(--color-text-muted);">⚡ Test Connection</button>
+                    <button class="btn btn-primary btn-small" onclick="saveSettings()" id="btn-save-settings" style="padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; background: var(--color-primary); color: #fff; border: none;">💾 Save & Apply</button>
+                </div>
             </div>
         </div>
     </div>

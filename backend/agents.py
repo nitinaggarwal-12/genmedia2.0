@@ -221,7 +221,6 @@ class SemanticClaimsGraphAgent:
 
     def sync_memory_db_from_sqlite(self, medication: str):
         """Syncs the in-memory material_review_db from the SQLite approved_claims database."""
-        self.active_medication = medication
         db_claims = get_claims_by_medication(medication)
         
         # Reset current state
@@ -257,8 +256,8 @@ class SemanticClaimsGraphAgent:
     def update_efficacy_label_webhooks(self, new_value: str, active_version: str = "Week 48") -> Dict[str, Any]:
         # Call SQLite approved_claims update directly
         sync_result = update_claim_value("CLM-KT-189-EFF", new_value, active_version)
-        # Re-sync local memory DB preserving active medication context
-        self.sync_memory_db_from_sqlite(getattr(self, "active_medication", "Product-A"))
+        # Re-sync local memory DB
+        self.sync_memory_db_from_sqlite("Product-A")
         return sync_result
 
     async def validate_claims_in_html(self, html_content: str, log_callback, medication: str = None, model_profile: str = "cost_optimized") -> Tuple[bool, str, List[Dict[str, Any]]]:
@@ -337,7 +336,7 @@ class SemanticClaimsGraphAgent:
         # Check efficacy in HTML
         efficacy_pct = active_efficacy.replace("%", "").strip()
         if efficacy_pct not in html_content:
-            matches = re.findall(r'(\d+(?:\.\d+)?)\s*%', html_content)
+            matches = re.findall(r'(\d+)\s*%', html_content)
             if matches:
                 is_compliant = False
                 audit_logs.append({
@@ -349,7 +348,7 @@ class SemanticClaimsGraphAgent:
                     "verification_hash": efficacy_hash,
                     "action": "AUTO-REPAIR TRIGGERED"
                 })
-                modified_html = re.sub(rf'{re.escape(matches[0])}\s*%', active_efficacy, modified_html)
+                modified_html = re.sub(rf'{matches[0]}\s*%', active_efficacy, modified_html)
                 modified_html = re.sub(r'Week \d+|v\d+\.\d+', active_version, modified_html)
         else:
             audit_logs.append({
@@ -368,7 +367,7 @@ class SemanticClaimsGraphAgent:
         
         safety_pct = active_safety.replace("%", "").strip()
         if safety_pct not in html_content:
-            matches = re.findall(r'(\d+(?:\.\d+)?)\s*%\s*(?:grade|adverse|safety|reactions|immune|diarrhea|anemia)', html_content.lower())
+            matches = re.findall(r'(\d+)\s*%\s*(?:grade|adverse|safety|reactions|immune)', html_content.lower())
             if matches:
                 is_compliant = False
                 audit_logs.append({
@@ -380,7 +379,7 @@ class SemanticClaimsGraphAgent:
                     "verification_hash": safety_hash,
                     "action": "AUTO-REPAIR TRIGGERED"
                 })
-                modified_html = re.sub(rf'{re.escape(matches[0])}\s*%', active_safety, modified_html)
+                modified_html = re.sub(rf'{matches[0]}\s*%', active_safety, modified_html)
         else:
             audit_logs.append({
                 "claim_id": safety_data.get("claim_id", "CLM-SAF"),
@@ -743,16 +742,54 @@ class MasterOrchestratorAgent:
             "6. Ensure all table cells, paragraphs, and sections use transparent backgrounds so the card's deep slate background shines through seamlessly with no solid white boxes."
         )
         
-        draft_html = await self.gateway.execute_with_resilience(
-            "Master_Orchestrator_Agent",
-            self.orchestration_agent,
-            draft_prompt
-        )
-        
-        if "```html" in draft_html:
-            draft_html = draft_html.split("```html")[1].split("```")[0].strip()
-        elif "```" in draft_html:
-            draft_html = draft_html.split("```")[1].split("```")[0].strip()
+        try:
+            draft_html = await self.gateway.execute_with_resilience(
+                "Master_Orchestrator_Agent",
+                self.orchestration_agent,
+                draft_prompt
+            )
+            if "```html" in draft_html:
+                draft_html = draft_html.split("```html")[1].split("```")[0].strip()
+            elif "```" in draft_html:
+                draft_html = draft_html.split("```")[1].split("```")[0].strip()
+        except Exception as e:
+            await log_msg("Master_Orchestrator_Agent", f"⚠️ Direct orchestration failed ({str(e)}). Deploying secure responsive dark-mode HTML fallback template...")
+            await asyncio.sleep(0.5)
+            
+            med = brief_data.get("Medication", brief_data.get("Campaign Name", "Product-A"))
+            img_path = "./product_a_clinical_hero.png"
+            if "Product-B" in med or "Product-B + Product-A" in med:
+                img_path = "./product_b_clinical_hero.png"
+            elif "Product-C" in med:
+                img_path = "./product_c_clinical_hero.png"
+                
+            efficacy_val = brief_data.get("Key Efficacy Claim", "Overall Response Rate (ORR) of 56% at Week 24")
+            safety_val = brief_data.get("Key Safety Parameter", "Grade 3/4 Immune-Mediated Adverse Reactions were observed in 10% of patients")
+            hook = brief_data.get("Core Marketing Hook", "Redefining overall survival boundaries.")
+            
+            draft_html = f"""
+            <div style="font-family: 'Inter', sans-serif; background: #0B1329; color: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid #374151; max-width: 600px; margin: 0 auto; box-sizing: border-box;">
+                <img src="{img_path}" id="composer-hero-image" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px 8px 0 0; display: block;" alt="Clinical Hero" />
+                <div style="padding: 24px;">
+                    <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: #0D9488; margin-top: 0; margin-bottom: 12px;">{brief_data.get('Campaign Name', 'Clinical Ingest Stream')}</h2>
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: #E2E8F0; margin-bottom: 20px;">{hook}</p>
+                    
+                    <div style="margin: 20px 0; padding: 16px; border-radius: 8px; border: 1px solid #374151; background: #0F172A; border-left: 4px solid #0D9488;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 0.85rem; text-transform: uppercase; color: #0D9488; letter-spacing: 0.5px;">Efficacy Parameter</h4>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">{efficacy_val}</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0; padding: 16px; border-radius: 8px; border: 1px solid #374151; background: #0F172A; border-left: 4px solid #7C3AED;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 0.85rem; text-transform: uppercase; color: #7C3AED; letter-spacing: 0.5px;">Safety Profile</h4>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">{safety_val}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 24px 0 12px 0;">
+                        <a href="#" style="background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%); color: #FFFFFF; text-decoration: none; padding: 12px 32px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; display: inline-block; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);">Learn More & Access Resources</a>
+                    </div>
+                </div>
+            </div>
+            """
 
         await log_msg("Master_Orchestrator_Agent", "Draft copy generated. Routing to Semantic Claims Graph Agent...")
         await asyncio.sleep(0.3)

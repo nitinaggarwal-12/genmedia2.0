@@ -1051,10 +1051,10 @@ function toggleEditMode() {
         appendConsoleLine('system', '✏️ Direct Edit Mode enabled on Live Marketing Canvas. You can now modify text directly.');
         
         // Hook into interactive tour!
-        if (window.isTourActive && window.tourStep === 5) {
-            window.tourStep = 6;
+        if (window.isTourActive && window.tourStep === 6) {
+            window.tourStep = 7;
             setTimeout(() => {
-                    activeTour.drive(6);
+                    activeTour.drive(7);
             }, 300);
         }
     } else {
@@ -1202,10 +1202,10 @@ async function saveAndValidateEdits() {
         editBtn.className = "btn btn-primary btn-small";
         
         // Hook into interactive tour!
-        if (window.isTourActive && window.tourStep === 6) {
-            window.tourStep = 7;
+        if (window.isTourActive && window.tourStep === 7) {
+            window.tourStep = 8;
             setTimeout(() => {
-                    activeTour.drive(7);
+                    activeTour.drive(8);
             }, 1000); // 1s delay to let the green glow transition finish!
         }
     }
@@ -3535,11 +3535,11 @@ window.openImagenModal = function() {
         modal.classList.add('active');
         
         // Hook into interactive tour!
-        if (window.isTourActive && window.tourStep === 3) {
-            window.tourStep = 4;
+        if (window.isTourActive && window.tourStep === 4) {
+            window.tourStep = 5;
             setTimeout(() => {
                 if (activeTour) {
-                    activeTour.drive(4); // Highlight Step 4: Imagen 3 modal Generate button!
+                    activeTour.drive(5); // Highlight Step 5: Imagen 3 modal Generate button!
                 }
             }, 500);
         }
@@ -3684,11 +3684,11 @@ window.generateImagenAsset = function() {
         
         if (data.success && data.image_url) {
             // Hook into interactive tour!
-            if (window.isTourActive && window.tourStep === 4) {
-                window.tourStep = 5;
+            if (window.isTourActive && window.tourStep === 5) {
+                window.tourStep = 6;
                 setTimeout(() => {
                     if (activeTour) {
-                        activeTour.drive(5); // Highlight Step 5: The newly generated image card on the canvas!
+                        activeTour.drive(6); // Highlight Step 6: The newly generated image card on the canvas!
                     }
                 }, 800);
             }
@@ -4715,27 +4715,29 @@ window.switchPhase = function(phaseNum) {
         if (phaseNum === 2 && window.tourStep === 2) {
             window.tourStep = 3;
             setTimeout(() => {
-                    activeTour.drive(3); // Highlights Step 3: The image placeholder container!
+                    activeTour.drive(3); // Highlights Step 3: Campaign Variant pills!
             }, 800);
-        } else if (phaseNum === 3 && window.tourStep === 7) {
-            window.tourStep = 8;
-            setTimeout(() => {
-                    activeTour.drive(8); // Highlights Step 8: The final cryptographic seal ledger view!
-            }, 800);
-        } else if (phaseNum === 4 && window.tourStep === 8) {
+        } else if (phaseNum === 3 && window.tourStep === 8) {
             window.tourStep = 9;
             setTimeout(() => {
-                    activeTour.drive(10); // Auto-advance to highlight Step 10: Localization button!
+                    activeTour.drive(9); // Highlights Step 9: The final cryptographic seal ledger view!
             }, 800);
-        } else if (phaseNum === 5 && window.tourStep === 9) {
+        } else if (phaseNum === 4 && window.tourStep === 9) {
             window.tourStep = 10;
             setTimeout(() => {
-                    activeTour.drive(11); // Auto-advance to highlight Step 11: PV & Agency button!
+                    activeTour.drive(11); // Auto-advance to highlight Step 11: Localization button!
             }, 800);
-        } else if (phaseNum === 6 && window.tourStep === 10) {
+        } else if (phaseNum === 5 && window.tourStep === 10) {
             window.tourStep = 11;
             setTimeout(() => {
-                    activeTour.drive(12); // Auto-advance to highlight Step 12: Complete!
+                    activeTour.drive(12); // Auto-advance to highlight Step 12: PV & Agency button!
+            }, 800);
+        } else if (phaseNum === 6 && window.tourStep === 11) {
+            window.tourStep = 12;
+            setTimeout(() => {
+                    activeTour.drive(13); // Auto-advance to highlight Step 13: Complete!
+                    window.isTourActive = false;
+                    window.tourStep = 0;
             }, 800);
         }
     }
@@ -6047,9 +6049,19 @@ window.startInteractiveTour = function() {
                 }
             },
             {
+                element: '#composer-variant-pills',
+                popover: {
+                    title: 'Step 3: Campaign Variants 📋',
+                    description: 'Maestro dynamically creates three customized copy/visual variants targeting different scientific evidence bases (e.g. KEYNOTE-189 vs CLEAR vs LITESPARK-005 trials). Click **Next** to proceed.',
+                    side: 'bottom',
+                    align: 'center',
+                    showButtons: ['next', 'close']
+                }
+            },
+            {
                 element: '.composer-hero-container', // The image graphic placeholder container!
                 popover: {
-                    title: 'Step 3: Open Google Imagen 3 Creator 🎨',
+                    title: 'Step 4: Open Google Imagen 3 Creator 🎨',
                     description: 'Our agentic backplane has generated a draft email, including a placeholder medical visual. **Click directly on the image card** to open the Google Imagen 3 Asset Creator!',
                     side: 'bottom',
                     align: 'center',
@@ -6059,7 +6071,7 @@ window.startInteractiveTour = function() {
             {
                 element: '#btn-imagen-generate-run', // The "Generate High-Fidelity Clinical Imagery" button inside the modal!
                 popover: {
-                    title: 'Step 4: Configure & Generate Imagery ⚡',
+                    title: 'Step 5: Configure & Generate Imagery ⚡',
                     description: 'This is the Imagen 3 console. You can write any prompt or use our pre-loaded style presets. For this tour, simply **click the "Generate High-Fidelity Clinical Imagery" button** to run the generation!',
                     side: 'top',
                     align: 'center',
@@ -6069,7 +6081,7 @@ window.startInteractiveTour = function() {
             {
                 element: '.composer-hero-container', // The newly updated image container!
                 popover: {
-                    title: 'Step 5: Cryptographic SynthID™ Sealed! 🔒',
+                    title: 'Step 6: Cryptographic SynthID™ Sealed! 🔒',
                     description: 'Success! Google Imagen 3 generated a gorgeous, high-fidelity visual and automatically injected an imperceptible, secure **Google SynthID™ cryptographic watermark**! Now, **click the "Edit Copy" button** to test text compliance.',
                     side: 'bottom',
                     align: 'center',
@@ -6079,7 +6091,7 @@ window.startInteractiveTour = function() {
             {
                 element: '#btn-edit-copy', // Now "Save & Validate" button!
                 popover: {
-                    title: 'Step 6: Simulate Violation & Validate 🛡️',
+                    title: 'Step 7: Simulate Violation & Validate 🛡️',
                     description: 'Let\'s test the compliance guardrails! **Click the "Edit Copy" button** to enter Direct Edit Mode, or simply **click the "Save & Validate" button** to run the automated self-healing cycle!',
                     side: 'bottom',
                     align: 'end',
@@ -7370,13 +7382,35 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 //   USER SETTINGS & IDENTITY MANAGER
 // ==========================================
-window.openSettingsModal = function() {
+window.openSettingsModal = async function() {
     const modal = document.getElementById('settings-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.classList.add('active');
+    if (!modal) return;
+    
+    // Clear status box
+    const statusBox = document.getElementById('settings-status-box');
+    if (statusBox) {
+        statusBox.style.display = 'none';
+        statusBox.className = '';
     }
-    updateHashFromState();
+    
+    // Pre-populate current settings from backend
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/settings`);
+        const data = await response.json();
+        
+        document.getElementById('settings-gcp-project').value = data.google_cloud_project || '';
+        document.getElementById('settings-gcp-location').value = data.google_cloud_location || '';
+        document.getElementById('settings-use-vertex').checked = data.use_vertex;
+        document.getElementById('settings-gemini-key').value = data.gemini_api_key || '';
+    } catch (e) {
+        console.error("Failed to load settings:", e);
+    }
+    
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+    if (typeof updateHashFromState === 'function') {
+        updateHashFromState();
+    }
 };
 
 window.closeSettingsModal = function() {
@@ -7385,18 +7419,121 @@ window.closeSettingsModal = function() {
         modal.style.display = 'none';
         modal.classList.remove('active');
     }
-    updateHashFromState();
+    if (typeof updateHashFromState === 'function') {
+        updateHashFromState();
+    }
 };
 
-window.saveSettings = function() {
+window.testSettingsConnection = async function() {
+    const testBtn = document.getElementById('btn-test-settings');
+    const statusBox = document.getElementById('settings-status-box');
+    if (!testBtn || !statusBox) return;
+    
+    testBtn.disabled = true;
+    testBtn.innerText = "⚡ Testing...";
+    
+    statusBox.style.display = 'block';
+    statusBox.className = 'validation-card';
+    statusBox.style.background = 'rgba(217, 119, 6, 0.1)';
+    statusBox.style.borderColor = 'var(--accent-amber)';
+    statusBox.style.color = 'var(--accent-amber)';
+    statusBox.innerText = "⏳ Initiating API connection test to Vertex AI...";
+    
+    const payload = {
+        google_cloud_project: document.getElementById('settings-gcp-project').value.trim(),
+        google_cloud_location: document.getElementById('settings-gcp-location').value.trim(),
+        use_vertex: document.getElementById('settings-use-vertex').checked,
+        gemini_api_key: document.getElementById('settings-gemini-key').value.trim() || null
+    };
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/settings/test-connection`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            statusBox.style.background = 'rgba(16, 185, 129, 0.1)';
+            statusBox.style.borderColor = 'var(--accent-green)';
+            statusBox.style.color = '#10b981';
+            statusBox.innerHTML = `<strong>🟢 Connection Successful!</strong><br/>${data.message}`;
+            logConsoleLine("System_Settings", `🟢 Connection Test Passed: project='${payload.google_cloud_project}', location='${payload.google_cloud_location}'`);
+        } else {
+            statusBox.style.background = 'rgba(220, 38, 38, 0.1)';
+            statusBox.style.borderColor = 'var(--accent-red)';
+            statusBox.style.color = '#ef4444';
+            statusBox.innerHTML = `<strong>🔴 Connection Failed!</strong><br/>Error: ${data.error}`;
+            logConsoleLine("System_Settings", `🔴 Connection Test Failed: ${data.error}`);
+        }
+    } catch (e) {
+        statusBox.style.background = 'rgba(220, 38, 38, 0.1)';
+        statusBox.style.borderColor = 'var(--accent-red)';
+        statusBox.style.color = '#ef4444';
+        statusBox.innerHTML = `<strong>🔴 Connection Failed!</strong><br/>Error: ${e.message}`;
+    } finally {
+        testBtn.disabled = false;
+        testBtn.innerText = "⚡ Test Connection";
+    }
+};
+
+window.saveSettings = async function() {
+    const saveBtn = document.getElementById('btn-save-settings');
+    const statusBox = document.getElementById('settings-status-box');
+    if (!saveBtn) return;
+    
+    saveBtn.disabled = true;
+    saveBtn.innerText = "⏳ Saving...";
+    
+    // Part 1: Update UI division role label
     const roleSelect = document.getElementById('settings-user-role');
     const labelEl = document.getElementById('user-role-label');
-    
     if (roleSelect && labelEl) {
         const selectedRole = roleSelect.value;
         labelEl.innerHTML = `👤 nitinagga-ge-2 <span style="font-size:0.5rem; opacity:0.75;">(${selectedRole})</span>`;
         logConsoleLine("Settings_Engine", `⚙️ User division role updated to: [${selectedRole}]`);
-        showToast("Profile Updated", `Workspace configured for the '${selectedRole}' role context.`, "success");
     }
-    closeSettingsModal();
+    
+    // Part 2: Save GCP settings to backend
+    const payload = {
+        google_cloud_project: document.getElementById('settings-gcp-project').value.trim(),
+        google_cloud_location: document.getElementById('settings-gcp-location').value.trim(),
+        use_vertex: document.getElementById('settings-use-vertex').checked,
+        gemini_api_key: document.getElementById('settings-gemini-key').value.trim() || null
+    };
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/settings/save`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            logConsoleLine("System_Settings", `💾 Settings saved permanently to .env and applied: project='${payload.google_cloud_project}'`);
+            showToast("Settings Saved", "Google Cloud credentials and division role saved successfully.", "success");
+            closeSettingsModal();
+        } else {
+            if (statusBox) {
+                statusBox.style.display = 'block';
+                statusBox.style.background = 'rgba(220, 38, 38, 0.1)';
+                statusBox.style.borderColor = 'var(--accent-red)';
+                statusBox.style.color = '#ef4444';
+                statusBox.innerHTML = `<strong>🔴 Save Failed!</strong><br/>Error: ${data.detail || 'Unknown error'}`;
+            }
+        }
+    } catch (e) {
+        if (statusBox) {
+            statusBox.style.display = 'block';
+            statusBox.style.background = 'rgba(220, 38, 38, 0.1)';
+            statusBox.style.borderColor = 'var(--accent-red)';
+            statusBox.style.color = '#ef4444';
+            statusBox.innerHTML = `<strong>🔴 Save Failed!</strong><br/>Error: ${e.message}`;
+        }
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = "💾 Save & Apply";
+    }
 };
