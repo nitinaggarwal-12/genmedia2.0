@@ -3332,7 +3332,6 @@ window.loadVariant = function(variantNum) {
         if (targetSrc && targetSrc.startsWith('./')) {
             targetSrc = targetSrc.replace('./', '/');
         }
-        heroImg.src = targetSrc;
         heroImg.onerror = function() {
             const defaultHeroes = {
                 1: "/product_a_clinical_hero.png",
@@ -3348,6 +3347,7 @@ window.loadVariant = function(variantNum) {
                 this.src = fallback;
             }
         };
+        heroImg.src = targetSrc;
         
         if (variantData.image.includes('generated')) {
             // Center generated assets perfectly to keep the subject in focus!
