@@ -13,6 +13,14 @@ import vertexai
 # Initialize Vertex AI globally for real-time model synthesis
 vertexai.init()
 
+def get_genai_client():
+    from google import genai
+    use_vertex = os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "false").lower() == "true"
+    if use_vertex:
+        return genai.Client(vertexai=True)
+    return genai.Client()
+
+
 # Resolve the absolute path to the project root datasets directory
 DATASETS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "datasets")
 
@@ -350,8 +358,7 @@ async def promote_standard_endpoint(input_data: PromoteStandardInput):
             )
             
             # Call Gemini using google-genai SDK
-            from google import genai
-            client = genai.Client()
+            client = get_genai_client()
             response = client.models.generate_content(
                 model='gemini-2.0-flash',
                 contents=[compilation_instruction]
@@ -606,9 +613,8 @@ async def test_connection_endpoint(input_data: SettingsInput):
         else:
             os.environ.pop("GEMINI_API_KEY", None)
             
-        from google import genai
         # Force re-authentication / fresh client
-        client = genai.Client()
+        client = get_genai_client()
         
         # Test connection by requesting a simple model list or generating a tiny text completion
         model_to_test = "gemini-2.5-flash"
@@ -1580,10 +1586,8 @@ async def generate_image_endpoint(input_data: ImageGenerationInput):
             final_prompt += f" (avoid: {negative_prompt})"
             
         # Initialize the new google-genai SDK client
-        from google import genai
         from google.genai import types
-        
-        client = genai.Client()
+        client = get_genai_client()
         
         use_vertex = os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "false").lower() == "true"
         default_imagen_model = "imagen-3.0-generate-002" if use_vertex else "imagen-3.0-generate-001"
@@ -1932,7 +1936,7 @@ async def get_ai_briefing():
             exports_summary = "No campaigns exported yet."
             
         # 2. Call Gemini to generate the briefing
-        client = genai.Client()
+        client = get_genai_client()
         
         prompt = f"""
 You are the Chief Compliance Officer (CCO) and AI Director for Maestro Enterprise.
@@ -2190,7 +2194,7 @@ async def post_analytics_chat(chat_input: ChatMessage):
         
     try:
         # 2. Initialize Gemini Client and call the model
-        client = genai.Client()
+        client = get_genai_client()
         
         prompt = f"""
 You are the Chief AI Compliance Copilot for Maestro Enterprise.
