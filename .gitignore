@@ -42,3 +42,8 @@ yarn-error.log*
 # Local Runtime Databases & Logs
 *.log
 *.sqlite
+
+# Local Node.js Package Files for Testing
+package.json
+package-lock.json
+nixpacks.toml
