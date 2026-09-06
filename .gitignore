@@ -47,3 +47,6 @@ yarn-error.log*
 package.json
 package-lock.json
 nixpacks.toml
+
+scratch/
+frontend/*.png
