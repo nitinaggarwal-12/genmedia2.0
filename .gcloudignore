@@ -1,0 +1,14 @@
+.git/
+.venv/
+backend/.venv/
+backend/__pycache__/
+node_modules/
+PromptCanvas_repo/
+scratch/
+frontend/scratch/
+.gemini/
+.agents/
+.pytest_cache/
+.env
+*.log
+.DS_Store
